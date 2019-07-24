@@ -1,0 +1,55 @@
+Flutter crash report; please file at https://github.com/flutter/flutter/issues.
+
+## command
+
+flutter --no-color run --machine --track-widget-creation --device-id=emulator-5554 lib/main.dart
+
+## exception
+
+SocketException: SocketException: Write failed (OS Error: Broken pipe, errno = 32), port = 0
+
+```
+null```
+
+## flutter doctor
+
+```
+[✓] Flutter (Channel master, v1.8.1-pre.45, on Mac OS X 10.14.5 18F132, locale de-DE)
+    • Flutter version 1.8.1-pre.45 at /Users/royadler/local/flutter
+    • Framework revision b041a589c8 (2 weeks ago), 2019-07-09 10:53:35 +0200
+    • Engine revision e695a516f1
+    • Dart version 2.5.0 (build 2.5.0-dev.0.0 b5aeaa6796)
+
+[✓] Android toolchain - develop for Android devices (Android SDK version 29.0.0)
+    • Android SDK at /Users/royadler/Library/Android/sdk
+    • Android NDK location not configured (optional; useful for native profiling support)
+    • Platform android-29, build-tools 29.0.0
+    • Java binary at: /Applications/Android Studio.app/Contents/jre/jdk/Contents/Home/bin/java
+    • Java version OpenJDK Runtime Environment (build 1.8.0_152-release-1343-b01)
+    • All Android licenses accepted.
+
+[✓] Xcode - develop for iOS and macOS (Xcode 10.2)
+    • Xcode at /Applications/Xcode-10.2.app/Contents/Developer
+    • Xcode 10.2, Build version 10E125
+    • CocoaPods version 1.7.3
+
+[✓] iOS tools - develop for iOS devices
+    • ios-deploy 1.9.4
+
+[✓] Chrome - develop for the web
+    • Chrome at /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+
+[✓] Android Studio (version 3.4)
+    • Android Studio at /Applications/Android Studio.app/Contents
+    • Flutter plugin version 37.1.1
+    • Dart plugin version 183.6270
+    • Java version OpenJDK Runtime Environment (build 1.8.0_152-release-1343-b01)
+
+[✓] Connected device (3 available)
+    • Android SDK built for x86 • emulator-5554 • android-x86    • Android 8.1.0 (API 27) (emulator)
+    • macOS                     • macOS         • darwin-x64     • Mac OS X 10.14.5 18F132
+    • Chrome                    • chrome        • web-javascript • Google Chrome 75.0.3770.100 
+
+
+• No issues found!
+```
