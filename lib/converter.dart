@@ -17,6 +17,9 @@ abstract class Converter {
   static Future<List<Pr0grammContent>> getPr0grammContentList() async {
     Pr0grammContentContainer PCC = await getPr0grammContentContainer();
     List<Pr0grammContent> pr0grammContentList = List<Pr0grammContent>();
+    pr0grammContentList =
+        PCC.items.map((i) => Pr0grammContent.fromJson(i)).toList();
+
     return pr0grammContentList;
   }
 }
