@@ -33,7 +33,6 @@ class BodyWidgetState extends State<BodyWidget> {
 
   @override
   Widget build(BuildContext context) {
-
     return Padding(
       padding: const EdgeInsets.all(32.0),
       child: Align(
@@ -49,9 +48,12 @@ class BodyWidgetState extends State<BodyWidget> {
                   _makeGetRequest();
                 },
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(serverResponse),
+              Expanded(
+                child: ListView(
+                  children: <Widget>[
+                    Text(serverResponse),
+                  ],
+                ),
               ),
             ],
           ),
@@ -61,9 +63,10 @@ class BodyWidgetState extends State<BodyWidget> {
   }
 
   _makeGetRequest() async {
-    Response response = await get(_localhost());
+    Response response = await get("https://pr0gramm.com/api/items/get");
     setState(() {
       serverResponse = response.body;
+      print(response.body);
     });
   }
 
