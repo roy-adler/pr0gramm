@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:pr0gramm_app/converter.dart';
 
 void main() => runApp(MyApp());
 
@@ -66,7 +67,7 @@ class BodyWidgetState extends State<BodyWidget> {
     Response response = await get("https://pr0gramm.com/api/items/get");
     setState(() {
       serverResponse = response.body;
-      print(response.body);
+      Converter.getPr0grammContentList();
     });
   }
 
