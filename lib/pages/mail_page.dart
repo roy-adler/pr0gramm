@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:pr0gramm_app/api/converter.dart';
+import 'package:pr0gramm_app/api/response_parser.dart';
 import 'package:pr0gramm_app/design/pr0_text.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
 import 'package:pr0gramm_app/content/pr0gramm_content.dart';
@@ -38,7 +38,7 @@ class MailState extends State<Mail> {
 
   makeGetRequest() async {
     List<Pr0grammContent> pr0grammContentListRequest =
-    await Converter.getPr0grammContentList();
+    await ResponseParser.getPr0grammContentList();
     setState(() {
       pr0grammContentList = pr0grammContentListRequest;
     });

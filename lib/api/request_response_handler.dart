@@ -28,9 +28,6 @@ abstract class RequestResponseHandler {
       'https://pr0gramm.com/api/user/login',
       headers: {"Content-Type": "application/x-www-form-urlencoded"},
       body: {'name': name, 'password': password},
-    ).then((onValue) {
-      print(onValue.body);
-      return onValue;
-    });
+    );
   }
 }

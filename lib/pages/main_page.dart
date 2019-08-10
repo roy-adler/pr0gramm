@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:pr0gramm_app/api/converter.dart';
+import 'package:flutter/material.dart';
+import 'package:pr0gramm_app/api/response_parser.dart';
 import 'package:pr0gramm_app/content/pr0gramm_content.dart';
+import 'package:pr0gramm_app/content/pr0gramm_login.dart';
 import 'package:pr0gramm_app/pages/mail_page.dart';
 import 'package:pr0gramm_app/design/pr0_text.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
@@ -41,17 +43,33 @@ class BodyWidgetState extends State<BodyWidget> {
       navigationBar: CupertinoNavigationBar(
         backgroundColor: ehemaligeHintergrundFarbeDerKommentare,
         middle: Pr0Text("Pr0gramm"),
-        trailing: CupertinoButton(
-          child: Icon(
-            CupertinoIcons.mail,
-            color: standardSchriftfarbe,
-          ),
-          onPressed: () {
-            Navigator.push(
-              context,
-              CupertinoPageRoute(builder: (context) => Mail()),
-            );
-          },
+        trailing: Row(
+          children: <Widget>[
+            CupertinoButton(
+              child: Icon(
+                Icons.supervisor_account,
+                color: standardSchriftfarbe,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  CupertinoPageRoute(builder: (context) => Mail()),
+                );
+              },
+            ),
+            CupertinoButton(
+              child: Icon(
+                CupertinoIcons.mail,
+                color: standardSchriftfarbe,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  CupertinoPageRoute(builder: (context) => Mail()),
+                );
+              },
+            ),
+          ],
         ),
       ),
       child: Padding(
@@ -84,7 +102,8 @@ class BodyWidgetState extends State<BodyWidget> {
 
   makeGetRequest() async {
     List<Pr0grammContent> pr0grammContentListRequest =
-        await Converter.getPr0grammContentList();
+        await ResponseParser.getPr0grammContentList();
+    Pr0grammLogin PL = await ResponseParser.getPr0grammLogin();
     setState(() {
       pr0grammContentList = pr0grammContentListRequest;
     });
