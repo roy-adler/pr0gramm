@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:pr0gramm_app/api/response_parser.dart';
 import 'package:pr0gramm_app/design/pr0_text.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
-import 'package:pr0gramm_app/content/pr0gramm_content.dart';
-
 
 class MailPage extends StatefulWidget {
   @override
@@ -13,8 +11,6 @@ class MailPage extends StatefulWidget {
 }
 
 class MailPageState extends State<MailPage> {
-  List<Pr0grammContent> pr0grammContentList;
-
   @override
   void initState() {
     // TODO: implement initState
@@ -26,8 +22,8 @@ class MailPageState extends State<MailPage> {
     return CupertinoPageScaffold(
       backgroundColor: richtigesGrau,
       navigationBar: CupertinoNavigationBar(
-          backgroundColor: ehemaligeHintergrundFarbeDerKommentare,
-          middle: Pr0Text("Nachrichten"),
+        backgroundColor: ehemaligeHintergrundFarbeDerKommentare,
+        middle: Pr0Text("Nachrichten"),
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -37,10 +33,6 @@ class MailPageState extends State<MailPage> {
   }
 
   makeGetRequest() async {
-    List<Pr0grammContent> pr0grammContentListRequest =
-    await ResponseParser.getPr0grammContentList();
-    setState(() {
-      pr0grammContentList = pr0grammContentListRequest;
-    });
+    setState(() {});
   }
 }

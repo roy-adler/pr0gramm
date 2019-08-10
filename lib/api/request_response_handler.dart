@@ -2,8 +2,14 @@ import 'package:http/http.dart';
 import 'dart:async';
 
 abstract class RequestResponseHandler {
+  static String pr0Api = "https://pr0gramm.com/api";
+
   static Future<Response> itemsGet() async {
-    return get("https://pr0gramm.com/api/items/get");
+    return get(pr0Api + "/items/get");
+  }
+
+  static Future<Response> itemsInfo(int num) async {
+    return get(pr0Api + "/items/info?itemId=" + num.toString());
   }
 
   static Future<Response> login() async {
