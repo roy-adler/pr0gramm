@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pr0gramm_app/pr0_text.dart';
 import 'package:pr0gramm_app/pr0gramm_colors.dart';
+import 'package:video_player/video_player.dart';
 
 class Pr0grammContent extends StatelessWidget {
   int id;
@@ -60,26 +60,77 @@ class Pr0grammContent extends StatelessWidget {
   Widget build(BuildContext context) {
     Image pr0Image = Image.network(
         "https://media.giphy.com/media/xUOxfjsW9fWPqEWouI/giphy.gif");
-    if (image.endsWith("jpg")) {
+    if (image.endsWith("jpg") || image.endsWith("png")) {
       pr0Image = Image.network("https://img.pr0gramm.com/" + image);
-    } else if (image.endsWith("png")) {
-      pr0Image = Image.network("https://img.pr0gramm.com/" + thumb);
+    } else {
+      return Center(
+        child: Stack(
+          children: <Widget>[
+            AspectRatio(
+              aspectRatio: 16 / 9,
+              child: Container(
+                child: (playerController != null
+                    ? VideoPlayer(
+                        playerController,
+                      )
+                    : Container()),
+              ),
+            ),
+            CupertinoButton(
+              onPressed: () {
+                createVideo("https://img.pr0gramm.com/" + image);
+                playerController.play();
+              },
+              child: Icon(Icons.play_arrow),
+            ),
+          ],
+        ),
+      );
     }
-    return FittedBox(
-      fit: BoxFit.fill,
-      child: Stack(
-        children: <Widget>[
-          pr0Image,
-          Text(
+
+    return Stack(
+      children: <Widget>[
+        Container(
+          width: 200,
+          height: 200,
+          child: FittedBox(
+            fit: BoxFit.cover,
+            child: pr0Image,
+          ),
+        ),
+        Positioned(
+          bottom: 8,
+          right: 8,
+          child: Text(
             image.substring(image.length - 3),
             style: TextStyle(
               color: pr0grammOrange,
-              fontSize: 100,
+              fontSize: 18,
             ),
           ),
-          //
-        ],
-      ),
+        ),
+      ],
     );
+  }
+
+  VideoPlayerController playerController;
+  VoidCallback listener;
+
+  void createVideo(String quelle) {
+    if (playerController == null) {
+      playerController = VideoPlayerController.network(
+          quelle)
+        ..addListener(listener)
+        ..setVolume(1.0)
+        ..initialize()
+        ..play();
+    } else {
+      if (playerController.value.isPlaying) {
+        playerController.pause();
+      } else {
+        playerController.initialize();
+        playerController.play();
+      }
+    }
   }
 }

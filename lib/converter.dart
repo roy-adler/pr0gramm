@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:pr0gramm_app/data.dart';
 import 'package:pr0gramm_app/pr0gramm_content.dart';
 import 'package:pr0gramm_app/pr0gramm_content_container.dart';
+import 'package:pr0gramm_app/request_response_handler.dart';
 
 abstract class Converter {
   static Future<Pr0grammContentContainer> getPr0grammContentContainer() async {
-    Response response = await Data.makeGetRequest();
+    Response response = await RequestResponseHandler.itemsGet();
     Map<String, dynamic> parsedJson = jsonDecode(response.body);
     Pr0grammContentContainer PCC =
         Pr0grammContentContainer.fromJson(parsedJson);
