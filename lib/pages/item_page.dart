@@ -9,11 +9,9 @@ import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
 import 'package:pr0gramm_app/content/pr0gramm_content.dart';
 
 class ItemPage extends StatefulWidget {
-  Pr0grammComment pr0grammContent;
+  Pr0grammContent pr0grammContent;
 
-  ItemPage(
-    this.pr0grammContent,
-  );
+  ItemPage({@required this.pr0grammContent});
 
   @override
   ItemPageState createState() {
@@ -24,7 +22,7 @@ class ItemPage extends StatefulWidget {
 class ItemPageState extends State<ItemPage> {
   List<Pr0grammTag> pr0grammTagList = List<Pr0grammTag>();
   List<Pr0grammComment> pr0grammCommentList = List<Pr0grammComment>();
-  Pr0grammComment pr0grammContent;
+  Pr0grammContent pr0grammContent;
 
   @override
   void initState() {
@@ -44,7 +42,14 @@ class ItemPageState extends State<ItemPage> {
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Container(color: standardSchriftfarbe, child: Text("hello")),
+        child: ListView(children: <Widget>[
+          Center(child: pr0grammContent),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(children: pr0grammTagList),
+          ),
+          Column(children: pr0grammCommentList),
+        ]),
       ),
     );
   }

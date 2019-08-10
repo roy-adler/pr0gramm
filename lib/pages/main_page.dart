@@ -4,6 +4,7 @@ import 'package:pr0gramm_app/api/response_parser.dart';
 import 'package:pr0gramm_app/content/pr0gramm_content.dart';
 import 'package:pr0gramm_app/content/pr0gramm_login.dart';
 import 'package:pr0gramm_app/pages/account_page.dart';
+import 'package:pr0gramm_app/pages/item_page.dart';
 import 'package:pr0gramm_app/pages/mail_page.dart';
 import 'package:pr0gramm_app/design/pr0_text.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
@@ -28,11 +29,15 @@ class MainPage extends StatefulWidget {
 
 class MainPageState extends State<MainPage> {
   List<Pr0grammContent> pr0grammContentList;
+  Widget pr0grammLogin;
 
   @override
   void initState() {
     pr0grammContentList = List<Pr0grammContent>();
     makeGetRequest();
+    pr0grammLogin = CircularProgressIndicator(
+      backgroundColor: standardSchriftfarbe,
+    );
     super.initState();
   }
 
@@ -82,16 +87,28 @@ class MainPageState extends State<MainPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Expanded(
-                    child: GridView.builder(
-                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 150),
-                        itemCount: pr0grammContentList.length,
-                        itemBuilder: (content, index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: pr0grammContentList[index],
-                          );
-                        })),
+                  child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 150),
+                    itemCount: pr0grammContentList.length,
+                    itemBuilder: (content, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: GestureDetector(
+                            onTap: () => Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                    fullscreenDialog: true,
+                                    builder: (context) => ItemPage(
+                                        pr0grammContent:
+                                            pr0grammContentList[index]),
+                                  ),
+                                ),
+                            child: pr0grammContentList[index]),
+                      );
+                    },
+                  ),
+                ),
               ],
             ),
           ),
@@ -101,8 +118,10 @@ class MainPageState extends State<MainPage> {
   }
 
   makeGetRequest() async {
+    Pr0grammLogin PL = await ResponseParser.getPr0grammLogin();
     List<Pr0grammContent> pr0grammContentListRequest =
         await ResponseParser.getPr0grammContentList();
+    pr0grammLogin = await PL;
     setState(() {
       pr0grammContentList = pr0grammContentListRequest;
     });

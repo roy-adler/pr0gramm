@@ -1,39 +1,50 @@
+import 'dart:convert';
 import 'package:http/http.dart';
 import 'dart:async';
 
-abstract class RequestResponseHandler {
+class RequestResponseHandler {
+
   static String pr0Api = "https://pr0gramm.com/api";
+  Map<String, String> headers = {};
 
-  static Future<Response> itemsGet() async {
-    return get(pr0Api + "/items/get");
+  Future<Response> itemsGet() async {
+    print("\n\nitemsGet");
+    return updateCookie(await get(
+      pr0Api + "/items/get",
+      headers: headers,
+    ));
   }
 
-  static Future<Response> itemsInfo(int num) async {
-    return get(pr0Api + "/items/info?itemId=" + num.toString());
+  Future<Response> itemsInfo(int num) async {
+    print("\n\nitemsInfo");
+    var a = updateCookie(await get(
+      pr0Api + "/items/info?itemId=" + num.toString(),
+      headers: headers,
+    ));
+    print(jsonDecode(a.body));
+    return a;
   }
 
-  static Future<Response> login() async {
+  Future<Response> login() async {
+    print("\n\nLogin");
     String name = "Stroboy";
     String password = "a55ed20e2";
-    Map<String, String> headers = {
-      "Content-Type": "application/x-www-form-urlencoded",
-      "User-Agent": "PostmanRuntime/7.15.2",
-      "Accept": "*/*",
-      "Cache-Control": "no-cache",
-      "Postman-Token":
-          "99bf0556-9d35-44d8-9975-931f574000aa,e09af054-e57d-40de-af63-83608557db59",
-      "Host": "pr0gramm.com",
-      "Cookie": "__cfduid=d791c5f2339a971ba3283120eefe85abe1565024459",
-      "Accept-Encoding": "gzip, deflate",
-      "Content-Length": "51",
-      "Connection": "keep-alive",
-      "cache-control": "no-cache",
-    };
 
-    return post(
+    return updateCookie(await post(
       'https://pr0gramm.com/api/user/login',
-      headers: {"Content-Type": "application/x-www-form-urlencoded"},
+      headers:headers,
       body: {'name': name, 'password': password},
-    );
+    ));
+  }
+
+  Response updateCookie(Response response) {
+    print("\n  Header:");
+    print(response.headers);
+    String rawCookie = response.headers['set-cookie'];
+    print("\n  Cookies: ${response.headers['set-cookie']}");
+    if (rawCookie != null) {
+      headers['cookie'] = rawCookie;
+    }
+    return response;
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:pr0gramm_app/content/pr0gramm_content.dart';
+import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
 
 class Pr0grammTag extends StatelessWidget {
   int id;
@@ -19,12 +21,16 @@ class Pr0grammTag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Row(
-        children: <Widget>[
-          Text("ID: " + id.toString()),
-          Text("Confidence: " + confidence.toString()),
-          Text("Tag: " + tag),
-        ],
+      decoration: BoxDecoration(
+        color: tagHintergrund,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Center(
+        child: Text(
+          tag,
+          style: TextStyle(color: standardSchriftfarbe),
+          maxLines: 1,
+        ),
       ),
     );
   }
