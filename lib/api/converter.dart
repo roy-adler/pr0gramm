@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:pr0gramm_app/pr0gramm_content.dart';
-import 'package:pr0gramm_app/pr0gramm_content_container.dart';
-import 'package:pr0gramm_app/request_response_handler.dart';
+import 'package:pr0gramm_app/content/pr0gramm_content.dart';
+import 'package:pr0gramm_app/content/pr0gramm_content_container.dart';
+import 'package:pr0gramm_app/api/request_response_handler.dart';
 
 abstract class Converter {
   static Future<Pr0grammContentContainer> getPr0grammContentContainer() async {

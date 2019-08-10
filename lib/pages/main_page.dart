@@ -1,12 +1,9 @@
-import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart';
-import 'package:pr0gramm_app/converter.dart';
-import 'package:pr0gramm_app/pr0_text.dart';
-import 'package:pr0gramm_app/pr0gramm_content.dart';
-
-import 'pr0gramm_colors.dart';
+import 'package:pr0gramm_app/api/converter.dart';
+import 'package:pr0gramm_app/content/pr0gramm_content.dart';
+import 'package:pr0gramm_app/pages/mail_page.dart';
+import 'package:pr0gramm_app/design/pr0_text.dart';
+import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
 
 void main() => runApp(MyApp());
 
@@ -45,9 +42,15 @@ class BodyWidgetState extends State<BodyWidget> {
         backgroundColor: ehemaligeHintergrundFarbeDerKommentare,
         middle: Pr0Text("Pr0gramm"),
         trailing: CupertinoButton(
-          child: Icon(CupertinoIcons.refresh),
+          child: Icon(
+            CupertinoIcons.mail,
+            color: standardSchriftfarbe,
+          ),
           onPressed: () {
-            makeGetRequest();
+            Navigator.push(
+              context,
+              CupertinoPageRoute(builder: (context) => Mail()),
+            );
           },
         ),
       ),
@@ -80,17 +83,10 @@ class BodyWidgetState extends State<BodyWidget> {
   }
 
   makeGetRequest() async {
-    Response response = await get("https://pr0gramm.com/api/items/get");
-    var pr0grammContentListRequest = await Converter.getPr0grammContentList();
+    List<Pr0grammContent> pr0grammContentListRequest =
+        await Converter.getPr0grammContentList();
     setState(() {
       pr0grammContentList = pr0grammContentListRequest;
     });
-  }
-
-  String _localhost() {
-    if (Platform.isAndroid)
-      return 'http://10.0.2.2:3000';
-    else // for iOS simulator
-      return 'http://localhost:3000';
   }
 }
