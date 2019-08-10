@@ -5,14 +5,14 @@ import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
 import 'package:pr0gramm_app/content/pr0gramm_content.dart';
 
 
-class Mail extends StatefulWidget {
+class MailPage extends StatefulWidget {
   @override
-  MailState createState() {
-    return new MailState();
+  MailPageState createState() {
+    return new MailPageState();
   }
 }
 
-class MailState extends State<Mail> {
+class MailPageState extends State<MailPage> {
   List<Pr0grammContent> pr0grammContentList;
 
   @override

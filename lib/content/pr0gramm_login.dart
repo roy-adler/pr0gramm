@@ -27,7 +27,7 @@ class Pr0grammLogin extends StatelessWidget {
       success: parsedJson['success'],
       ban: parsedJson['ban'],
       identifier: parsedJson["identifier"],
-      ts: parsedJson["promoted"],
+      ts: parsedJson["ts"],
       cache: parsedJson["cache"],
       rt: parsedJson["rt"],
       qc: parsedJson["qc"],
@@ -37,11 +37,25 @@ class Pr0grammLogin extends StatelessWidget {
   String asString() {
     String heading = "Pr0grammLogin:\n";
     String body =
-        " id: ${identifier}\n promoted: ${ts}\n up: ${rt}\n down: ${qc}\n"
-        " created: ${success}\n image: ${cache}\n thumb: ${ban}\n";
+        " success: ${success}\n ban: ${ban}\n identifier: ${identifier}\n"
+        " ts: ${ts}\n cache: ${cache}\n rt: ${rt}\n qc: ${qc}\n";
     return heading + body;
   }
 
+  greyText(String s) {
+    return Text(s, style: TextStyle(color: standardSchriftfarbe));
+  }
+
   @override
-  Widget build(BuildContext context) {}
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        greyText("Pr0gramm Login Data"),
+        greyText(
+          " success: ${success}\n ban: ${ban}\n identifier: ${identifier}\n"
+          " ts: ${ts}\n cache: ${cache}\n rt: ${rt}\n qc: ${qc}\n",
+        )
+      ],
+    );
+  }
 }

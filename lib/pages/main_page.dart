@@ -3,34 +3,34 @@ import 'package:flutter/material.dart';
 import 'package:pr0gramm_app/api/response_parser.dart';
 import 'package:pr0gramm_app/content/pr0gramm_content.dart';
 import 'package:pr0gramm_app/content/pr0gramm_login.dart';
+import 'package:pr0gramm_app/pages/account_page.dart';
 import 'package:pr0gramm_app/pages/mail_page.dart';
 import 'package:pr0gramm_app/design/pr0_text.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(MainApp());
 
-class MyApp extends StatelessWidget {
+class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoApp(
-      home: BodyWidget(),
+      home: MainPage(),
     );
   }
 }
 
-class BodyWidget extends StatefulWidget {
+class MainPage extends StatefulWidget {
   @override
-  BodyWidgetState createState() {
-    return new BodyWidgetState();
+  MainPageState createState() {
+    return new MainPageState();
   }
 }
 
-class BodyWidgetState extends State<BodyWidget> {
+class MainPageState extends State<MainPage> {
   List<Pr0grammContent> pr0grammContentList;
 
   @override
   void initState() {
-    // TODO: implement initState
     pr0grammContentList = List<Pr0grammContent>();
     makeGetRequest();
     super.initState();
@@ -53,7 +53,7 @@ class BodyWidgetState extends State<BodyWidget> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  CupertinoPageRoute(builder: (context) => Mail()),
+                  CupertinoPageRoute(builder: (context) => AccountPage()),
                 );
               },
             ),
@@ -65,7 +65,7 @@ class BodyWidgetState extends State<BodyWidget> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  CupertinoPageRoute(builder: (context) => Mail()),
+                  CupertinoPageRoute(builder: (context) => MailPage()),
                 );
               },
             ),
@@ -103,7 +103,6 @@ class BodyWidgetState extends State<BodyWidget> {
   makeGetRequest() async {
     List<Pr0grammContent> pr0grammContentListRequest =
         await ResponseParser.getPr0grammContentList();
-    Pr0grammLogin PL = await ResponseParser.getPr0grammLogin();
     setState(() {
       pr0grammContentList = pr0grammContentListRequest;
     });

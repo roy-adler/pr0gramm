@@ -1,24 +1,28 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:pr0gramm_app/api/response_parser.dart';
+import 'package:pr0gramm_app/content/pr0gramm_login.dart';
 import 'package:pr0gramm_app/design/pr0_text.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
 import 'package:pr0gramm_app/content/pr0gramm_content.dart';
 
-
-class Mail extends StatefulWidget {
+class AccountPage extends StatefulWidget {
   @override
-  MailState createState() {
-    return new MailState();
+  AccountPageState createState() {
+    return new AccountPageState();
   }
 }
 
-class MailState extends State<Mail> {
-  List<Pr0grammContent> pr0grammContentList;
+class AccountPageState extends State<AccountPage> {
+  Widget pr0grammLogin;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    pr0grammLogin = CircularProgressIndicator(
+      backgroundColor: standardSchriftfarbe,
+    );
+    makeGetRequest();
   }
 
   @override
@@ -26,21 +30,20 @@ class MailState extends State<Mail> {
     return CupertinoPageScaffold(
       backgroundColor: richtigesGrau,
       navigationBar: CupertinoNavigationBar(
-          backgroundColor: ehemaligeHintergrundFarbeDerKommentare,
-          middle: Pr0Text("Nachrichten"),
+        backgroundColor: ehemaligeHintergrundFarbeDerKommentare,
+        middle: Pr0Text("Account"),
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Container(color: standardSchriftfarbe, child: Text("hello")),
+        child: pr0grammLogin,
       ),
     );
   }
 
   makeGetRequest() async {
-    List<Pr0grammContent> pr0grammContentListRequest =
-    await ResponseParser.getPr0grammContentList();
+    Pr0grammLogin PL = await ResponseParser.getPr0grammLogin();
     setState(() {
-      pr0grammContentList = pr0grammContentListRequest;
+      pr0grammLogin = PL;
     });
   }
 }
