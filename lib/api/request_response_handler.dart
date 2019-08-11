@@ -53,8 +53,8 @@ class RequestResponseHandler {
 
   setCookie(String cookies) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    headers['Cookie'] = cookies;
     Preferences.saveCookies(cookies);
+    headers['Cookie'] = cookies;
   }
 
   http.Response updateCookie(http.Response response) {

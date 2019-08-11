@@ -6,33 +6,44 @@ abstract class Preferences {
   static String _passwordKey = "password";
   static String _cooKey = "cookey";
 
+  //Username
   static Future<String> username() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.get(_usernameKey);
+    return await _read(_usernameKey);
   }
 
   static Future<String> saveUsername(String username) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(_usernameKey, username);
+    _save(_usernameKey, username);
   }
 
+  // Password
   static Future<String> password() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.get(_passwordKey);
+    return await _read(_passwordKey);
   }
 
   static Future<String> savePassword(String password) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(_passwordKey, password);
+    _save(_passwordKey, password);
   }
 
+  // Cookies
   static Future<String> cookies() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.get(_cooKey);
+    return await _read(_cooKey);
   }
 
   static Future<String> saveCookies(String cookies) async {
+    _save(_cooKey, cookies);
+  }
+
+  // General Data
+  static _save(String key, String value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(_cooKey, cookies);
+    prefs.setString(key, value);
+    print("SAVE Key: [$key], value: [$value]");
+  }
+
+  static _read(String key) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String value = prefs.get(key);
+    print("READ Key: [$key], value: [$value]");
+    return value;
   }
 }

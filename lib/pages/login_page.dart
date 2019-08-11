@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pr0gramm_app/api/preferences.dart';
 import 'package:pr0gramm_app/api/response_parser.dart';
+import 'package:pr0gramm_app/content/is_loggedIn.dart';
 import 'package:pr0gramm_app/content/pr0gramm_login.dart';
 import 'package:pr0gramm_app/design/pr0_text.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
@@ -84,7 +85,6 @@ class LoginPageState extends State<LoginPage> {
     await _setCache();
     Pr0grammLogin PL = await ResponseParser.getPr0grammLogin(
         username: usernameController.text, password: passwordController.text);
-    print("PL: ${PL.asString()}");
     if (PL.success == true) {
       Navigator.push(
         context,
@@ -144,7 +144,17 @@ class LoginPageState extends State<LoginPage> {
     String cookies = await Preferences.cookies();
     if (cookies != null) {
       ResponseParser.setCookie(cookies);
-      ResponseParser.isLoggedIn();
+      IsLoggedIn isLoggedIn = await ResponseParser.isLoggedIn();
+      print(isLoggedIn.asString());
+      if (isLoggedIn.loggedIn) {
+        Navigator.push(
+          context,
+          CupertinoPageRoute(
+            maintainState: false,
+            builder: (context) => MainPage(),
+          ),
+        );
+      }
     }
   }
 }

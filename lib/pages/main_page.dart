@@ -42,7 +42,7 @@ class MainPageState extends State<MainPage> {
   void initState() {
     print("InitStateMainPage");
     promoted = 1;
-    flags = NSFW;
+    flags = SFW + NSFW;
     super.initState();
   }
 

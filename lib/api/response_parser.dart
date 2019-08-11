@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:pr0gramm_app/content/is_logged_in.dart';
+import 'package:pr0gramm_app/content/is_loggedIn.dart';
 import 'package:pr0gramm_app/content/pr0gramm_comment.dart';
 import 'package:pr0gramm_app/content/pr0gramm_content.dart';
 import 'package:pr0gramm_app/content/pr0gramm_content_container.dart';
