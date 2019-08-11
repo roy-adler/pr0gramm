@@ -6,29 +6,32 @@ class RequestResponseHandler {
   static String pr0Api = "https://pr0gramm.com/api";
   Map<String, String> headers = {};
 
-  Future<http.Response> itemsGet() async {
-    print("\n\nitemsGet");
-    return updateCookie(await http.get(
-      pr0Api + "/items/get",
-      headers: headers,
-    ));
+  String paramsMaker(List<String> stringList) {
+    String retString = "?";
+    for (int index = 0; index < stringList.length; index++) {
+      retString += stringList[index] + '&';
+    }
+    return retString.substring(0, retString.length - 1);
+  }
+
+  Future<http.Response> itemsGet(
+      {int promotedNum = 1, int flagsNum = 9}) async {
+    List<String> paramList = [];
+    String promoted = "promoted=" + promotedNum.toString();
+    String flags = "flags=" + flagsNum.toString();
+    paramList.add(flags);
+    paramList.add(promoted);
+    String req = paramsMaker(paramList);
+    return get(url: "/items/get${req}");
   }
 
   Future<http.Response> itemsInfo(int num) async {
-    print("\n\nitemsInfo");
-    var a = updateCookie(await http.get(
-      pr0Api + "/items/info?itemId=" + num.toString(),
-      headers: headers,
-    ));
-    print(jsonDecode(a.body));
-    return a;
+    return get(url: "/items/info?itemId=" + num.toString());
   }
 
   Future<http.Response> login(String name, String password) async {
-    print("\n\nLogin");
-
-
-    return updateCookie(await http.post(
+    print("Login");
+    return await updateCookie(await http.post(
       'https://pr0gramm.com/api/user/login',
       headers: headers,
       body: {'name': name, 'password': password},
@@ -40,7 +43,9 @@ class RequestResponseHandler {
   }
 
   Future<http.Response> get({String url}) {
-    return http.get(pr0Api + url, headers: headers);
+    String request = pr0Api + url;
+    print(request);
+    return http.get(request, headers: headers);
   }
 
   http.Response updateCookie(http.Response response) {
@@ -57,8 +62,8 @@ class RequestResponseHandler {
       }
       addCookie = addCookie.substring(0, addCookie.length - 1);
       headers['Cookie'] = addCookie;
-      isLoggedIn();
     }
+    isLoggedIn();
     return response;
   }
 }
