@@ -14,3 +14,5 @@ final Color NSFLRot = const Color(0xffd9534f);
 final Color pr0miumAuswahlteile = const Color(0xff222222);
 final Color ehemaligeHintergrundFarbeDerKommentare = const Color(0xff2a2e31);
 final Color altesPr0gramm = const Color(0xffff0082);
+
+final Color tagHintergrund = Colors.grey;

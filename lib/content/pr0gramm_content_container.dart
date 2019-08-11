@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:pr0gramm_app/pr0gramm_content.dart';
+import 'package:pr0gramm_app/content/pr0gramm_content.dart';
 
 class Pr0grammContentContainer extends StatelessWidget {
   bool atEnd;

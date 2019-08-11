@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pr0gramm_app/pr0gramm_colors.dart';
+import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
 
 class Pr0Text extends StatelessWidget {
   final String text;
 
-  const Pr0Text({Key key, this.text}) : super(key: key);
+  const Pr0Text(this.text);
 
   @override
   Widget build(BuildContext context) {
