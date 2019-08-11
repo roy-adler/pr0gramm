@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:pr0gramm_app/content/is_logged_in.dart';
 import 'package:pr0gramm_app/content/pr0gramm_comment.dart';
 import 'package:pr0gramm_app/content/pr0gramm_content.dart';
 import 'package:pr0gramm_app/content/pr0gramm_content_container.dart';
@@ -62,5 +63,16 @@ abstract class ResponseParser {
     Response response = await RRH.login(username, password);
     Map<String, dynamic> parsedJson = jsonDecode(response.body);
     return Pr0grammLogin.fromJson(parsedJson);
+  }
+
+  static setCookie(String cookies) {
+    RRH.setCookie(cookies);
+  }
+
+  static Future<IsLoggedIn> isLoggedIn() async {
+    Response response = await RRH.isLoggedIn();
+    Map<String, dynamic> parsedJson = jsonDecode(response.body);
+    print(parsedJson);
+    return IsLoggedIn.fromJson(parsedJson);
   }
 }

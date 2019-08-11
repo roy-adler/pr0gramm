@@ -6,6 +6,7 @@ import 'package:pr0gramm_app/content/pr0gramm_login.dart';
 import 'package:pr0gramm_app/design/pr0_text.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
 import 'package:pr0gramm_app/pages/main_page.dart';
+import 'package:pr0gramm_app/api/response_parser.dart';
 
 String sBenutzername = "Benutzername";
 String sAnmelden = "Anmelden";
@@ -25,6 +26,7 @@ class LoginPageState extends State<LoginPage> {
 
   @override
   initState() {
+    _loadLastLogin();
     usernameController = TextEditingController();
     passwordController = TextEditingController();
     _loadCache();
@@ -136,5 +138,13 @@ class LoginPageState extends State<LoginPage> {
       passwordController.text = passWord;
     }
 //    setState(() {});
+  }
+
+  void _loadLastLogin() async {
+    String cookies = await Preferences.cookies();
+    if (cookies != null) {
+      ResponseParser.setCookie(cookies);
+      ResponseParser.isLoggedIn();
+    }
   }
 }
