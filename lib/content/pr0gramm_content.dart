@@ -62,7 +62,7 @@ class Pr0grammContent extends StatelessWidget {
         "https://media.giphy.com/media/xUOxfjsW9fWPqEWouI/giphy.gif");
     if (image.endsWith("jpg") || image.endsWith("png")) {
       pr0Image = Image.network("https://img.pr0gramm.com/" + image);
-    } else {
+    } else if(image.endsWith("mp5")) {
       return Center(
         child: Stack(
           children: <Widget>[

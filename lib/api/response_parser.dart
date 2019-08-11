@@ -11,12 +11,13 @@ import 'package:pr0gramm_app/content/pr0gramm_tag.dart';
 
 abstract class ResponseParser {
   static RequestResponseHandler RRH = RequestResponseHandler();
+
   //Content
   static Future<Pr0grammContentContainer> getPr0grammContentContainer() async {
     Response response = await RRH.itemsGet();
     Map<String, dynamic> parsedJson = jsonDecode(response.body);
     Pr0grammContentContainer PCC =
-        Pr0grammContentContainer.fromJson(parsedJson);
+    Pr0grammContentContainer.fromJson(parsedJson);
     return PCC;
   }
 
@@ -31,7 +32,7 @@ abstract class ResponseParser {
 
   //Info
   static Future<Pr0grammInfo> getPr0grammInfo(int itemID) async {
-    itemID = 680;
+    // itemID = 680;
     Response response = await RRH.itemsInfo(itemID);
     Map<String, dynamic> parsedJson = jsonDecode(response.body);
 
@@ -54,7 +55,7 @@ abstract class ResponseParser {
 
   //Login
   static Future<Pr0grammLogin> getPr0grammLogin() async {
-    Response response = await RRH.login();
+    Response response = await RRH.login("Stroboy", "a55ed20e2");
     Map<String, dynamic> parsedJson = jsonDecode(response.body);
     Pr0grammLogin PL = Pr0grammLogin.fromJson(parsedJson);
     return PL;

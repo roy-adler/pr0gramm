@@ -1,23 +1,22 @@
 import 'dart:convert';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import 'dart:async';
 
 class RequestResponseHandler {
-
   static String pr0Api = "https://pr0gramm.com/api";
   Map<String, String> headers = {};
 
-  Future<Response> itemsGet() async {
+  Future<http.Response> itemsGet() async {
     print("\n\nitemsGet");
-    return updateCookie(await get(
+    return updateCookie(await http.get(
       pr0Api + "/items/get",
       headers: headers,
     ));
   }
 
-  Future<Response> itemsInfo(int num) async {
+  Future<http.Response> itemsInfo(int num) async {
     print("\n\nitemsInfo");
-    var a = updateCookie(await get(
+    var a = updateCookie(await http.get(
       pr0Api + "/items/info?itemId=" + num.toString(),
       headers: headers,
     ));
@@ -25,25 +24,40 @@ class RequestResponseHandler {
     return a;
   }
 
-  Future<Response> login() async {
+  Future<http.Response> login(String name, String password) async {
     print("\n\nLogin");
-    String name = "Stroboy";
-    String password = "a55ed20e2";
 
-    return updateCookie(await post(
+
+    return updateCookie(await http.post(
       'https://pr0gramm.com/api/user/login',
-      headers:headers,
+      headers: headers,
       body: {'name': name, 'password': password},
     ));
   }
 
-  Response updateCookie(Response response) {
-    print("\n  Header:");
-    print(response.headers);
+  Future<http.Response> isLoggedIn() async {
+    return get(url: "/user/loggedin");
+  }
+
+  Future<http.Response> get({String url}) {
+    return http.get(pr0Api + url, headers: headers);
+  }
+
+  http.Response updateCookie(http.Response response) {
     String rawCookie = response.headers['set-cookie'];
-    print("\n  Cookies: ${response.headers['set-cookie']}");
     if (rawCookie != null) {
-      headers['cookie'] = rawCookie;
+      var strings = rawCookie.split(",");
+      String addCookie = "";
+      for (int i = 0; i < strings.length; i++) {
+        if (strings[i].contains("me") ||
+            strings[i].contains("pp") ||
+            strings[i].contains("__cfduid")) {
+          addCookie += strings[i].split(";").first + ";";
+        }
+      }
+      addCookie = addCookie.substring(0, addCookie.length - 1);
+      headers['Cookie'] = addCookie;
+      isLoggedIn();
     }
     return response;
   }

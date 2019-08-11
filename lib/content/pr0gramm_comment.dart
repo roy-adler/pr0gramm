@@ -45,9 +45,25 @@ class Pr0grammComment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 30,
+      margin: EdgeInsets.all(10),
+      padding: EdgeInsets.all(8),
       color: Colors.grey,
-
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text("User: " + name),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Flexible(
+                child: Column(
+                  children: <Widget>[Text(content)],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
