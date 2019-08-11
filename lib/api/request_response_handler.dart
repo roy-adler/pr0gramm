@@ -47,7 +47,8 @@ class RequestResponseHandler {
 
   Future<http.Response> get({String url}) {
     String request = pr0Api + url;
-    print(request);
+    print("Request: " + request);
+    if (headers != null) print("Header: " + headers.toString());
     return http.get(request, headers: headers);
   }
 
