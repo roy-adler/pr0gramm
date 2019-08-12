@@ -13,7 +13,7 @@ class Pr0grammLogin extends StatelessWidget {
   int qc;
 
   Pr0grammLogin({
-    this.success,
+    this.success = false,
     this.ban,
     this.identifier,
     this.ts,

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:pr0gramm_app/content/is_loggedIn.dart';
 import 'package:pr0gramm_app/content/pr0gramm_comment.dart';
 import 'package:pr0gramm_app/content/pr0gramm_content.dart';
 import 'package:pr0gramm_app/content/pr0gramm_content_container.dart';
@@ -13,20 +14,23 @@ abstract class ResponseParser {
   static RequestResponseHandler RRH = RequestResponseHandler();
 
   //Content
-  static Future<Pr0grammContentContainer> getPr0grammContentContainer() async {
-    Response response = await RRH.itemsGet();
+  static Future<Pr0grammContentContainer> getPr0grammContentContainer(
+      int promoted, int flags) async {
+    Response response =
+        await RRH.itemsGet(promotedNum: promoted, flagsNum: flags);
     Map<String, dynamic> parsedJson = jsonDecode(response.body);
     Pr0grammContentContainer PCC =
-    Pr0grammContentContainer.fromJson(parsedJson);
+        Pr0grammContentContainer.fromJson(parsedJson);
     return PCC;
   }
 
-  static Future<List<Pr0grammContent>> getPr0grammContentList() async {
-    Pr0grammContentContainer PCC = await getPr0grammContentContainer();
+  static Future<List<Pr0grammContent>> getPr0grammContentList(
+      int promoted, int flags) async {
+    Pr0grammContentContainer PCC =
+        await getPr0grammContentContainer(promoted, flags);
     List<Pr0grammContent> pr0grammContentList = List<Pr0grammContent>();
     pr0grammContentList =
         PCC.items.map((i) => Pr0grammContent.fromJson(i)).toList();
-
     return pr0grammContentList;
   }
 
@@ -54,10 +58,20 @@ abstract class ResponseParser {
   }
 
   //Login
-  static Future<Pr0grammLogin> getPr0grammLogin() async {
-    Response response = await RRH.login("Stroboy", "a55ed20e2");
+  static Future<Pr0grammLogin> getPr0grammLogin(
+      {String username, String password}) async {
+    Response response = await RRH.login(username, password);
     Map<String, dynamic> parsedJson = jsonDecode(response.body);
-    Pr0grammLogin PL = Pr0grammLogin.fromJson(parsedJson);
-    return PL;
+    return Pr0grammLogin.fromJson(parsedJson);
+  }
+
+  static setCookie(String cookies) {
+    RRH.setCookie(cookies);
+  }
+
+  static Future<IsLoggedIn> isLoggedIn() async {
+    Response response = await RRH.isLoggedIn();
+    Map<String, dynamic> parsedJson = jsonDecode(response.body);
+    return IsLoggedIn.fromJson(parsedJson);
   }
 }
