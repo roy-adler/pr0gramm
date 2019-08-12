@@ -47,19 +47,22 @@ class MainPageState extends State<MainPage> {
 
   _buildTagButton(String s, int i) {
     return FlatButton(
-        onPressed: () {
-          promoted = i;
-          setState(() => null);
-        },
-        child: Text(
-          s,
-          style: TextStyle(
-              color: (promoted == i) ? pr0grammOrange : standardSchriftfarbe),
-        ));
+      highlightColor: pr0grammOrange,
+      onPressed: () {
+        promoted = i;
+        setState(() => null);
+      },
+      child: Text(
+        s,
+        style: TextStyle(
+            color: (promoted == i) ? pr0grammOrange : standardSchriftfarbe),
+      ),
+    );
   }
 
   _buildNavigatorButton(IconData iconData, Widget page) {
     return CupertinoButton(
+      padding: EdgeInsets.all(0),
       child: Icon(
         iconData,
         color: standardSchriftfarbe,
@@ -79,13 +82,22 @@ class MainPageState extends State<MainPage> {
       backgroundColor: richtigesGrau,
       navigationBar: CupertinoNavigationBar(
         backgroundColor: ehemaligeHintergrundFarbeDerKommentare,
-        middle: Pr0Text("Pr0gramm"),
-        trailing: Row(
+        leading: Container(
+          width: 0,
+        ),
+        middle: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            _buildNavigatorButton(Icons.supervisor_account, AccountPage()),
             _buildTagButton("neu", 0),
             _buildTagButton("beliebt", 1),
-            _buildNavigatorButton(Icons.mail, MailPage()),
+            _buildNavigatorButton(
+              Icons.supervisor_account,
+              AccountPage(),
+            ),
+            _buildNavigatorButton(
+              Icons.mail,
+              MailPage(),
+            ),
           ],
         ),
       ),
