@@ -56,61 +56,62 @@ class Pr0grammContent extends StatelessWidget {
     return heading + body;
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget smallPicture() {
+    return Hero(
+      tag: id,
+      child: Container(
+        width: 200,
+        height: 200,
+        child: FittedBox(
+          fit: BoxFit.cover,
+          child: _getPr0Image(),
+        ),
+      ),
+    );
+  }
+
+  Widget bigPicture() {
+    return Hero(
+      tag: id,
+      child: Container(
+        width: width,
+        child: FittedBox(
+          fit: BoxFit.fitWidth,
+          child: _getPr0Image(),
+        ),
+      ),
+    );
+  }
+
+  Widget fullScreenPicture() {
+    return Hero(
+      tag: id,
+      child: Container(
+        width: 200,
+        height: 200,
+        child: FittedBox(
+          fit: BoxFit.cover,
+          child: _getPr0Image(),
+        ),
+      ),
+    );
+  }
+
+  Widget _getPr0Image() {
     Image pr0Image = Image.network(
         "https://media.giphy.com/media/xUOxfjsW9fWPqEWouI/giphy.gif");
     if (image.endsWith("jpg") || image.endsWith("png")) {
       pr0Image = Image.network("https://img.pr0gramm.com/" + image);
-    } else if(image.endsWith("mp5")) {
-      return Center(
-        child: Stack(
-          children: <Widget>[
-            AspectRatio(
-              aspectRatio: 16 / 9,
-              child: Container(
-                child: (playerController != null
-                    ? VideoPlayer(
-                        playerController,
-                      )
-                    : Container()),
-              ),
-            ),
-            CupertinoButton(
-              onPressed: () {
-                createVideo("https://img.pr0gramm.com/" + image);
-                playerController.play();
-              },
-              child: Icon(Icons.play_arrow),
-            ),
-          ],
-        ),
-      );
-    }
+    } else if (image.endsWith("mp5")) {}
 
-    return Stack(
-      children: <Widget>[
-        Container(
-          width: 200,
-          height: 200,
-          child: FittedBox(
-            fit: BoxFit.cover,
-            child: pr0Image,
-          ),
-        ),
-        Positioned(
-          bottom: 8,
-          right: 8,
-          child: Text(
-            image.substring(image.length - 3),
-            style: TextStyle(
-              color: pr0grammOrange,
-              fontSize: 18,
-            ),
-          ),
-        ),
-      ],
-    );
+    return pr0Image;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Image pr0Image = _getPr0Image();
+
+    return smallPicture();
   }
 
   VideoPlayerController playerController;
@@ -118,8 +119,7 @@ class Pr0grammContent extends StatelessWidget {
 
   void createVideo(String quelle) {
     if (playerController == null) {
-      playerController = VideoPlayerController.network(
-          quelle)
+      playerController = VideoPlayerController.network(quelle)
         ..addListener(listener)
         ..setVolume(1.0)
         ..initialize()

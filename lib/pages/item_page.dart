@@ -43,7 +43,7 @@ class ItemPageState extends State<ItemPage> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView(children: <Widget>[
-          Center(child: pr0grammContent),
+          pr0grammContent.bigPicture(),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(children: pr0grammTagList),
