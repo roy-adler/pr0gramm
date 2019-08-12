@@ -7,6 +7,9 @@ class Pr0grammTag extends StatelessWidget {
   int id;
   double confidence;
   String tag;
+  double padd = 6;
+  double roundness = 6;
+  double marg = 4;
 
   Pr0grammTag({this.id, this.confidence, this.tag});
 
@@ -21,16 +24,16 @@ class Pr0grammTag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.all(marg),
       decoration: BoxDecoration(
         color: tagHintergrund,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(roundness),
       ),
-      child: Center(
-        child: Text(
-          tag,
-          style: TextStyle(color: standardSchriftfarbe),
-          maxLines: 1,
-        ),
+      padding: EdgeInsets.all(padd),
+      child: Text(
+        tag,
+        style: TextStyle(color: standardSchriftfarbe),
+        maxLines: 1,
       ),
     );
   }

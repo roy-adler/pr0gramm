@@ -36,7 +36,7 @@ class Pr0grammComment extends StatelessWidget {
       created: parsedJson['created'],
       up: parsedJson['up'],
       down: parsedJson['down'],
-      confidence: parsedJson['confidence'],
+      confidence: parsedJson['confidence'].toDouble(),
       name: parsedJson['name'],
       mark: parsedJson['mark'],
     );
