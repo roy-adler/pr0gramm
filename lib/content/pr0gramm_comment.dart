@@ -4,6 +4,7 @@ import 'package:pr0gramm_app/content/pr0gramm_content.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:pr0gramm_app/content/pr0gramm_content.dart';
+import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
 
 class Pr0grammComment extends StatelessWidget {
   int id;
@@ -42,24 +43,42 @@ class Pr0grammComment extends StatelessWidget {
     );
   }
 
+  _rowText(String s) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        s,
+        style: TextStyle(
+          color: standardSchriftfarbe,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(8),
-      color: Colors.grey,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text("User: " + name),
-          Row(
-            mainAxisSize: MainAxisSize.min,
+          Column(
             children: <Widget>[
-              Flexible(
-                child: Column(
-                  children: <Widget>[Text(content)],
+              Text(
+                content,
+                style: TextStyle(
+                  color: standardSchriftfarbe,
                 ),
               ),
+              Row(
+                children: <Widget>[
+                  _rowText(name),
+                  _rowText((up-down).toString() + ' Punkte'),
+                  _rowText(DateTime.utc(created).minute.toString() + ' Minuten'),
+                ],
+              ),
+              Divider(color: standardSchriftfarbe, height: 4, indent: 0, endIndent: 5,),
             ],
           ),
         ],
