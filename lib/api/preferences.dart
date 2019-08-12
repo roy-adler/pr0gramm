@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pr0gramm_app/api/debug.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class Preferences {
@@ -37,13 +38,17 @@ abstract class Preferences {
   static _save(String key, String value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(key, value);
-    print("SAVE Key: [$key], value: [$value]");
+    if (saveDEBUG) {
+      print("SAVE Key: [$key], value: [$value]");
+    }
   }
 
   static _read(String key) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String value = prefs.get(key);
-    print("READ Key: [$key], value: [$value]");
+    if (readDEBUG) {
+      print("READ Key: [$key], value: [$value]");
+    }
     return value;
   }
 }
