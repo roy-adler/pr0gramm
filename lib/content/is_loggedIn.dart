@@ -29,7 +29,7 @@ class IsLoggedIn extends StatelessWidget {
   }
 
   String asString() {
-    String heading = "IsLoggedIn:\n";
+    String heading = " IsLoggedIn:\n";
     String body = " loggedIn: ${loggedIn}\n ts: ${ts}\n"
         " cache: ${cache}\n rt: ${rt}\n qc: ${qc}\n";
     return heading + body;
@@ -43,7 +43,6 @@ class IsLoggedIn extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        greyText("IsLoggedIn"),
         greyText(asString()),
       ],
     );

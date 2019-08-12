@@ -149,7 +149,6 @@ class LoginPageState extends State<LoginPage> {
         Navigator.push(
           context,
           CupertinoPageRoute(
-            maintainState: false,
             builder: (context) => MainPage(),
           ),
         );
