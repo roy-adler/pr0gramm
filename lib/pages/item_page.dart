@@ -7,6 +7,7 @@ import 'package:pr0gramm_app/content/pr0gramm_tag.dart';
 import 'package:pr0gramm_app/design/pr0_text.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
 import 'package:pr0gramm_app/content/pr0gramm_content.dart';
+import 'package:pr0gramm_app/pages/comment_page.dart';
 
 class ItemPage extends StatefulWidget {
   Pr0grammContent pr0grammContent;
@@ -48,7 +49,7 @@ class ItemPageState extends State<ItemPage> {
             padding: const EdgeInsets.all(8.0),
             child: Column(children: pr0grammTagList),
           ),
-          Column(children: pr0grammCommentList),
+          CommentPage(commentList: pr0grammCommentList,),
         ]),
       ),
     );
