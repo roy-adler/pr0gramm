@@ -40,7 +40,6 @@ class MainPageState extends State<MainPage> {
 
   @override
   void initState() {
-    print("InitStateMainPage");
     promoted = 1;
     flags = SFW + NSFW;
     super.initState();

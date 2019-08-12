@@ -143,9 +143,8 @@ class LoginPageState extends State<LoginPage> {
   void _loadLastLogin() async {
     String cookies = await Preferences.cookies();
     if (cookies != null) {
-      ResponseParser.setCookie(cookies);
+      await ResponseParser.setCookie(cookies);
       IsLoggedIn isLoggedIn = await ResponseParser.isLoggedIn();
-      print(isLoggedIn.asString());
       if (isLoggedIn.loggedIn) {
         Navigator.push(
           context,
