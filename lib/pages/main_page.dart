@@ -6,7 +6,6 @@ import 'package:pr0gramm_app/pages/account_page.dart';
 import 'package:pr0gramm_app/pages/item_page.dart';
 import 'package:pr0gramm_app/pages/login_page.dart';
 import 'package:pr0gramm_app/pages/mail_page.dart';
-import 'package:pr0gramm_app/design/pr0_text.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
 
 void main() => runApp(MainApp());
@@ -32,16 +31,20 @@ class MainPage extends StatefulWidget {
 }
 
 class MainPageState extends State<MainPage> {
+  String sFail =
+      "Ups, da ist wohl etwas schief gelaufen!\nZum neu laden clicken";
   int promoted;
-  int flags;
   int SFW = 9;
   int NSFW = 2;
   int NSFL = 4;
+  double navFontSize = 12;
+
+  bool SFWbool = true;
+  bool NSFWbool = false;
 
   @override
   void initState() {
     promoted = 1;
-    flags = SFW + NSFW;
     super.initState();
   }
 
@@ -55,7 +58,9 @@ class MainPageState extends State<MainPage> {
       child: Text(
         s,
         style: TextStyle(
-            color: (promoted == i) ? pr0grammOrange : standardSchriftfarbe),
+          color: (promoted == i) ? pr0grammOrange : standardSchriftfarbe,
+          fontSize: navFontSize,
+        ),
       ),
     );
   }
@@ -76,6 +81,49 @@ class MainPageState extends State<MainPage> {
     );
   }
 
+  Widget _SFW() {
+    return FlatButton(
+      highlightColor: pr0grammOrange,
+      onPressed: () {
+        SFWbool = !SFWbool;
+        setState(() => null);
+      },
+      child: Text(
+        "SFW",
+        style: TextStyle(
+            color: (SFWbool) ? pr0grammOrange : standardSchriftfarbe,
+            fontSize: navFontSize),
+      ),
+    );
+  }
+
+  Widget _NSFW() {
+    return FlatButton(
+      highlightColor: pr0grammOrange,
+      onPressed: () {
+        NSFWbool = !NSFWbool;
+        setState(() => null);
+      },
+      child: Text(
+        "NSFW",
+        style: TextStyle(
+            color: (NSFWbool) ? pr0grammOrange : standardSchriftfarbe,
+            fontSize: navFontSize),
+      ),
+    );
+  }
+
+  int _createFlags() {
+    int flags = 0;
+    if (SFWbool) {
+      flags += SFW;
+    }
+    if (NSFWbool) {
+      flags += NSFW;
+    }
+    return flags;
+  }
+
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
@@ -86,23 +134,22 @@ class MainPageState extends State<MainPage> {
           width: 0,
         ),
         middle: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            _buildTagButton("neu", 0),
-            _buildTagButton("beliebt", 1),
-            _buildNavigatorButton(
-              Icons.supervisor_account,
-              AccountPage(),
-            ),
-            _buildNavigatorButton(
-              Icons.mail,
-              MailPage(),
-            ),
+            Flexible(child: _buildTagButton("neu", 0)),
+            Flexible(child: _buildTagButton("beliebt", 1)),
+            Flexible(child: _SFW()),
+            Flexible(child: _NSFW()),
+            // Flexible(
+            //    child:
+            //        _buildNavigatorButton(Icons.account_circle, AccountPage())),
+            // Flexible(child: _buildNavigatorButton(Icons.mail, MailPage())),
           ],
         ),
       ),
       child: FutureBuilder(
-        future: ResponseParser.getPr0grammContentList(promoted, flags),
+        future: ResponseParser.getPr0grammContentList(promoted, _createFlags()),
         builder: (context, snapshot) {
           return snapshot.hasData
               ? Padding(
@@ -145,13 +192,15 @@ class MainPageState extends State<MainPage> {
                 )
               : Center(
                   child: CupertinoButton(
-                  color: pr0grammOrange,
-                  child: Text(
-                    "Ups, da ist wohl etwas schief gelaufen!\nZum neu laden clicken",
-                    style: TextStyle(color: standardSchriftfarbe),
+                    padding: EdgeInsets.all(32),
+                    color: pr0grammOrange,
+                    child: Text(
+                      sFail,
+                      style: TextStyle(color: standardSchriftfarbe),
+                    ),
+                    onPressed: () => setState(() => null),
                   ),
-                  onPressed: () => setState(() => null),
-                ));
+                );
         },
       ),
     );

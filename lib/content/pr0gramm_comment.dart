@@ -98,9 +98,11 @@ class Pr0grammComment extends StatelessWidget {
             indent: 20,
             endIndent: 0,
           ),
-          Column(
-            children: children,
-          ),
+          children.isEmpty
+              ? Container()
+              : Column(
+                  children: children,
+                ),
         ],
       ),
     );
