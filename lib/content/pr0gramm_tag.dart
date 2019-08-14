@@ -1,15 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pr0gramm_app/content/pr0gramm_content.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
 
 class Pr0grammTag extends StatelessWidget {
-  int id;
-  double confidence;
-  String tag;
-  double padd = 6;
-  double roundness = 6;
-  double marg = 4;
+  final int id;
+  final double confidence;
+  final String tag;
+  final double padd = 6;
+  final double roundness = 6;
+  final double marg = 4;
 
   Pr0grammTag({this.id, this.confidence, this.tag});
 

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:pr0gramm_app/api/debug.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,7 +11,7 @@ abstract class Preferences {
     return await _read(_usernameKey);
   }
 
-  static Future<String> saveUsername(String username) async {
+  static void saveUsername(String username) async {
     _save(_usernameKey, username);
   }
 
@@ -21,7 +20,7 @@ abstract class Preferences {
     return await _read(_passwordKey);
   }
 
-  static Future<String> savePassword(String password) async {
+  static void savePassword(String password) async {
     _save(_passwordKey, password);
   }
 
@@ -30,7 +29,7 @@ abstract class Preferences {
     return await _read(_cooKey);
   }
 
-  static Future<String> saveCookies(String cookies) async {
+  static void saveCookies(String cookies) async {
     _save(_cooKey, cookies);
   }
 

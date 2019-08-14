@@ -2,20 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
 
 class Pr0grammComment extends StatelessWidget {
-  int id;
-  int parent;
-  String content;
-  int created;
-  int up;
-  int down;
-  double confidence;
-  String name;
-  int mark;
-  List<Pr0grammComment> children;
+  final int id;
+  final int parent;
+  final String content;
+  final int created;
+  final int up;
+  final int down;
+  final double confidence;
+  final String name;
+  final int mark;
 
   Pr0grammComment({
     this.id,
@@ -27,9 +25,7 @@ class Pr0grammComment extends StatelessWidget {
     this.confidence,
     this.name,
     this.mark,
-  }) {
-    children = [];
-  }
+  });
 
   factory Pr0grammComment.fromJson(Map<String, dynamic> parsedJson) {
     return Pr0grammComment(
@@ -61,6 +57,7 @@ class Pr0grammComment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Text(content.substring(0, 5));
     return Container(
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(8),
@@ -98,11 +95,6 @@ class Pr0grammComment extends StatelessWidget {
             indent: 20,
             endIndent: 0,
           ),
-          children.isEmpty
-              ? Container()
-              : Column(
-                  children: children,
-                ),
         ],
       ),
     );

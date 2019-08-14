@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:pr0gramm_app/api/response_parser.dart';
 import 'package:pr0gramm_app/design/pr0_text.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
 

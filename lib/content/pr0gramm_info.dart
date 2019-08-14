@@ -1,13 +1,12 @@
 import 'package:flutter/cupertino.dart';
-import 'package:pr0gramm_app/content/pr0gramm_content.dart';
 
 class Pr0grammInfo extends StatelessWidget {
-  List<dynamic> tags;
-  List<dynamic> comments;
-  int ts;
-  String cache;
-  int rt;
-  int qc;
+  final List<dynamic> tags;
+  final List<dynamic> comments;
+  final int ts;
+  final String cache;
+  final int rt;
+  final int qc;
 
   Pr0grammInfo({
     this.tags,

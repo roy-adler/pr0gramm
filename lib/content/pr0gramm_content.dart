@@ -1,20 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
 import 'package:video_player/video_player.dart';
 
 class Pr0grammContent extends StatelessWidget {
-  int id;
-  int promoted;
-  int up;
-  int down;
-  int created;
-  String image;
-  String thumb;
-  String fullsize; //TODO
-  double width;
-  double height;
-  bool audio;
+  final int id;
+  final int promoted;
+  final int up;
+  final int down;
+  final int created;
+  final String image;
+  final String thumb;
+  final String fullsize; //TODO
+  final double width;
+  final double height;
+  final bool audio;
 
   Pr0grammContent({
     this.id,
@@ -48,11 +47,10 @@ class Pr0grammContent extends StatelessWidget {
 
   String asString() {
     String heading = "Pr0grammContent:\n";
-    String body =
-        " id: ${id}\n promoted: ${promoted}\n up: ${up}\n down: ${down}\n"
-        " created: ${created}\n image: ${image}\n thumb: ${thumb}\n"
-        " fullsize: ${fullsize}\n width: ${width}\n height: ${height}\n"
-        " audio: ${audio}\n";
+    String body = " id: $id\n promoted: $promoted\n up: $up\n down: $down\n"
+        " created: $created\n image: $image\n thumb: $thumb\n"
+        " fullsize: $fullsize\n width: $width\n height: $height\n"
+        " audio: $audio\n";
     return heading + body;
   }
 
@@ -108,16 +106,11 @@ class Pr0grammContent extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    Image pr0Image = _getPr0Image();
-
-    return smallPicture();
-  }
-
-  VideoPlayerController playerController;
-  VoidCallback listener;
+  Widget build(BuildContext context) => smallPicture();
 
   void createVideo(String quelle) {
+    VideoPlayerController playerController;
+    VoidCallback listener;
     if (playerController == null) {
       playerController = VideoPlayerController.network(quelle)
         ..addListener(listener)

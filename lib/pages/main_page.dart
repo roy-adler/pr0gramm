@@ -2,10 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pr0gramm_app/api/response_parser.dart';
 import 'package:pr0gramm_app/content/pr0gramm_login.dart';
-import 'package:pr0gramm_app/pages/account_page.dart';
 import 'package:pr0gramm_app/pages/item_page.dart';
 import 'package:pr0gramm_app/pages/login_page.dart';
-import 'package:pr0gramm_app/pages/mail_page.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
 
 void main() => runApp(MainApp());
@@ -20,7 +18,7 @@ class MainApp extends StatelessWidget {
 }
 
 class MainPage extends StatefulWidget {
-  Pr0grammLogin pr0grammLogin;
+  final Pr0grammLogin pr0grammLogin;
 
   MainPage({this.pr0grammLogin});
 
@@ -34,13 +32,13 @@ class MainPageState extends State<MainPage> {
   String sFail =
       "Ups, da ist wohl etwas schief gelaufen!\nZum neu laden clicken";
   int promoted;
-  int SFW = 9;
-  int NSFW = 2;
-  int NSFL = 4;
+  int sFW = 9;
+  int nSFW = 2;
+  int nSFL = 4;
   double navFontSize = 12;
 
-  bool SFWbool = true;
-  bool NSFWbool = false;
+  bool sFWbool = true;
+  bool nSFWbool = false;
 
   @override
   void initState() {
@@ -81,33 +79,33 @@ class MainPageState extends State<MainPage> {
     );
   }
 
-  Widget _SFW() {
+  Widget _sFW() {
     return FlatButton(
       highlightColor: pr0grammOrange,
       onPressed: () {
-        SFWbool = !SFWbool;
+        sFWbool = !sFWbool;
         setState(() => null);
       },
       child: Text(
         "SFW",
         style: TextStyle(
-            color: (SFWbool) ? pr0grammOrange : standardSchriftfarbe,
+            color: (sFWbool) ? pr0grammOrange : standardSchriftfarbe,
             fontSize: navFontSize),
       ),
     );
   }
 
-  Widget _NSFW() {
+  Widget _nSFW() {
     return FlatButton(
       highlightColor: pr0grammOrange,
       onPressed: () {
-        NSFWbool = !NSFWbool;
+        nSFWbool = !nSFWbool;
         setState(() => null);
       },
       child: Text(
         "NSFW",
         style: TextStyle(
-            color: (NSFWbool) ? pr0grammOrange : standardSchriftfarbe,
+            color: (nSFWbool) ? pr0grammOrange : standardSchriftfarbe,
             fontSize: navFontSize),
       ),
     );
@@ -115,11 +113,11 @@ class MainPageState extends State<MainPage> {
 
   int _createFlags() {
     int flags = 0;
-    if (SFWbool) {
-      flags += SFW;
+    if (sFWbool) {
+      flags += sFW;
     }
-    if (NSFWbool) {
-      flags += NSFW;
+    if (nSFWbool) {
+      flags += nSFW;
     }
     return flags;
   }
@@ -139,8 +137,8 @@ class MainPageState extends State<MainPage> {
           children: <Widget>[
             Flexible(child: _buildTagButton("neu", 0)),
             Flexible(child: _buildTagButton("beliebt", 1)),
-            Flexible(child: _SFW()),
-            Flexible(child: _NSFW()),
+            Flexible(child: _sFW()),
+            Flexible(child: _nSFW()),
             // Flexible(
             //    child:
             //        _buildNavigatorButton(Icons.account_circle, AccountPage())),

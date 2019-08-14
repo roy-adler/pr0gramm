@@ -7,12 +7,11 @@ import 'package:pr0gramm_app/content/pr0gramm_info.dart';
 import 'package:pr0gramm_app/content/pr0gramm_tag.dart';
 import 'package:pr0gramm_app/design/pr0_text.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
-import 'package:pr0gramm_app/content/pr0gramm_content.dart';
 import 'package:pr0gramm_app/pages/comment_page.dart';
 import 'package:pr0gramm_app/pages/tag_page.dart';
 
 class ItemPage extends StatefulWidget {
-  Pr0grammContent pr0grammContent;
+  final Pr0grammContent pr0grammContent;
 
   ItemPage({@required this.pr0grammContent});
 
@@ -87,10 +86,10 @@ class ItemPageState extends State<ItemPage> {
   }
 
   makeGetRequest() async {
-    Pr0grammInfo PI = await ResponseParser.getPr0grammInfo(pr0grammContent.id);
+    Pr0grammInfo pr0grammInfo = await ResponseParser.getPr0grammInfo(pr0grammContent.id);
     List<Pr0grammComment> pr0grammCommentListRequest =
-        await ResponseParser.getComments(PI);
-    List<Pr0grammTag> pr0grammTagListRequest = await ResponseParser.getTags(PI);
+        await ResponseParser.getComments(pr0grammInfo);
+    List<Pr0grammTag> pr0grammTagListRequest = await ResponseParser.getTags(pr0grammInfo);
     setState(() {
       pr0grammCommentList = pr0grammCommentListRequest;
       pr0grammTagList = pr0grammTagListRequest;

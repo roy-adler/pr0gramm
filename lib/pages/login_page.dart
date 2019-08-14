@@ -7,7 +7,6 @@ import 'package:pr0gramm_app/content/pr0gramm_login.dart';
 import 'package:pr0gramm_app/design/pr0_text.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
 import 'package:pr0gramm_app/pages/main_page.dart';
-import 'package:pr0gramm_app/api/response_parser.dart';
 
 String sBenutzername = "Benutzername";
 String sAnmelden = "Anmelden";
@@ -27,6 +26,7 @@ class LoginPageState extends State<LoginPage> {
 
   @override
   initState() {
+    super.initState();
     _loadLastLogin();
     usernameController = TextEditingController();
     passwordController = TextEditingController();
@@ -83,15 +83,15 @@ class LoginPageState extends State<LoginPage> {
 
   void _submit() async {
     await _setCache();
-    Pr0grammLogin PL = await ResponseParser.getPr0grammLogin(
+    Pr0grammLogin pr0grammLogin = await ResponseParser.getPr0grammLogin(
         username: usernameController.text, password: passwordController.text);
-    if (PL.success == true) {
+    if (pr0grammLogin.success == true) {
       Navigator.push(
         context,
         CupertinoPageRoute(
           maintainState: false,
           builder: (context) => MainPage(
-            pr0grammLogin: PL,
+            pr0grammLogin: pr0grammLogin,
           ),
         ),
       );
@@ -105,7 +105,7 @@ class LoginPageState extends State<LoginPage> {
             children: <Widget>[
               Text(
                 sWrongLogin,
-                style: TextStyle(color: IRGENDWASDOOFESISTPASSIERTFarbe),
+                style: TextStyle(color: iRGENDWASDOOFESISTPASSIERTFarbe),
               ),
               Container(height: 10),
               CupertinoButton(
