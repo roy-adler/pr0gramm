@@ -1,20 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
 import 'package:video_player/video_player.dart';
 
 class Pr0grammContent extends StatelessWidget {
-  int id;
-  int promoted;
-  int up;
-  int down;
-  int created;
-  String image;
-  String thumb;
-  String fullsize; //TODO
-  double width;
-  double height;
-  bool audio;
+  final int id;
+  final int promoted;
+  final int up;
+  final int down;
+  final int created;
+  final String image;
+  final String thumb;
+  final String fullsize; //TODO
+  final double width;
+  final double height;
+  final bool audio;
 
   Pr0grammContent({
     this.id,
@@ -48,78 +47,72 @@ class Pr0grammContent extends StatelessWidget {
 
   String asString() {
     String heading = "Pr0grammContent:\n";
-    String body =
-        " id: ${id}\n promoted: ${promoted}\n up: ${up}\n down: ${down}\n"
-        " created: ${created}\n image: ${image}\n thumb: ${thumb}\n"
-        " fullsize: ${fullsize}\n width: ${width}\n height: ${height}\n"
-        " audio: ${audio}\n";
+    String body = " id: $id\n promoted: $promoted\n up: $up\n down: $down\n"
+        " created: $created\n image: $image\n thumb: $thumb\n"
+        " fullsize: $fullsize\n width: $width\n height: $height\n"
+        " audio: $audio\n";
     return heading + body;
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget smallPicture() {
+    return Hero(
+      tag: id,
+      child: Container(
+        width: 200,
+        height: 200,
+        child: FittedBox(
+          fit: BoxFit.cover,
+          child: _getPr0Image(),
+        ),
+      ),
+    );
+  }
+
+  Widget bigPicture() {
+    return Hero(
+      tag: id,
+      child: Container(
+        width: width,
+        child: FittedBox(
+          fit: BoxFit.fitWidth,
+          child: _getPr0Image(),
+        ),
+      ),
+    );
+  }
+
+  Widget fullScreenPicture() {
+    return Hero(
+      tag: id,
+      child: Container(
+        width: 200,
+        height: 200,
+        child: FittedBox(
+          fit: BoxFit.cover,
+          child: _getPr0Image(),
+        ),
+      ),
+    );
+  }
+
+  Widget _getPr0Image() {
     Image pr0Image = Image.network(
         "https://media.giphy.com/media/xUOxfjsW9fWPqEWouI/giphy.gif");
     if (image.endsWith("jpg") || image.endsWith("png")) {
       pr0Image = Image.network("https://img.pr0gramm.com/" + image);
-    } else if(image.endsWith("mp5")) {
-      return Center(
-        child: Stack(
-          children: <Widget>[
-            AspectRatio(
-              aspectRatio: 16 / 9,
-              child: Container(
-                child: (playerController != null
-                    ? VideoPlayer(
-                        playerController,
-                      )
-                    : Container()),
-              ),
-            ),
-            CupertinoButton(
-              onPressed: () {
-                createVideo("https://img.pr0gramm.com/" + image);
-                playerController.play();
-              },
-              child: Icon(Icons.play_arrow),
-            ),
-          ],
-        ),
-      );
-    }
+    } else if (image.endsWith("mp5")) {}
 
-    return Stack(
-      children: <Widget>[
-        Container(
-          width: 200,
-          height: 200,
-          child: FittedBox(
-            fit: BoxFit.cover,
-            child: pr0Image,
-          ),
-        ),
-        Positioned(
-          bottom: 8,
-          right: 8,
-          child: Text(
-            image.substring(image.length - 3),
-            style: TextStyle(
-              color: pr0grammOrange,
-              fontSize: 18,
-            ),
-          ),
-        ),
-      ],
-    );
+    return pr0Image;
   }
 
-  VideoPlayerController playerController;
-  VoidCallback listener;
+  @override
+  Widget build(BuildContext context) => smallPicture();
 
   void createVideo(String quelle) {
+    VideoPlayerController playerController;
+    VoidCallback listener;
     if (playerController == null) {
-      playerController = VideoPlayerController.network(
-          quelle)
+      playerController = VideoPlayerController.network(quelle)
         ..addListener(listener)
         ..setVolume(1.0)
         ..initialize()

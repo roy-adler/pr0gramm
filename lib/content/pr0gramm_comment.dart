@@ -1,20 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pr0gramm_app/content/pr0gramm_content.dart';
-
-import 'package:flutter/cupertino.dart';
-import 'package:pr0gramm_app/content/pr0gramm_content.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
 
 class Pr0grammComment extends StatelessWidget {
-  int id;
-  int parent;
-  String content;
-  int created;
-  int up;
-  int down;
-  double confidence;
-  String name;
-  int mark;
+  final int id;
+  final int parent;
+  final String content;
+  final DateTime created;
+  final int up;
+  final int down;
+  final double confidence;
+  final String name;
+  final int mark;
 
   Pr0grammComment({
     this.id,
@@ -33,12 +32,27 @@ class Pr0grammComment extends StatelessWidget {
       id: parsedJson['id'],
       parent: parsedJson['parent'],
       content: parsedJson['content'],
-      created: parsedJson['created'],
+      created:
+          DateTime.fromMillisecondsSinceEpoch(1000 * parsedJson['created']),
       up: parsedJson['up'],
       down: parsedJson['down'],
-      confidence: parsedJson['confidence'],
+      confidence: parsedJson['confidence'].toDouble(),
       name: parsedJson['name'],
       mark: parsedJson['mark'],
+    );
+  }
+
+  _rowText(String s) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        s,
+        textAlign: TextAlign.start,
+        style: TextStyle(
+          color: standardSchriftfarbeAusgegraut,
+          fontSize: 12,
+        ),
+      ),
     );
   }
 
@@ -47,20 +61,39 @@ class Pr0grammComment extends StatelessWidget {
     return Container(
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(8),
-      color: Colors.grey,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text("User: " + name),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Flexible(
-                child: Column(
-                  children: <Widget>[Text(content)],
-                ),
-              ),
-            ],
+          Linkify(
+            onOpen: (url) async {
+              if (await canLaunch(url)) {
+                await launch(url);
+              } else {
+                throw 'Could not launch $url';
+              }
+            },
+            linkStyle: TextStyle(color: pr0grammOrange),
+            text: content,
+            style: TextStyle(
+              color: standardSchriftfarbe,
+            ),
+          ),
+          Flexible(
+            child: Row(
+              children: <Widget>[
+                _rowText(name),
+                _rowText((up - down).toString() + ' Punkte'),
+                _rowText(created.minute.toString()),
+              ],
+            ),
+          ),
+          Divider(
+            color: standardSchriftfarbe,
+            height: 4,
+            indent: 20,
+            endIndent: 0,
           ),
         ],
       ),

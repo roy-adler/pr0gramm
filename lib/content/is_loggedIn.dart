@@ -1,14 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
-import 'package:video_player/video_player.dart';
 
 class IsLoggedIn extends StatelessWidget {
-  bool loggedIn;
-  int ts;
-  String cache;
-  int rt;
-  int qc;
+  final bool loggedIn;
+  final int ts;
+  final String cache;
+  final int rt;
+  final int qc;
 
   IsLoggedIn({
     this.loggedIn = false,
@@ -29,9 +28,9 @@ class IsLoggedIn extends StatelessWidget {
   }
 
   String asString() {
-    String heading = "IsLoggedIn:\n";
-    String body = " loggedIn: ${loggedIn}\n ts: ${ts}\n"
-        " cache: ${cache}\n rt: ${rt}\n qc: ${qc}\n";
+    String heading = " IsLoggedIn:\n";
+    String body = " loggedIn: $loggedIn\n ts: $ts\n"
+        " cache: $cache\n rt: $rt\n qc: $qc\n";
     return heading + body;
   }
 
@@ -43,7 +42,6 @@ class IsLoggedIn extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        greyText("IsLoggedIn"),
         greyText(asString()),
       ],
     );

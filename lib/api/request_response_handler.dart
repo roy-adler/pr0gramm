@@ -1,9 +1,6 @@
-import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:pr0gramm_app/api/preferences.dart';
 import 'dart:async';
-
-import 'package:shared_preferences/shared_preferences.dart';
 
 class RequestResponseHandler {
   static String pr0Api = "https://pr0gramm.com/api";
@@ -25,7 +22,7 @@ class RequestResponseHandler {
     paramList.add(flags);
     paramList.add(promoted);
     String req = paramsMaker(paramList);
-    return get(url: "/items/get${req}");
+    return get(url: "/items/get$req");
   }
 
   Future<http.Response> itemsInfo(int num) async {
@@ -34,7 +31,7 @@ class RequestResponseHandler {
 
   Future<http.Response> login(String name, String password) async {
     print("Login");
-    return await updateCookie(await http.post(
+    return updateCookie(await http.post(
       'https://pr0gramm.com/api/user/login',
       headers: headers,
       body: {'name': name, 'password': password},
@@ -53,7 +50,6 @@ class RequestResponseHandler {
   }
 
   setCookie(String cookies) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     Preferences.saveCookies(cookies);
     headers['Cookie'] = cookies;
   }

@@ -11,66 +11,66 @@ import 'package:pr0gramm_app/content/pr0gramm_login.dart';
 import 'package:pr0gramm_app/content/pr0gramm_tag.dart';
 
 abstract class ResponseParser {
-  static RequestResponseHandler RRH = RequestResponseHandler();
+  static RequestResponseHandler rrh = RequestResponseHandler();
 
   //Content
   static Future<Pr0grammContentContainer> getPr0grammContentContainer(
       int promoted, int flags) async {
     Response response =
-        await RRH.itemsGet(promotedNum: promoted, flagsNum: flags);
+        await rrh.itemsGet(promotedNum: promoted, flagsNum: flags);
     Map<String, dynamic> parsedJson = jsonDecode(response.body);
-    Pr0grammContentContainer PCC =
+    Pr0grammContentContainer pr0grammContentContainer =
         Pr0grammContentContainer.fromJson(parsedJson);
-    return PCC;
+    return pr0grammContentContainer;
   }
 
   static Future<List<Pr0grammContent>> getPr0grammContentList(
       int promoted, int flags) async {
-    Pr0grammContentContainer PCC =
+    Pr0grammContentContainer pr0grammContentContainer =
         await getPr0grammContentContainer(promoted, flags);
     List<Pr0grammContent> pr0grammContentList = List<Pr0grammContent>();
     pr0grammContentList =
-        PCC.items.map((i) => Pr0grammContent.fromJson(i)).toList();
+        pr0grammContentContainer.items.map((i) => Pr0grammContent.fromJson(i)).toList();
     return pr0grammContentList;
   }
 
   //Info
   static Future<Pr0grammInfo> getPr0grammInfo(int itemID) async {
     // itemID = 680;
-    Response response = await RRH.itemsInfo(itemID);
+    Response response = await rrh.itemsInfo(itemID);
     Map<String, dynamic> parsedJson = jsonDecode(response.body);
 
-    Pr0grammInfo PI = Pr0grammInfo.fromJson(parsedJson);
-    return PI;
+    Pr0grammInfo pr0grammInfo = Pr0grammInfo.fromJson(parsedJson);
+    return pr0grammInfo;
   }
 
-  static getTags(Pr0grammInfo PI) async {
+  static getTags(Pr0grammInfo pr0grammInfo) async {
     List<Pr0grammTag> pr0grammTagList = List<Pr0grammTag>();
-    pr0grammTagList = PI.tags.map((i) => Pr0grammTag.fromJson(i)).toList();
+    pr0grammTagList = pr0grammInfo.tags.map((i) => Pr0grammTag.fromJson(i)).toList();
     return pr0grammTagList;
   }
 
-  static getComments(Pr0grammInfo PI) async {
+  static getComments(Pr0grammInfo pr0grammInfo) async {
     List<Pr0grammComment> pr0grammCommentList = List<Pr0grammComment>();
     pr0grammCommentList =
-        PI.comments.map((i) => Pr0grammComment.fromJson(i)).toList();
+        pr0grammInfo.comments.map((i) => Pr0grammComment.fromJson(i)).toList();
     return pr0grammCommentList;
   }
 
   //Login
   static Future<Pr0grammLogin> getPr0grammLogin(
       {String username, String password}) async {
-    Response response = await RRH.login(username, password);
+    Response response = await rrh.login(username, password);
     Map<String, dynamic> parsedJson = jsonDecode(response.body);
     return Pr0grammLogin.fromJson(parsedJson);
   }
 
   static setCookie(String cookies) {
-    RRH.setCookie(cookies);
+    rrh.setCookie(cookies);
   }
 
   static Future<IsLoggedIn> isLoggedIn() async {
-    Response response = await RRH.isLoggedIn();
+    Response response = await rrh.isLoggedIn();
     Map<String, dynamic> parsedJson = jsonDecode(response.body);
     return IsLoggedIn.fromJson(parsedJson);
   }

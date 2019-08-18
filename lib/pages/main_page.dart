@@ -2,11 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pr0gramm_app/api/response_parser.dart';
 import 'package:pr0gramm_app/content/pr0gramm_login.dart';
-import 'package:pr0gramm_app/pages/account_page.dart';
 import 'package:pr0gramm_app/pages/item_page.dart';
 import 'package:pr0gramm_app/pages/login_page.dart';
-import 'package:pr0gramm_app/pages/mail_page.dart';
-import 'package:pr0gramm_app/design/pr0_text.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
 
 void main() => runApp(MainApp());
@@ -21,7 +18,7 @@ class MainApp extends StatelessWidget {
 }
 
 class MainPage extends StatefulWidget {
-  Pr0grammLogin pr0grammLogin;
+  final Pr0grammLogin pr0grammLogin;
 
   MainPage({this.pr0grammLogin});
 
@@ -32,34 +29,43 @@ class MainPage extends StatefulWidget {
 }
 
 class MainPageState extends State<MainPage> {
+  String sFail =
+      "Ups, da ist wohl etwas schief gelaufen!\nZum neu laden clicken";
   int promoted;
-  int flags;
-  int SFW = 9;
-  int NSFW = 2;
-  int NSFL = 4;
+  int sFW = 9;
+  int nSFW = 2;
+  int nSFL = 4;
+  double navFontSize = 12;
+
+  bool sFWbool = true;
+  bool nSFWbool = false;
 
   @override
   void initState() {
     promoted = 1;
-    flags = SFW + NSFW;
     super.initState();
   }
 
   _buildTagButton(String s, int i) {
     return FlatButton(
-        onPressed: () {
-          promoted = i;
-          setState(() => null);
-        },
-        child: Text(
-          s,
-          style: TextStyle(
-              color: (promoted == i) ? pr0grammOrange : standardSchriftfarbe),
-        ));
+      highlightColor: pr0grammOrange,
+      onPressed: () {
+        promoted = i;
+        setState(() => null);
+      },
+      child: Text(
+        s,
+        style: TextStyle(
+          color: (promoted == i) ? pr0grammOrange : standardSchriftfarbe,
+          fontSize: navFontSize,
+        ),
+      ),
+    );
   }
 
   _buildNavigatorButton(IconData iconData, Widget page) {
     return CupertinoButton(
+      padding: EdgeInsets.all(0),
       child: Icon(
         iconData,
         color: standardSchriftfarbe,
@@ -73,24 +79,75 @@ class MainPageState extends State<MainPage> {
     );
   }
 
+  Widget _sFW() {
+    return FlatButton(
+      highlightColor: pr0grammOrange,
+      onPressed: () {
+        sFWbool = !sFWbool;
+        setState(() => null);
+      },
+      child: Text(
+        "SFW",
+        style: TextStyle(
+            color: (sFWbool) ? pr0grammOrange : standardSchriftfarbe,
+            fontSize: navFontSize),
+      ),
+    );
+  }
+
+  Widget _nSFW() {
+    return FlatButton(
+      highlightColor: pr0grammOrange,
+      onPressed: () {
+        nSFWbool = !nSFWbool;
+        setState(() => null);
+      },
+      child: Text(
+        "NSFW",
+        style: TextStyle(
+            color: (nSFWbool) ? pr0grammOrange : standardSchriftfarbe,
+            fontSize: navFontSize),
+      ),
+    );
+  }
+
+  int _createFlags() {
+    int flags = 0;
+    if (sFWbool) {
+      flags += sFW;
+    }
+    if (nSFWbool) {
+      flags += nSFW;
+    }
+    return flags;
+  }
+
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       backgroundColor: richtigesGrau,
       navigationBar: CupertinoNavigationBar(
         backgroundColor: ehemaligeHintergrundFarbeDerKommentare,
-        middle: Pr0Text("Pr0gramm"),
-        trailing: Row(
+        leading: Container(
+          width: 0,
+        ),
+        middle: Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            _buildNavigatorButton(Icons.supervisor_account, AccountPage()),
-            _buildTagButton("neu", 0),
-            _buildTagButton("beliebt", 1),
-            _buildNavigatorButton(Icons.mail, MailPage()),
+            Flexible(child: _buildTagButton("neu", 0)),
+            Flexible(child: _buildTagButton("beliebt", 1)),
+            Flexible(child: _sFW()),
+            Flexible(child: _nSFW()),
+            // Flexible(
+            //    child:
+            //        _buildNavigatorButton(Icons.account_circle, AccountPage())),
+            // Flexible(child: _buildNavigatorButton(Icons.mail, MailPage())),
           ],
         ),
       ),
       child: FutureBuilder(
-        future: ResponseParser.getPr0grammContentList(promoted, flags),
+        future: ResponseParser.getPr0grammContentList(promoted, _createFlags()),
         builder: (context, snapshot) {
           return snapshot.hasData
               ? Padding(
@@ -133,13 +190,15 @@ class MainPageState extends State<MainPage> {
                 )
               : Center(
                   child: CupertinoButton(
-                  color: pr0grammOrange,
-                  child: Text(
-                    "Ups, da ist wohl etwas schief gelaufen!\nZum neu laden clicken",
-                    style: TextStyle(color: standardSchriftfarbe),
+                    padding: EdgeInsets.all(32),
+                    color: pr0grammOrange,
+                    child: Text(
+                      sFail,
+                      style: TextStyle(color: standardSchriftfarbe),
+                    ),
+                    onPressed: () => setState(() => null),
                   ),
-                  onPressed: () => setState(() => null),
-                ));
+                );
         },
       ),
     );

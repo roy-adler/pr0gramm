@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pr0gramm_app/api/response_parser.dart';
-import 'package:pr0gramm_app/content/pr0gramm_login.dart';
+import 'package:pr0gramm_app/content/is_loggedIn.dart';
 import 'package:pr0gramm_app/design/pr0_text.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
-import 'package:pr0gramm_app/content/pr0gramm_content.dart';
 
 class AccountPage extends StatefulWidget {
   @override
@@ -41,9 +40,9 @@ class AccountPageState extends State<AccountPage> {
   }
 
   makeGetRequest() async {
-    Pr0grammLogin PL = await ResponseParser.getPr0grammLogin();
+    IsLoggedIn isLoggedIn = await ResponseParser.isLoggedIn();
     setState(() {
-      pr0grammLogin = PL;
+      pr0grammLogin = isLoggedIn;
     });
   }
 }

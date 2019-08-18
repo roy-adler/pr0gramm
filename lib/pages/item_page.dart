@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:pr0gramm_app/api/response_parser.dart';
 import 'package:pr0gramm_app/content/pr0gramm_comment.dart';
 import 'package:pr0gramm_app/content/pr0gramm_content.dart';
@@ -6,10 +7,11 @@ import 'package:pr0gramm_app/content/pr0gramm_info.dart';
 import 'package:pr0gramm_app/content/pr0gramm_tag.dart';
 import 'package:pr0gramm_app/design/pr0_text.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
-import 'package:pr0gramm_app/content/pr0gramm_content.dart';
+import 'package:pr0gramm_app/pages/comment_page.dart';
+import 'package:pr0gramm_app/pages/tag_page.dart';
 
 class ItemPage extends StatefulWidget {
-  Pr0grammContent pr0grammContent;
+  final Pr0grammContent pr0grammContent;
 
   ItemPage({@required this.pr0grammContent});
 
@@ -32,6 +34,37 @@ class ItemPageState extends State<ItemPage> {
     super.initState();
   }
 
+  Widget _buildVotes() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  Icon(CupertinoIcons.add_circled, color: standardSchriftfarbe),
+                  Icon(CupertinoIcons.minus_circled, color: standardSchriftfarbe),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  "${(pr0grammContent.up - pr0grammContent.down).toString()}",
+                  style: TextStyle(color: standardSchriftfarbe, fontSize: 32),
+                ),
+              ),
+              Icon(CupertinoIcons.heart_solid, color: standardSchriftfarbe),
+            ],
+          ),
+          Container()
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
@@ -43,22 +76,20 @@ class ItemPageState extends State<ItemPage> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView(children: <Widget>[
-          Center(child: pr0grammContent),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(children: pr0grammTagList),
-          ),
-          Column(children: pr0grammCommentList),
+          pr0grammContent.bigPicture(),
+          _buildVotes(),
+          TagPage(tagList: pr0grammTagList),
+          CommentPage(commentList: pr0grammCommentList),
         ]),
       ),
     );
   }
 
   makeGetRequest() async {
-    Pr0grammInfo PI = await ResponseParser.getPr0grammInfo(pr0grammContent.id);
+    Pr0grammInfo pr0grammInfo = await ResponseParser.getPr0grammInfo(pr0grammContent.id);
     List<Pr0grammComment> pr0grammCommentListRequest =
-        await ResponseParser.getComments(PI);
-    List<Pr0grammTag> pr0grammTagListRequest = await ResponseParser.getTags(PI);
+        await ResponseParser.getComments(pr0grammInfo);
+    List<Pr0grammTag> pr0grammTagListRequest = await ResponseParser.getTags(pr0grammInfo);
     setState(() {
       pr0grammCommentList = pr0grammCommentListRequest;
       pr0grammTagList = pr0grammTagListRequest;
