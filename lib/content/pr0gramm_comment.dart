@@ -5,6 +5,7 @@ import 'package:pr0gramm_app/content/pr0gramm_content.dart';
 import 'package:pr0gramm_app/pages/item_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
+import 'package:intl/intl.dart';
 
 class Pr0grammComment extends StatelessWidget {
   final int id;
@@ -16,6 +17,8 @@ class Pr0grammComment extends StatelessWidget {
   final double confidence;
   final String name;
   final int mark;
+  static const double commentPadding = 20;
+  static const double heightPadding = 6;
 
   Pr0grammComment({
     this.id,
@@ -46,17 +49,14 @@ class Pr0grammComment extends StatelessWidget {
 
   _rowText(String s) {
     return Flexible(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Text(
-          s,
-          textAlign: TextAlign.start,
-          style: TextStyle(
-            color: standardSchriftfarbeAusgegraut,
-            fontSize: 12,
-          ),
-          overflow: TextOverflow.ellipsis,
+      child: Text(
+        s,
+        textAlign: TextAlign.start,
+        style: TextStyle(
+          color: standardSchriftfarbeAusgegraut,
+          fontSize: 12,
         ),
+        overflow: TextOverflow.ellipsis,
       ),
     );
   }
@@ -65,7 +65,7 @@ class Pr0grammComment extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(8),
-      padding: EdgeInsets.all(60),
+      padding: EdgeInsets.all(8),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,17 +98,31 @@ class Pr0grammComment extends StatelessWidget {
               ),
             ),
           ),
+          Container(height: heightPadding,),
           Flexible(
             child: Row(
               children: <Widget>[
                 _rowText(name),
+                Container(
+                  width: commentPadding,
+                ),
                 _rowText((up - down).toString() + ' Punkte'),
-                _rowText(created.minute.toString()),
+                Container(
+                  width: commentPadding,
+                ),
+                _rowText(_showTime(created)),
               ],
             ),
           ),
         ],
       ),
     );
+  }
+
+  String _showTime(DateTime dateTime) {
+    String time = dateTime.hour.toString();
+    String formattedDate = DateFormat('kk:mm').format(dateTime);
+    print(formattedDate);
+    return formattedDate;
   }
 }
