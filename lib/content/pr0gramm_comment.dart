@@ -8,7 +8,7 @@ class Pr0grammComment extends StatelessWidget {
   final int id;
   final int parent;
   final String content;
-  final int created;
+  final DateTime created;
   final int up;
   final int down;
   final double confidence;
@@ -32,7 +32,8 @@ class Pr0grammComment extends StatelessWidget {
       id: parsedJson['id'],
       parent: parsedJson['parent'],
       content: parsedJson['content'],
-      created: parsedJson['created'],
+      created:
+          DateTime.fromMillisecondsSinceEpoch(1000 * parsedJson['created']),
       up: parsedJson['up'],
       down: parsedJson['down'],
       confidence: parsedJson['confidence'].toDouble(),
@@ -57,7 +58,6 @@ class Pr0grammComment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(content.substring(0, 5));
     return Container(
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(8),
@@ -85,7 +85,7 @@ class Pr0grammComment extends StatelessWidget {
               children: <Widget>[
                 _rowText(name),
                 _rowText((up - down).toString() + ' Punkte'),
-                _rowText(DateTime.utc(created).minute.toString() + ' Minuten'),
+                _rowText(created.minute.toString()),
               ],
             ),
           ),
