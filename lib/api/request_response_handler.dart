@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:pr0gramm_app/api/debug.dart';
 import 'package:pr0gramm_app/api/preferences.dart';
 import 'dart:async';
 
@@ -44,8 +45,10 @@ class RequestResponseHandler {
 
   Future<http.Response> get({String url}) {
     String request = pr0Api + url;
-    print("Request: " + request);
-    if (headers != null) print("Header: " + headers.toString());
+    if (internetDEBUG) {
+      print("Request: " + request);
+      if (headers != null) print("Header: " + headers.toString());
+    }
     return http.get(request, headers: headers);
   }
 

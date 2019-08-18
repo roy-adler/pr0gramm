@@ -8,6 +8,6 @@ class TagPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(children: tagList);
+    return Wrap(children: tagList.sublist(0, 2));
   }
 }

@@ -29,6 +29,22 @@ class Pr0grammContent extends StatelessWidget {
     this.audio,
   });
 
+  factory Pr0grammContent.dummy() {
+    return new Pr0grammContent(
+      id: 0,
+      promoted: 0,
+      up: 2,
+      down: 3,
+      created: 0,
+      image: "",
+      thumb: "",
+      fullsize: "",
+      width: 200,
+      height: 400,
+      audio: false,
+    );
+  }
+
   factory Pr0grammContent.fromJson(Map<String, dynamic> json) {
     return new Pr0grammContent(
       id: json["id"],
