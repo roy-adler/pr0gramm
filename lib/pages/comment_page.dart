@@ -20,31 +20,9 @@ class CommentPage extends StatelessWidget {
     if (commentList.isEmpty) {
       return _emptyList();
     }
+
     List<int> toDelete = [];
-
-    for (int index = 0; index < commentList.length; index++) {
-      Pr0grammComment currentComment = commentList[index];
-      if (currentComment.parent != 0) {
-        // filter all comments with parents
-        var parentIndex = commentList
-            .indexWhere((element) => element.id == currentComment.parent);
-        if (parentIndex == -1) {
-          print("FUCK?!");
-        } else {
-          // add all comments with parents to toDelete
-          toDelete.add(currentComment.id);
-        }
-      }
-    }
-
-    // Delete Unwanted comments
-    for (int index = 0; index < toDelete.length; index++) {
-      int deleteIndex = commentList.indexWhere(
-          (element) => element.id == toDelete[index] && element.parent == 0);
-      if (deleteIndex != -1) {
-        commentList.removeAt(deleteIndex);
-      }
-    }
+    List<ParCom> parComList = [];
 
     if (commentList.isEmpty) {
       return _emptyList();

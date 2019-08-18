@@ -122,7 +122,6 @@ class Pr0grammComment extends StatelessWidget {
   String _showTime(DateTime dateTime) {
     String time = dateTime.hour.toString();
     String formattedDate = DateFormat('kk:mm').format(dateTime);
-    print(formattedDate);
     return formattedDate;
   }
 }
