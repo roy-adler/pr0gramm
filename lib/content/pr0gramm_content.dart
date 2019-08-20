@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pr0gramm_app/pages/video_screen.dart';
 import 'package:video_player/video_player.dart';
 
 class Pr0grammContent extends StatelessWidget {
@@ -112,34 +113,17 @@ class Pr0grammContent extends StatelessWidget {
   }
 
   Widget _getPr0Image() {
-    Image pr0Image = Image.network(
+    Widget pr0Image = Image.network(
         "https://media.giphy.com/media/xUOxfjsW9fWPqEWouI/giphy.gif");
     if (image.endsWith("jpg") || image.endsWith("png")) {
       pr0Image = Image.network("https://img.pr0gramm.com/" + image);
-    } else if (image.endsWith("mp5")) {}
+    } else if (image.endsWith("mp4")) {
+      pr0Image = VideoScreen();
+    }
 
     return pr0Image;
   }
 
   @override
   Widget build(BuildContext context) => smallPicture();
-
-  void createVideo(String quelle) {
-    VideoPlayerController playerController;
-    VoidCallback listener;
-    if (playerController == null) {
-      playerController = VideoPlayerController.network(quelle)
-        ..addListener(listener)
-        ..setVolume(1.0)
-        ..initialize()
-        ..play();
-    } else {
-      if (playerController.value.isPlaying) {
-        playerController.pause();
-      } else {
-        playerController.initialize();
-        playerController.play();
-      }
-    }
-  }
 }
