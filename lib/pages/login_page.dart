@@ -21,19 +21,37 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
-  TextEditingController usernameController;
-  TextEditingController passwordController;
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final FocusNode usernameFocusNode =
+      FocusNode(debugLabel: "usernameFocusNode");
+  final FocusNode passwordFocusNode =
+      FocusNode(debugLabel: "passwordFocusNode", canRequestFocus: true);
 
-  void _keyboardInput() {}
+  void _usernameInput() {
+    String temp = usernameController.text.toString();
+    if (temp.contains("\t")) {
+      _fieldFocusChange(context, usernameFocusNode, passwordFocusNode);
+      usernameController.text = temp.trim();
+    }
+  }
+
+  void _passwordInput() {
+    String temp = passwordController.text.toString();
+    if (temp.contains("\t")) {
+      passwordFocusNode.unfocus();
+      passwordController.text = temp.trim();
+      _submit();
+    }
+  }
 
   @override
   initState() {
     super.initState();
     _loadLastLogin();
-    usernameController = TextEditingController();
-    passwordController = TextEditingController();
     void Function() listener;
-    usernameController.addListener(_keyboardInput);
+    usernameController.addListener(_usernameInput);
+    passwordController.addListener(_passwordInput);
     _loadCache();
   }
 
@@ -43,6 +61,10 @@ class LoginPageState extends State<LoginPage> {
       placeholder: sBenutzername,
       cursorColor: pr0grammOrange,
       style: TextStyle(color: standardSchriftfarbe),
+      focusNode: usernameFocusNode,
+      onSubmitted: (String s) {
+        _fieldFocusChange(context, usernameFocusNode, passwordFocusNode);
+      },
     );
   }
 
@@ -53,6 +75,11 @@ class LoginPageState extends State<LoginPage> {
       cursorColor: pr0grammOrange,
       style: TextStyle(color: standardSchriftfarbe),
       obscureText: true,
+      focusNode: passwordFocusNode,
+      onSubmitted: (String s) {
+        passwordFocusNode.unfocus();
+        _submit();
+      },
     );
   }
 
@@ -69,6 +96,7 @@ class LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            _buildCaptcha(),
             _usernameTextField(),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16),
@@ -86,10 +114,14 @@ class LoginPageState extends State<LoginPage> {
   }
 
   void _submit() async {
-    await _setCache();
+    usernameController.text = usernameController.text.trim();
+    passwordController.text = passwordController.text.trim();
+    Preferences.saveUsername(usernameController.text);
+
     Pr0grammLogin pr0grammLogin = await ResponseParser.getPr0grammLogin(
         username: usernameController.text, password: passwordController.text);
     if (pr0grammLogin.success == true) {
+      await _setCache();
       Navigator.push(
         context,
         CupertinoPageRoute(
@@ -118,13 +150,22 @@ class LoginPageState extends State<LoginPage> {
                   "Ok",
                   style: TextStyle(color: standardSchriftfarbe),
                 ),
-                onPressed: () => Navigator.pop(context),
+                onPressed: () {
+                  Navigator.pop(context);
+                  passwordController.text = "";
+                },
               )
             ],
           ),
         ),
       );
     }
+  }
+
+  _fieldFocusChange(
+      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);
   }
 
   _setCache() {
@@ -158,5 +199,19 @@ class LoginPageState extends State<LoginPage> {
         );
       }
     }
+  }
+
+  Widget _buildCaptcha() {
+    return Container(
+      padding: EdgeInsets.all(16),
+      margin: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.grey,
+          width: 2,
+        ),
+      ),
+      child: Image.network("https://pr0gramm.com/api/user/captcha"),
+    );
   }
 }
