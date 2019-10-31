@@ -24,12 +24,16 @@ class LoginPageState extends State<LoginPage> {
   TextEditingController usernameController;
   TextEditingController passwordController;
 
+  void _keyboardInput() {}
+
   @override
   initState() {
     super.initState();
     _loadLastLogin();
     usernameController = TextEditingController();
     passwordController = TextEditingController();
+    void Function() listener;
+    usernameController.addListener(_keyboardInput);
     _loadCache();
   }
 
