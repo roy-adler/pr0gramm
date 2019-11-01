@@ -3,19 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pr0gramm_app/api/response_parser.dart';
 import 'package:pr0gramm_app/content/pr0gramm_login.dart';
 import 'package:pr0gramm_app/pages/item_page.dart';
-import 'package:pr0gramm_app/pages/login_page.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
-
-void main() => runApp(MainApp());
-
-class MainApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return CupertinoApp(
-      home: LoginPage(),
-    );
-  }
-}
 
 class MainPage extends StatefulWidget {
   final Pr0grammLogin pr0grammLogin;

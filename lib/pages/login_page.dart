@@ -35,38 +35,10 @@ class LoginPageState extends State<LoginPage> {
 
   String token = "";
 
-  void _usernameInput() {
-    String temp = usernameController.text.toString();
-    if (temp.contains("\t")) {
-      _fieldFocusChange(context, usernameFocusNode, passwordFocusNode);
-      usernameController.text = temp.trim();
-    }
-  }
-
-  void _passwordInput() {
-    String temp = passwordController.text.toString();
-    if (temp.contains("\t")) {
-      passwordFocusNode.unfocus();
-      passwordController.text = temp.trim();
-    }
-  }
-
-  void _captchaInput() {
-    String temp = captchaController.text.toString();
-    if (temp.contains("\t")) {
-      captchaFocusNode.unfocus();
-      captchaController.text = temp.trim();
-      _submit();
-    }
-  }
-
   @override
   initState() {
     super.initState();
     _loadLastLogin();
-    usernameController.addListener(_usernameInput);
-    passwordController.addListener(_passwordInput);
-    captchaController.addListener(_captchaInput);
     _loadCache();
   }
 
