@@ -61,9 +61,13 @@ abstract class ResponseParser {
   }
 
   //Login
-  static Future<Pr0grammLogin> getPr0grammLogin(
-      {String username, String password}) async {
-    Response response = await rrh.login(username, password);
+  static Future<Pr0grammLogin> getPr0grammLogin({
+    String username,
+    String password,
+    String captcha,
+    String token,
+  }) async {
+    Response response = await rrh.login(username, password, captcha, token);
     Map<String, dynamic> parsedJson = jsonDecode(response.body);
     return Pr0grammLogin.fromJson(parsedJson);
   }

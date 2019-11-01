@@ -29,12 +29,26 @@ class RequestResponseHandler {
     return get(url: "/items/info?itemId=" + num.toString());
   }
 
-  Future<http.Response> login(String name, String password) async {
+  Future<http.Response> login(
+    String name,
+    String password,
+    String captcha,
+    String token,
+  ) async {
     print("Login");
+    print("name: $name");
+    print("password: $password");
+    print("captcha: $captcha");
+    print("token: $token");
     return updateCookie(await http.post(
       'https://pr0gramm.com/api/user/login',
       headers: headers,
-      body: {'name': name, 'password': password},
+      body: {
+        'name': name,
+        'password': password,
+        'captcha': captcha,
+        'token': token
+      },
     ));
   }
 

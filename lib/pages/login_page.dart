@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:html';
 import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
@@ -17,6 +16,7 @@ String sBenutzername = "Benutzername";
 String sAnmelden = "Anmelden";
 String sPasswort = "Passwort";
 String sWrongLogin = "Falscher Benutzername oder Passwort";
+String sNeuLaden = "Neu laden";
 
 class LoginPage extends StatefulWidget {
   @override
@@ -28,10 +28,12 @@ class LoginPage extends StatefulWidget {
 class LoginPageState extends State<LoginPage> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final FocusNode usernameFocusNode =
-      FocusNode(debugLabel: "usernameFocusNode");
-  final FocusNode passwordFocusNode =
-      FocusNode(debugLabel: "passwordFocusNode");
+  final TextEditingController captchaController = TextEditingController();
+  final FocusNode usernameFocusNode = FocusNode(debugLabel: "usrnmFocusNode");
+  final FocusNode passwordFocusNode = FocusNode(debugLabel: "pwFocusNode");
+  final FocusNode captchaFocusNode = FocusNode(debugLabel: "captchaFocusNode");
+
+  String token = "";
 
   void _usernameInput() {
     String temp = usernameController.text.toString();
@@ -46,6 +48,14 @@ class LoginPageState extends State<LoginPage> {
     if (temp.contains("\t")) {
       passwordFocusNode.unfocus();
       passwordController.text = temp.trim();
+    }
+  }
+
+  void _captchaInput() {
+    String temp = captchaController.text.toString();
+    if (temp.contains("\t")) {
+      captchaFocusNode.unfocus();
+      captchaController.text = temp.trim();
       _submit();
     }
   }
@@ -56,6 +66,7 @@ class LoginPageState extends State<LoginPage> {
     _loadLastLogin();
     usernameController.addListener(_usernameInput);
     passwordController.addListener(_passwordInput);
+    captchaController.addListener(_captchaInput);
     _loadCache();
   }
 
@@ -81,7 +92,20 @@ class LoginPageState extends State<LoginPage> {
       obscureText: true,
       focusNode: passwordFocusNode,
       onSubmitted: (String s) {
-        passwordFocusNode.unfocus();
+        _fieldFocusChange(context, passwordFocusNode, captchaFocusNode);
+      },
+    );
+  }
+
+  _captchaTextField() {
+    return CupertinoTextField(
+      controller: captchaController,
+      cursorColor: pr0grammOrange,
+      style: TextStyle(color: standardSchriftfarbe),
+      obscureText: false,
+      focusNode: captchaFocusNode,
+      onSubmitted: (String s) {
+        captchaFocusNode.unfocus();
         _submit();
       },
     );
@@ -100,20 +124,29 @@ class LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            _buildCaptcha(),
-            FlatButton(
-              onPressed: () => setState(() {}),
-              child: Icon(Icons.repeat),
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: _usernameTextField(),
             ),
-            _usernameTextField(),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16),
               child: _passwordTextField(),
             ),
-            CupertinoButton(
-              child: Text(sAnmelden),
-              onPressed: () => _submit(),
-              color: pr0grammOrange,
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: _buildCaptcha(),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: _captchaTextField(),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: CupertinoButton(
+                child: Text(sAnmelden),
+                onPressed: () => _submit(),
+                color: pr0grammOrange,
+              ),
             )
           ],
         ),
@@ -125,9 +158,15 @@ class LoginPageState extends State<LoginPage> {
     usernameController.text = usernameController.text.trim();
     passwordController.text = passwordController.text.trim();
     Preferences.saveUsername(usernameController.text);
+    Preferences.savePassword(passwordController.text);
 
     Pr0grammLogin pr0grammLogin = await ResponseParser.getPr0grammLogin(
-        username: usernameController.text, password: passwordController.text);
+        username: usernameController.text,
+        password: passwordController.text,
+        captcha: captchaController.text,
+        token: token);
+
+    print(pr0grammLogin.asString());
     if (pr0grammLogin.success == true) {
       await _setCache();
       Navigator.push(
@@ -160,7 +199,6 @@ class LoginPageState extends State<LoginPage> {
                 ),
                 onPressed: () {
                   Navigator.pop(context);
-                  passwordController.text = "";
                 },
               )
             ],
@@ -168,6 +206,14 @@ class LoginPageState extends State<LoginPage> {
         ),
       );
     }
+  }
+
+  _refreshButton() {
+    return CupertinoButton(
+      child: Text(sNeuLaden),
+      onPressed: () => setState(() {}),
+      color: pr0grammOrange,
+    );
   }
 
   _fieldFocusChange(
@@ -213,24 +259,24 @@ class LoginPageState extends State<LoginPage> {
     return FutureBuilder(
       future: ResponseParser.getCaptcha(),
       builder: (context, snapshot) {
+        Image image;
         if (snapshot.hasData) {
           CaptchaContainer captchaContainer = snapshot.data;
           print(captchaContainer.asString());
           int position = captchaContainer.captcha.indexOf(',') + 1;
           Uint8List decoded =
               base64Decode(captchaContainer.captcha.substring(position));
-          return Image.memory(decoded);
+          token = captchaContainer.token;
+          image = Image.memory(decoded);
         }
-        return Container(
-          padding: EdgeInsets.all(16),
-          margin: EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.grey,
-              width: 2,
+        return Stack(
+          children: <Widget>[
+            AnimatedOpacity(
+              duration: Duration(milliseconds: 300),
+              opacity: snapshot.hasData ? 1 : 0,
+              child: image ?? Container(width: 360, height: 90),
             ),
-          ),
-          child: Container(),
+          ],
         );
       },
     );
