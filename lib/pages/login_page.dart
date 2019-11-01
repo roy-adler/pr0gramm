@@ -1,7 +1,12 @@
+import 'dart:convert';
+import 'dart:html';
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pr0gramm_app/api/preferences.dart';
 import 'package:pr0gramm_app/api/response_parser.dart';
+import 'package:pr0gramm_app/content/captchaContainer.dart';
 import 'package:pr0gramm_app/content/is_loggedIn.dart';
 import 'package:pr0gramm_app/content/pr0gramm_login.dart';
 import 'package:pr0gramm_app/design/pr0_text.dart';
@@ -95,7 +100,11 @@ class LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            _buildCaptcha(""),
+            _buildCaptcha(),
+            FlatButton(
+              onPressed: () => setState(() {}),
+              child: Icon(Icons.repeat),
+            ),
             _usernameTextField(),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16),
@@ -200,17 +209,30 @@ class LoginPageState extends State<LoginPage> {
     }
   }
 
-  Widget _buildCaptcha(String s) {
-    return Container(
-      padding: EdgeInsets.all(16),
-      margin: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.grey,
-          width: 2,
-        ),
-      ),
-      child: Image.network("https://pr0gramm.com/api/user/captcha"),
+  Widget _buildCaptcha() {
+    return FutureBuilder(
+      future: ResponseParser.getCaptcha(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          CaptchaContainer captchaContainer = snapshot.data;
+          print(captchaContainer.asString());
+          int position = captchaContainer.captcha.indexOf(',') + 1;
+          Uint8List decoded =
+              base64Decode(captchaContainer.captcha.substring(position));
+          return Image.memory(decoded);
+        }
+        return Container(
+          padding: EdgeInsets.all(16),
+          margin: EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.grey,
+              width: 2,
+            ),
+          ),
+          child: Container(),
+        );
+      },
     );
   }
 }
