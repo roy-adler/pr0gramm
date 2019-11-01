@@ -2,3 +2,4 @@ build
 .idea
 .idea
 build\ios
+*.bin
