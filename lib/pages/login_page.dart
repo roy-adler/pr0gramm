@@ -26,7 +26,7 @@ class LoginPageState extends State<LoginPage> {
   final FocusNode usernameFocusNode =
       FocusNode(debugLabel: "usernameFocusNode");
   final FocusNode passwordFocusNode =
-      FocusNode(debugLabel: "passwordFocusNode", canRequestFocus: true);
+      FocusNode(debugLabel: "passwordFocusNode");
 
   void _usernameInput() {
     String temp = usernameController.text.toString();
@@ -49,7 +49,6 @@ class LoginPageState extends State<LoginPage> {
   initState() {
     super.initState();
     _loadLastLogin();
-    void Function() listener;
     usernameController.addListener(_usernameInput);
     passwordController.addListener(_passwordInput);
     _loadCache();
@@ -96,7 +95,7 @@ class LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            _buildCaptcha(),
+            _buildCaptcha(""),
             _usernameTextField(),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16),
@@ -201,7 +200,7 @@ class LoginPageState extends State<LoginPage> {
     }
   }
 
-  Widget _buildCaptcha() {
+  Widget _buildCaptcha(String s) {
     return Container(
       padding: EdgeInsets.all(16),
       margin: EdgeInsets.all(16),
