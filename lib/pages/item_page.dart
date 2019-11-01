@@ -46,7 +46,9 @@ class ItemPageState extends State<ItemPage> {
               Row(
                 children: <Widget>[
                   Icon(CupertinoIcons.add_circled, color: standardSchriftfarbe),
-                  Container(width: 4,),
+                  Container(
+                    width: 4,
+                  ),
                   Icon(CupertinoIcons.minus_circled,
                       color: standardSchriftfarbe),
                 ],
@@ -69,6 +71,13 @@ class ItemPageState extends State<ItemPage> {
 
   @override
   Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Video Demo',
+      home: Scaffold(
+        appBar: AppBar(title: Text(pr0grammContent.fullsize)),
+        body: Center(child: pr0grammContent.bigPicture()),
+      ),
+    );
     return CupertinoPageScaffold(
       backgroundColor: richtigesGrau,
       navigationBar: CupertinoNavigationBar(

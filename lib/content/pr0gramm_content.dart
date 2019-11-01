@@ -89,10 +89,10 @@ class Pr0grammContent extends StatelessWidget {
     return Hero(
       tag: id,
       child: Container(
-        width: width,
+        width: width, //TODO
         child: FittedBox(
           fit: BoxFit.fitWidth,
-          child: _getPr0Image(),
+          child: _getPr0Image(bigPicture: true),
         ),
       ),
     );
@@ -112,13 +112,13 @@ class Pr0grammContent extends StatelessWidget {
     );
   }
 
-  Widget _getPr0Image() {
+  Widget _getPr0Image({bool bigPicture = false}) {
     Widget pr0Image = Image.network(
         "https://media.giphy.com/media/xUOxfjsW9fWPqEWouI/giphy.gif");
     if (image.endsWith("jpg") || image.endsWith("png")) {
       pr0Image = Image.network("https://img.pr0gramm.com/" + image);
     } else if (image.endsWith("mp4")) {
-      pr0Image = VideoScreen();
+      if (bigPicture) pr0Image = VideoScreen();
     }
 
     return pr0Image;

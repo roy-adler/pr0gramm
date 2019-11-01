@@ -40,20 +40,29 @@ class RequestResponseHandler {
   }
 
   Future<http.Response> isLoggedIn() async {
-    return get(url: "/user/loggedin");
+    if (internetDEBUG) {
+      print("IsLoggedIn");
+    }
+    return  get(url: "/user/loggedin");
   }
 
-  Future<http.Response> get({String url}) {
+  Future<http.Response> get({String url}) async {
     String request = pr0Api + url;
     if (internetDEBUG) {
       print("Request: " + request);
       if (headers != null) print("Header: " + headers.toString());
     }
-    return http.get(request, headers: headers);
+    print("Okay okay..");
+    http.Response asd = await http.get(request, headers: headers);
+    print("ahaa");
+    return asd;
   }
 
   setCookie(String cookies) async {
-    Preferences.saveCookies(cookies);
+    if (internetDEBUG) {
+      print("Setting new cookie..");
+    }
+     Preferences.saveCookies(cookies);
     headers['Cookie'] = cookies;
   }
 
