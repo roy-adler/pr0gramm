@@ -5,3 +5,4 @@ build\ios
 *.bin
 ios/Flutter/App.framework/flutter_assets/kernel_blob.bin
 ios/Flutter
+ios/Flutter/App.framework
