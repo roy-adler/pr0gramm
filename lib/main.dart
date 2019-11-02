@@ -5,6 +5,7 @@ import 'package:pr0gramm_app/api/response_parser.dart';
 import 'package:pr0gramm_app/content/is_loggedIn.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
 import 'package:pr0gramm_app/pages/main_page.dart';
+import 'package:pr0gramm_app/widgets/loadingIndicator.dart';
 
 import 'pages/login_page.dart';
 
@@ -46,11 +47,7 @@ class LoadStart extends StatelessWidget {
               return LoginPage();
             }
           }
-          return Center(
-            child: CircularProgressIndicator(
-              backgroundColor: pr0grammOrange,
-            ),
-          );
+          return LoadingIndicator();
         },
       ),
     );
