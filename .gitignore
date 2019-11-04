@@ -13,3 +13,4 @@ android
 *.log
 .DS_Store
 .dart_tool/flutter_build
+.dart_tool/flutter_build
