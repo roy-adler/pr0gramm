@@ -60,15 +60,11 @@ class RequestResponseHandler {
     return  get(url: "/user/loggedin");
   }
 
-<<<<<<< HEAD
   Future<http.Response> captcha() async {
     return get(url: "/user/captcha");
   }
 
-  Future<http.Response> get({String url}) {
-=======
   Future<http.Response> get({String url}) async {
->>>>>>> 0f555806ff5a55813fc10686eaa03d0b20c79cab
     String request = pr0Api + url;
     if (internetDEBUG) {
       print("Request: " + request);
