@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:pr0gramm_app/content/pr0gramm_content.dart';
+import 'package:pr0gramm_app/pages/item_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
+import 'package:intl/intl.dart';
 
 class Pr0grammComment extends StatelessWidget {
   final int id;
@@ -14,6 +17,8 @@ class Pr0grammComment extends StatelessWidget {
   final double confidence;
   final String name;
   final int mark;
+  static const double commentPadding = 20;
+  static const double heightPadding = 6;
 
   Pr0grammComment({
     this.id,
@@ -43,8 +48,7 @@ class Pr0grammComment extends StatelessWidget {
   }
 
   _rowText(String s) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
+    return Flexible(
       child: Text(
         s,
         textAlign: TextAlign.start,
@@ -52,6 +56,7 @@ class Pr0grammComment extends StatelessWidget {
           color: standardSchriftfarbeAusgegraut,
           fontSize: 12,
         ),
+        overflow: TextOverflow.ellipsis,
       ),
     );
   }
@@ -59,44 +64,64 @@ class Pr0grammComment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: EdgeInsets.all(8),
       padding: EdgeInsets.all(8),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Linkify(
-            onOpen: (url) async {
-              if (await canLaunch(url)) {
-                await launch(url);
-              } else {
-                throw 'Could not launch $url';
-              }
-            },
-            linkStyle: TextStyle(color: pr0grammOrange),
-            text: content,
-            style: TextStyle(
-              color: standardSchriftfarbe,
+          Flexible(
+            child: Linkify(
+              onOpen: (url) async {
+                if (await canLaunch(url)) {
+                  if (url.contains("pr0gramm")) {
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) => ItemPage(
+                          pr0grammContent: Pr0grammContent.dummy(),
+                        ),
+                      ),
+                    );
+                  } else {
+                    await launch(url);
+                  }
+                } else {
+                  throw 'Could not launch $url';
+                }
+              },
+              linkStyle: TextStyle(color: pr0grammOrange),
+              text: content,
+              style: TextStyle(
+                color: standardSchriftfarbe,
+              ),
             ),
           ),
+          Container(height: heightPadding,),
           Flexible(
             child: Row(
               children: <Widget>[
                 _rowText(name),
+                Container(
+                  width: commentPadding,
+                ),
                 _rowText((up - down).toString() + ' Punkte'),
-                _rowText(created.minute.toString()),
+                Container(
+                  width: commentPadding,
+                ),
+                _rowText(_showTime(created)),
               ],
             ),
-          ),
-          Divider(
-            color: standardSchriftfarbe,
-            height: 4,
-            indent: 20,
-            endIndent: 0,
           ),
         ],
       ),
     );
+  }
+
+  String _showTime(DateTime dateTime) {
+    String time = dateTime.hour.toString();
+    String formattedDate = DateFormat('kk:mm').format(dateTime);
+    return formattedDate;
   }
 }

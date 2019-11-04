@@ -25,7 +25,11 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+<<<<<<< HEAD
   shared_preferences: 430726339841afefe5142b9c1f50cb6bd7793e01
+=======
+  shared_preferences: 1feebfa37bb57264736e16865e7ffae7fc99b523
+>>>>>>> 0f555806ff5a55813fc10686eaa03d0b20c79cab
   url_launcher: 0067ddb8f10d36786672aa0722a21717dba3a298
   video_player: 3964090a33353060ed7f58aa6427c7b4b208ec21
 

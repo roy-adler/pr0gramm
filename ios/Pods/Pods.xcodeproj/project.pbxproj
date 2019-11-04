@@ -1281,6 +1281,8 @@
 			name = Debug;
 		};
 		A94EBF4E8F127A41691C10095F7BBBA9 /* Release */ = {
+<<<<<<< HEAD
+=======
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 991D3527FF4CBDBF035F8D4500E9BD8B /* Flutter.xcconfig */;
 			buildSettings = {
@@ -1295,7 +1297,42 @@
 			};
 			name = Release;
 		};
+		B042CD198CF7D5F19C3093A605CB442F /* Debug */ = {
+>>>>>>> 0f555806ff5a55813fc10686eaa03d0b20c79cab
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 991D3527FF4CBDBF035F8D4500E9BD8B /* Flutter.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+<<<<<<< HEAD
 		ADEF59ACDEFBD73E24A3C435100D25FE /* Release */ = {
+=======
+		B064E1C981D836A5C76FDAC49FCB568E /* Profile */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 991D3527FF4CBDBF035F8D4500E9BD8B /* Flutter.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Profile;
+		};
+		BBCD6B7F9206B958B8D20BE5B28C2630 /* Profile */ = {
+>>>>>>> 0f555806ff5a55813fc10686eaa03d0b20c79cab
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A68D067CE96524922B342D0A7E16D054 /* shared_preferences.xcconfig */;
 			buildSettings = {
@@ -1343,6 +1380,7 @@
 			};
 			name = Debug;
 		};
+<<<<<<< HEAD
 		B064E1C981D836A5C76FDAC49FCB568E /* Profile */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 991D3527FF4CBDBF035F8D4500E9BD8B /* Flutter.xcconfig */;
@@ -1358,6 +1396,8 @@
 			};
 			name = Profile;
 		};
+=======
+>>>>>>> 0f555806ff5a55813fc10686eaa03d0b20c79cab
 		D5CCB9814731C4421D1A43BF3F22C296 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 26032FFE0FE17433E51848B234DEE609 /* video_player.xcconfig */;

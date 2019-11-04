@@ -77,7 +77,9 @@ abstract class ResponseParser {
   }
 
   static Future<IsLoggedIn> isLoggedIn() async {
+    print("Vorer..");
     Response response = await rrh.isLoggedIn();
+    print("weiter..");
     Map<String, dynamic> parsedJson = jsonDecode(response.body);
     return IsLoggedIn.fromJson(parsedJson);
   }

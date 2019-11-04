@@ -43,10 +43,14 @@ class ItemPageState extends State<ItemPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Column(
+              Row(
                 children: <Widget>[
                   Icon(CupertinoIcons.add_circled, color: standardSchriftfarbe),
-                  Icon(CupertinoIcons.minus_circled, color: standardSchriftfarbe),
+                  Container(
+                    width: 4,
+                  ),
+                  Icon(CupertinoIcons.minus_circled,
+                      color: standardSchriftfarbe),
                 ],
               ),
               Padding(
@@ -67,6 +71,13 @@ class ItemPageState extends State<ItemPage> {
 
   @override
   Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Video Demo',
+      home: Scaffold(
+        appBar: AppBar(title: Text(pr0grammContent.fullsize)),
+        body: Center(child: pr0grammContent.bigPicture()),
+      ),
+    );
     return CupertinoPageScaffold(
       backgroundColor: richtigesGrau,
       navigationBar: CupertinoNavigationBar(
@@ -79,17 +90,24 @@ class ItemPageState extends State<ItemPage> {
           pr0grammContent.bigPicture(),
           _buildVotes(),
           TagPage(tagList: pr0grammTagList),
-          CommentPage(commentList: pr0grammCommentList),
+          Divider(
+            color: standardSchriftfarbe,
+          ),
+          Container(
+            child: CommentPage(commentList: pr0grammCommentList),
+          ),
         ]),
       ),
     );
   }
 
   makeGetRequest() async {
-    Pr0grammInfo pr0grammInfo = await ResponseParser.getPr0grammInfo(pr0grammContent.id);
+    Pr0grammInfo pr0grammInfo =
+        await ResponseParser.getPr0grammInfo(pr0grammContent.id);
     List<Pr0grammComment> pr0grammCommentListRequest =
         await ResponseParser.getComments(pr0grammInfo);
-    List<Pr0grammTag> pr0grammTagListRequest = await ResponseParser.getTags(pr0grammInfo);
+    List<Pr0grammTag> pr0grammTagListRequest =
+        await ResponseParser.getTags(pr0grammInfo);
     setState(() {
       pr0grammCommentList = pr0grammCommentListRequest;
       pr0grammTagList = pr0grammTagListRequest;

@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pr0gramm_app/api/debug.dart';
 import 'package:pr0gramm_app/api/preferences.dart';
 import 'package:pr0gramm_app/api/response_parser.dart';
 import 'package:pr0gramm_app/content/captchaContainer.dart';
@@ -159,7 +160,7 @@ class LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                sWrongLogin,
+                pr0grammLogin.error,
                 style: TextStyle(color: iRGENDWASDOOFESISTPASSIERTFarbe),
               ),
               Container(height: 10),
@@ -216,14 +217,25 @@ class LoginPageState extends State<LoginPage> {
     if (cookies != null) {
       await ResponseParser.setCookie(cookies);
       IsLoggedIn isLoggedIn = await ResponseParser.isLoggedIn();
+      print("Hein?");
       if (isLoggedIn.loggedIn) {
+        print("ok..");
         Navigator.push(
           context,
           CupertinoPageRoute(
             builder: (context) => MainPage(),
           ),
         );
+      } else {
+        if (internetDEBUG) {
+          print("Login:");
+          print(isLoggedIn.asString());
+        }
       }
+    }else{
+      String tempCook =
+          "__cfduid=d463a08599513638b71402629a9ac673e1565721753;me=%7B%22n%22%3A%22Stroboy%22%2C%22id%22%3A%22969e799a1233874388a9c9a359cd46d2%22%2C%22a%22%3A0%2C%22pp%22%3A%22727d1cc2%22%2C%22paid%22%3Afalse%7D;pp=cd398c952f42d20764b55bc2781f8d7f";
+      Preferences.saveCookies(tempCook);
     }
   }
 

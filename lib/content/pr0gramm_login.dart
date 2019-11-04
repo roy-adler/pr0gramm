@@ -10,6 +10,7 @@ class Pr0grammLogin extends StatelessWidget {
   final String cache;
   final int rt;
   final int qc;
+  final String error;
 
   Pr0grammLogin({
     this.success = false,
@@ -19,6 +20,7 @@ class Pr0grammLogin extends StatelessWidget {
     this.cache,
     this.rt,
     this.qc,
+    this.error,
   });
 
   factory Pr0grammLogin.fromJson(Map<String, dynamic> parsedJson) {
@@ -30,6 +32,7 @@ class Pr0grammLogin extends StatelessWidget {
       cache: parsedJson["cache"],
       rt: parsedJson["rt"],
       qc: parsedJson["qc"],
+      error: parsedJson["error"],
     );
   }
 
