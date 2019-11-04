@@ -8,3 +8,7 @@ ios/Flutter
 ios/Flutter/App.framework
 ios/Flutter
 ios/Flutter
+.dart_tool/flutter_build
+android
+*.log
+.DS_Store
