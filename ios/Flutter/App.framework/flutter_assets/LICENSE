@@ -1776,8 +1776,11 @@ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 --------------------------------------------------------------------------------
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 =======
+=======
+>>>>>>> Stashed changes
 archive
 
    Copyright 2013 Brendan Duncan
@@ -1872,7 +1875,10 @@ bzip2:
 
 --------------------------------------------------------------------------------
 args
+<<<<<<< Updated upstream
 intl
+=======
+>>>>>>> Stashed changes
 
 Copyright 2013, the Dart project authors. All rights reserved.
 Redistribution and use in source and binary forms, with or without
@@ -1902,7 +1908,10 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 --------------------------------------------------------------------------------
+<<<<<<< Updated upstream
 >>>>>>> 0f555806ff5a55813fc10686eaa03d0b20c79cab
+=======
+>>>>>>> Stashed changes
 async
 collection
 convert
@@ -9763,8 +9772,11 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --------------------------------------------------------------------------------
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 =======
+=======
+>>>>>>> Stashed changes
 image
 
  Copyright 2013 Brendan Duncan
@@ -9950,7 +9962,10 @@ http://www.limbicsoftware.com/quickpvr.html
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   
 --------------------------------------------------------------------------------
+<<<<<<< Updated upstream
 >>>>>>> 0f555806ff5a55813fc10686eaa03d0b20c79cab
+=======
+>>>>>>> Stashed changes
 khronos
 
 Copyright (c) 2013-2014 The Khronos Group Inc.
