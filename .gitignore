@@ -12,3 +12,4 @@ ios/Flutter
 android
 *.log
 .DS_Store
+.dart_tool/flutter_build
