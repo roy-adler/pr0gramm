@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:pr0gramm_app/content/captchaContainer.dart';
 import 'package:pr0gramm_app/content/is_loggedIn.dart';
 import 'package:pr0gramm_app/content/pr0gramm_comment.dart';
 import 'package:pr0gramm_app/content/pr0gramm_content.dart';
@@ -29,8 +30,9 @@ abstract class ResponseParser {
     Pr0grammContentContainer pr0grammContentContainer =
         await getPr0grammContentContainer(promoted, flags);
     List<Pr0grammContent> pr0grammContentList = List<Pr0grammContent>();
-    pr0grammContentList =
-        pr0grammContentContainer.items.map((i) => Pr0grammContent.fromJson(i)).toList();
+    pr0grammContentList = pr0grammContentContainer.items
+        .map((i) => Pr0grammContent.fromJson(i))
+        .toList();
     return pr0grammContentList;
   }
 
@@ -46,7 +48,8 @@ abstract class ResponseParser {
 
   static getTags(Pr0grammInfo pr0grammInfo) async {
     List<Pr0grammTag> pr0grammTagList = List<Pr0grammTag>();
-    pr0grammTagList = pr0grammInfo.tags.map((i) => Pr0grammTag.fromJson(i)).toList();
+    pr0grammTagList =
+        pr0grammInfo.tags.map((i) => Pr0grammTag.fromJson(i)).toList();
     return pr0grammTagList;
   }
 
@@ -58,9 +61,13 @@ abstract class ResponseParser {
   }
 
   //Login
-  static Future<Pr0grammLogin> getPr0grammLogin(
-      {String username, String password}) async {
-    Response response = await rrh.login(username, password);
+  static Future<Pr0grammLogin> getPr0grammLogin({
+    String username,
+    String password,
+    String captcha,
+    String token,
+  }) async {
+    Response response = await rrh.login(username, password, captcha, token);
     Map<String, dynamic> parsedJson = jsonDecode(response.body);
     return Pr0grammLogin.fromJson(parsedJson);
   }
@@ -75,5 +82,11 @@ abstract class ResponseParser {
     print("weiter..");
     Map<String, dynamic> parsedJson = jsonDecode(response.body);
     return IsLoggedIn.fromJson(parsedJson);
+  }
+
+  static Future<CaptchaContainer> getCaptcha() async {
+    Response response = await rrh.captcha();
+    Map<String, dynamic> parsedJson = jsonDecode(response.body);
+    return CaptchaContainer.fromJson(parsedJson);
   }
 }

@@ -1,8 +1,12 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pr0gramm_app/api/debug.dart';
 import 'package:pr0gramm_app/api/preferences.dart';
 import 'package:pr0gramm_app/api/response_parser.dart';
+import 'package:pr0gramm_app/content/captchaContainer.dart';
 import 'package:pr0gramm_app/content/is_loggedIn.dart';
 import 'package:pr0gramm_app/content/pr0gramm_login.dart';
 import 'package:pr0gramm_app/design/pr0_text.dart';
@@ -13,6 +17,7 @@ String sBenutzername = "Benutzername";
 String sAnmelden = "Anmelden";
 String sPasswort = "Passwort";
 String sWrongLogin = "Falscher Benutzername oder Passwort";
+String sNeuLaden = "Neu laden";
 
 class LoginPage extends StatefulWidget {
   @override
@@ -22,15 +27,19 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
-  TextEditingController usernameController;
-  TextEditingController passwordController;
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController captchaController = TextEditingController();
+  final FocusNode usernameFocusNode = FocusNode(debugLabel: "usrnmFocusNode");
+  final FocusNode passwordFocusNode = FocusNode(debugLabel: "pwFocusNode");
+  final FocusNode captchaFocusNode = FocusNode(debugLabel: "captchaFocusNode");
+
+  String token = "";
 
   @override
   initState() {
     super.initState();
     _loadLastLogin();
-    usernameController = TextEditingController();
-    passwordController = TextEditingController();
     _loadCache();
   }
 
@@ -40,6 +49,10 @@ class LoginPageState extends State<LoginPage> {
       placeholder: sBenutzername,
       cursorColor: pr0grammOrange,
       style: TextStyle(color: standardSchriftfarbe),
+      focusNode: usernameFocusNode,
+      onSubmitted: (String s) {
+        _fieldFocusChange(context, usernameFocusNode, passwordFocusNode);
+      },
     );
   }
 
@@ -50,6 +63,24 @@ class LoginPageState extends State<LoginPage> {
       cursorColor: pr0grammOrange,
       style: TextStyle(color: standardSchriftfarbe),
       obscureText: true,
+      focusNode: passwordFocusNode,
+      onSubmitted: (String s) {
+        _fieldFocusChange(context, passwordFocusNode, captchaFocusNode);
+      },
+    );
+  }
+
+  _captchaTextField() {
+    return CupertinoTextField(
+      controller: captchaController,
+      cursorColor: pr0grammOrange,
+      style: TextStyle(color: standardSchriftfarbe),
+      obscureText: false,
+      focusNode: captchaFocusNode,
+      onSubmitted: (String s) {
+        captchaFocusNode.unfocus();
+        _submit();
+      },
     );
   }
 
@@ -66,15 +97,29 @@ class LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            _usernameTextField(),
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: _usernameTextField(),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16),
               child: _passwordTextField(),
             ),
-            CupertinoButton(
-              child: Text(sAnmelden),
-              onPressed: () => _submit(),
-              color: pr0grammOrange,
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: _buildCaptcha(),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: _captchaTextField(),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: CupertinoButton(
+                child: Text(sAnmelden),
+                onPressed: () => _submit(),
+                color: pr0grammOrange,
+              ),
             )
           ],
         ),
@@ -83,10 +128,20 @@ class LoginPageState extends State<LoginPage> {
   }
 
   void _submit() async {
-    await _setCache();
+    usernameController.text = usernameController.text.trim();
+    passwordController.text = passwordController.text.trim();
+    Preferences.saveUsername(usernameController.text);
+    Preferences.savePassword(passwordController.text);
+
     Pr0grammLogin pr0grammLogin = await ResponseParser.getPr0grammLogin(
-        username: usernameController.text, password: passwordController.text);
+        username: usernameController.text,
+        password: passwordController.text,
+        captcha: captchaController.text,
+        token: token);
+
+    print(pr0grammLogin.asString());
     if (pr0grammLogin.success == true) {
+      await _setCache();
       Navigator.push(
         context,
         CupertinoPageRoute(
@@ -115,13 +170,29 @@ class LoginPageState extends State<LoginPage> {
                   "Ok",
                   style: TextStyle(color: standardSchriftfarbe),
                 ),
-                onPressed: () => Navigator.pop(context),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               )
             ],
           ),
         ),
       );
     }
+  }
+
+  _refreshButton() {
+    return CupertinoButton(
+      child: Text(sNeuLaden),
+      onPressed: () => setState(() {}),
+      color: pr0grammOrange,
+    );
+  }
+
+  _fieldFocusChange(
+      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);
   }
 
   _setCache() {
@@ -166,5 +237,32 @@ class LoginPageState extends State<LoginPage> {
           "__cfduid=d463a08599513638b71402629a9ac673e1565721753;me=%7B%22n%22%3A%22Stroboy%22%2C%22id%22%3A%22969e799a1233874388a9c9a359cd46d2%22%2C%22a%22%3A0%2C%22pp%22%3A%22727d1cc2%22%2C%22paid%22%3Afalse%7D;pp=cd398c952f42d20764b55bc2781f8d7f";
       Preferences.saveCookies(tempCook);
     }
+  }
+
+  Widget _buildCaptcha() {
+    return FutureBuilder(
+      future: ResponseParser.getCaptcha(),
+      builder: (context, snapshot) {
+        Image image;
+        if (snapshot.hasData) {
+          CaptchaContainer captchaContainer = snapshot.data;
+          print(captchaContainer.asString());
+          int position = captchaContainer.captcha.indexOf(',') + 1;
+          Uint8List decoded =
+              base64Decode(captchaContainer.captcha.substring(position));
+          token = captchaContainer.token;
+          image = Image.memory(decoded);
+        }
+        return Stack(
+          children: <Widget>[
+            AnimatedOpacity(
+              duration: Duration(milliseconds: 300),
+              opacity: snapshot.hasData ? 1 : 0,
+              child: image ?? Container(width: 360, height: 90),
+            ),
+          ],
+        );
+      },
+    );
   }
 }
