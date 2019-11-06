@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:pr0gramm_app/api/debug.dart';
 import 'package:pr0gramm_app/api/preferences.dart';
 import 'package:pr0gramm_app/api/response_parser.dart';
@@ -81,49 +82,6 @@ class LoginPageState extends State<LoginPage> {
         captchaFocusNode.unfocus();
         _submit();
       },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      backgroundColor: richtigesGrau,
-      navigationBar: CupertinoNavigationBar(
-        backgroundColor: ehemaligeHintergrundFarbeDerKommentare,
-        middle: Pr0Text("Login"),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(32.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: _usernameTextField(),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: _passwordTextField(),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: _buildCaptcha(),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: _captchaTextField(),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: CupertinoButton(
-                child: Text(sAnmelden),
-                onPressed: () => _submit(),
-                color: pr0grammOrange,
-              ),
-            )
-          ],
-        ),
-      ),
     );
   }
 
@@ -232,7 +190,7 @@ class LoginPageState extends State<LoginPage> {
           print(isLoggedIn.asString());
         }
       }
-    }else{
+    } else {
       String tempCook =
           "__cfduid=d463a08599513638b71402629a9ac673e1565721753;me=%7B%22n%22%3A%22Stroboy%22%2C%22id%22%3A%22969e799a1233874388a9c9a359cd46d2%22%2C%22a%22%3A0%2C%22pp%22%3A%22727d1cc2%22%2C%22paid%22%3Afalse%7D;pp=cd398c952f42d20764b55bc2781f8d7f";
       Preferences.saveCookies(tempCook);
@@ -263,6 +221,31 @@ class LoginPageState extends State<LoginPage> {
           ],
         );
       },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: richtigesGrau,
+      body: Scrollable(
+        viewportBuilder: (BuildContext context, ViewportOffset position) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              _usernameTextField(),
+              _passwordTextField(),
+              _buildCaptcha(),
+              _captchaTextField(),
+              CupertinoButton(
+                child: Text(sAnmelden),
+                onPressed: () => _submit(),
+                color: pr0grammOrange,
+              )
+            ],
+          );
+        },
+      ),
     );
   }
 }
