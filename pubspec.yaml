@@ -17,11 +17,12 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
-  intl: ^0.15.8
   shared_preferences: ^0.5.3+4
   flutter_linkify: 1.0.3
   url_launcher: ^4.0.3
-  video_player: ^0.5.1
+  intl:
+  video_player: "^0.5.1"
+  flutter_launcher_icons: ^0.7.4
   flutter:
     sdk: flutter
 

@@ -1,3 +1,9 @@
 build
 .idea
 .idea
+.dart_tool
+android/.gradle
+android/.gradle
+ios/.symlinks
+ios/Runner.xcodeproj
+
