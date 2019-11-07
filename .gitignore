@@ -36,3 +36,4 @@ lib/generated_plugin_registrant.dart
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 ios/Podfile
 ios/Podfile.lock
+.dart_tool/flutter_build/bc4c78a6c1cae0e5f6ace4a2ef958ada
