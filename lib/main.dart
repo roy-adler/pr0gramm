@@ -14,8 +14,16 @@ void main() => runApp(MainApp());
 class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return CupertinoApp(
-      home: LoadStart(),
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: CupertinoApp(
+        home: LoadStart(),
+      ),
     );
   }
 }
