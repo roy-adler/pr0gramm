@@ -57,7 +57,7 @@ class RequestResponseHandler {
     if (internetDEBUG) {
       print("IsLoggedIn");
     }
-    return  get(url: "/user/loggedin");
+    return get(url: "/user/loggedin");
   }
 
   Future<http.Response> captcha() async {
@@ -70,17 +70,15 @@ class RequestResponseHandler {
       print("Request: " + request);
       if (headers != null) print("Header: " + headers.toString());
     }
-    print("Okay okay..");
-    http.Response asd = await http.get(request, headers: headers);
-    print("ahaa");
-    return asd;
+    http.Response response = await http.get(request, headers: headers);
+    return response;
   }
 
   setCookie(String cookies) async {
     if (internetDEBUG) {
       print("Setting new cookie..");
     }
-     Preferences.saveCookies(cookies);
+    Preferences.saveCookies(cookies);
     headers['Cookie'] = cookies;
   }
 
