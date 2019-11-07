@@ -12,8 +12,9 @@ import 'package:pr0gramm_app/pages/tag_page.dart';
 
 class ItemPage extends StatefulWidget {
   final Pr0grammContent pr0grammContent;
+  final Function toggleFullscreen;
 
-  ItemPage({@required this.pr0grammContent});
+  ItemPage({@required this.pr0grammContent, this.toggleFullscreen});
 
   @override
   ItemPageState createState() {
@@ -71,6 +72,22 @@ class ItemPageState extends State<ItemPage> {
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(children: [
+        Align(
+          alignment: AlignmentDirectional.center,
+          child: pr0grammContent.bigPicture(),
+        ),
+        Align(
+          alignment: AlignmentDirectional.topEnd,
+          child: FlatButton(
+            onPressed: widget.toggleFullscreen,
+            child: Icon(Icons.fullscreen_exit),
+          ),
+        )
+      ]),
+    );
+
     return MaterialApp(
       title: 'Video Demo',
       home: Scaffold(
