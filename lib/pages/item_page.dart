@@ -73,19 +73,22 @@ class ItemPageState extends State<ItemPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(children: [
-        Align(
-          alignment: AlignmentDirectional.center,
-          child: pr0grammContent.bigPicture(),
-        ),
-        Align(
-          alignment: AlignmentDirectional.topEnd,
-          child: FlatButton(
-            onPressed: widget.toggleFullscreen,
-            child: Icon(Icons.fullscreen_exit),
+      backgroundColor: richtigesGrau,
+      body: Stack(
+        children: [
+          Align(
+            alignment: AlignmentDirectional.center,
+            child: pr0grammContent.bigPicture(),
           ),
-        )
-      ]),
+          Align(
+            alignment: AlignmentDirectional.topEnd,
+            child: FlatButton(
+              onPressed: widget.toggleFullscreen,
+              child: Icon(Icons.fullscreen_exit),
+            ),
+          )
+        ],
+      ),
     );
 
     return MaterialApp(

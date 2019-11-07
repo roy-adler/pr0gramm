@@ -26,7 +26,7 @@ class MainPageState extends State<MainPage> {
   int nSFW = 2;
   int nSFL = 4;
   double navFontSize = 12;
-
+  int itemPos = 0;
   bool sFWbool = true;
   bool nSFWbool = false;
   bool isFullscreen = false;
@@ -37,7 +37,7 @@ class MainPageState extends State<MainPage> {
     super.initState();
   }
 
-  _buildTagButton(String s, int i) {
+  _buildTagButton(String s, int i, int promoted) {
     return FlatButton(
       highlightColor: pr0grammOrange,
       onPressed: () {
@@ -51,22 +51,6 @@ class MainPageState extends State<MainPage> {
           fontSize: navFontSize,
         ),
       ),
-    );
-  }
-
-  _buildNavigatorButton(IconData iconData, Widget page) {
-    return CupertinoButton(
-      padding: EdgeInsets.all(0),
-      child: Icon(
-        iconData,
-        color: standardSchriftfarbe,
-      ),
-      onPressed: () {
-        Navigator.push(
-          context,
-          CupertinoPageRoute(builder: (context) => page),
-        );
-      },
     );
   }
 
@@ -129,6 +113,12 @@ class MainPageState extends State<MainPage> {
     return itemPageList;
   }
 
+  void toggleFullscreen() {
+    setState(() {
+      isFullscreen = !isFullscreen;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -160,10 +150,17 @@ class MainPageState extends State<MainPage> {
                       Expanded(
                         child: isFullscreen
                             ? PageView.builder(
+                                controller:
+                                    PageController(initialPage: itemPos),
+                                scrollDirection: Axis.vertical,
                                 itemCount: contentList.length,
                                 itemBuilder: (context, index) {
-                                  return _getItemPageList(
-                                      contentList, toggleFullscreen)[index];
+                                  List<ItemPage> itemPageList =
+                                      _getItemPageList(
+                                    contentList,
+                                    toggleFullscreen,
+                                  );
+                                  return itemPageList[index];
                                 },
                               )
                             : GridView.builder(
@@ -175,12 +172,14 @@ class MainPageState extends State<MainPage> {
                                   return Padding(
                                     padding: const EdgeInsets.all(4.0),
                                     child: GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            isFullscreen = !isFullscreen;
-                                          });
-                                        },
-                                        child: snapshot.data[index]),
+                                      onTap: () {
+                                        setState(() {
+                                          itemPos = index;
+                                          toggleFullscreen();
+                                        });
+                                      },
+                                      child: snapshot.data[index],
+                                    ),
                                   );
                                 },
                               ),
@@ -194,26 +193,6 @@ class MainPageState extends State<MainPage> {
 
           return LoadingIndicator();
         },
-      ),
-    );
-  }
-
-  void toggleFullscreen() {
-    setState(() {
-      isFullscreen = !isFullscreen;
-    });
-  }
-
-  _retryButton() {
-    return Center(
-      child: CupertinoButton(
-        padding: EdgeInsets.all(32),
-        color: pr0grammOrange,
-        child: Text(
-          sFail,
-          style: TextStyle(color: standardSchriftfarbe),
-        ),
-        onPressed: () => setState(() => null),
       ),
     );
   }
