@@ -14,8 +14,16 @@ void main() => runApp(MainApp());
 class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return CupertinoApp(
-      home: LoadStart(),
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: MaterialApp(
+        home: LoadStart(),
+      ),
     );
   }
 }
@@ -35,9 +43,9 @@ class LoadStart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
+    return Scaffold(
       backgroundColor: richtigesGrau,
-      child: FutureBuilder(
+      body: FutureBuilder(
         future: _loadLastLogin(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {

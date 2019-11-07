@@ -29,6 +29,7 @@ class MainPageState extends State<MainPage> {
 
   bool sFWbool = true;
   bool nSFWbool = false;
+  bool isFullscreen = false;
 
   @override
   void initState() {
@@ -112,40 +113,36 @@ class MainPageState extends State<MainPage> {
     return flags;
   }
 
-  List<ItemPage> _getItemPageList(List<Pr0grammContent> list) {
+  List<ItemPage> _getItemPageList(
+    List<Pr0grammContent> list,
+    Function toggleFullscreen,
+  ) {
     List<ItemPage> itemPageList = [];
-    list.forEach((Pr0grammContent element) =>
-        itemPageList.add(ItemPage(pr0grammContent: element)));
+    list.forEach(
+      (Pr0grammContent element) => itemPageList.add(
+        ItemPage(
+          pr0grammContent: element,
+          toggleFullscreen: toggleFullscreen,
+        ),
+      ),
+    );
     return itemPageList;
   }
 
-  bool isFullscreen = false;
-
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      backgroundColor: richtigesGrau,
-      navigationBar: CupertinoNavigationBar(
+    return Scaffold(
+      appBar: AppBar(
         backgroundColor: ehemaligeHintergrundFarbeDerKommentare,
-        leading: Container(
-          width: 0,
-        ),
-        middle: Row(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Flexible(child: _buildTagButton("neu", 0)),
-            Flexible(child: _buildTagButton("beliebt", 1)),
-            Flexible(child: _sFW()),
-            Flexible(child: _nSFW()),
-            // Flexible(
-            //    child:
-            //        _buildNavigatorButton(Icons.account_circle, AccountPage())),
-            // Flexible(child: _buildNavigatorButton(Icons.mail, MailPage())),
-          ],
-        ),
+        actions: <Widget>[
+          Flexible(child: _buildTagButton("neu", 0)),
+          Flexible(child: _buildTagButton("beliebt", 1)),
+          Flexible(child: _sFW()),
+          Flexible(child: _nSFW()),
+        ],
       ),
-      child: FutureBuilder(
+      backgroundColor: richtigesGrau,
+      body: FutureBuilder(
         future: ResponseParser.getPr0grammContentList(promoted, _createFlags()),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -165,7 +162,8 @@ class MainPageState extends State<MainPage> {
                             ? PageView.builder(
                                 itemCount: contentList.length,
                                 itemBuilder: (context, index) {
-                                  return _getItemPageList(contentList)[index];
+                                  return _getItemPageList(
+                                      contentList, toggleFullscreen)[index];
                                 },
                               )
                             : GridView.builder(
@@ -198,6 +196,12 @@ class MainPageState extends State<MainPage> {
         },
       ),
     );
+  }
+
+  void toggleFullscreen() {
+    setState(() {
+      isFullscreen = !isFullscreen;
+    });
   }
 
   _retryButton() {
