@@ -1,19 +1,20 @@
 import 'dart:convert';
+import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
+import 'dart:wasm';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:pr0gramm_app/api/debug.dart';
 import 'package:pr0gramm_app/api/preferences.dart';
 import 'package:pr0gramm_app/api/response_parser.dart';
 import 'package:pr0gramm_app/content/captchaContainer.dart';
-import 'package:pr0gramm_app/content/is_loggedIn.dart';
 import 'package:pr0gramm_app/content/pr0gramm_login.dart';
 import 'package:pr0gramm_app/design/pr0_text.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
 import 'package:pr0gramm_app/pages/main_page.dart';
+import 'package:giphy_client/giphy_client.dart';
 
 String sBenutzername = "Benutzername";
 String sAnmelden = "Anmelden";
@@ -45,15 +46,20 @@ class LoginPageState extends State<LoginPage> {
   }
 
   _usernameTextField() {
-    return CupertinoTextField(
-      controller: usernameController,
-      placeholder: sBenutzername,
-      cursorColor: pr0grammOrange,
-      style: TextStyle(color: Colors.black),
-      focusNode: usernameFocusNode,
-      onSubmitted: (String s) {
-        _fieldFocusChange(context, usernameFocusNode, passwordFocusNode);
-      },
+    return Column(
+      children: <Widget>[
+        Align(child: Pr0Text(sBenutzername, textAlign: TextAlign.start,)),
+        CupertinoTextField(
+          controller: usernameController,
+          placeholder: sBenutzername,
+          cursorColor: pr0grammOrange,
+          style: TextStyle(color: Colors.black),
+          focusNode: usernameFocusNode,
+          onSubmitted: (String s) {
+            _fieldFocusChange(context, usernameFocusNode, passwordFocusNode);
+          },
+        ),
+      ],
     );
   }
 
@@ -179,10 +185,12 @@ class LoginPageState extends State<LoginPage> {
           CaptchaContainer captchaContainer = snapshot.data;
           print(captchaContainer.asString());
           int position = captchaContainer.captcha.indexOf(',') + 1;
-          Uint8List decoded =
-              base64Decode(captchaContainer.captcha.substring(position));
-          token = captchaContainer.token;
-          image = Image.memory(decoded);
+          if (captchaContainer.captcha.length > position) {
+            Uint8List decoded =
+                base64Decode(captchaContainer.captcha.substring(position));
+            token = captchaContainer.token;
+            image = Image.memory(decoded);
+          }
         }
         return Stack(
           children: <Widget>[
@@ -197,36 +205,78 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
+  giphy() async {
+    final GiphyClient client =
+        new GiphyClient(apiKey: 'ld3KZO5fFhCj5beHTMJ3NcrmBy8nIuNm');
+    final GiphyCollection gifs = await client.trending();
+
+    var rng = new Random();
+    // Fetch & print a collection with options
+    final nsfwGifs = await client.search(
+      "hyperlapse",
+      offset: rng.nextInt(30),
+      limit: 30,
+      rating: GiphyRating.r,
+    );
+
+    print(nsfwGifs.data.first);
+    var a = nsfwGifs.data.first.images.fixedHeight;
+    return a.url;
+  }
+
+  Widget _buildBackground() {
+    return FutureBuilder(
+      future: giphy(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Image.network(
+            snapshot.data,
+            fit: BoxFit.fitHeight,
+          );
+        }
+        return Image.network(
+          'https://media.giphy.com/media/3o84U78CXEB2opZd4I/giphy.gif',
+          fit: BoxFit.fitHeight,
+        );
+      },
+    );
+  }
+
+  Widget _loginFields() {
+    return Padding(
+      padding: const EdgeInsets.all(32.0),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: Container(
+          //decoration: BoxDecoration(color: richtigesGrau.withOpacity(0.5)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              _usernameTextField(),
+              _passwordTextField(),
+              _buildCaptcha(),
+              _captchaTextField(),
+              CupertinoButton(
+                child: Text(sAnmelden),
+                onPressed: () => _submit(),
+                color: pr0grammOrange,
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    giphy();
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          Image.network(
-            'https://media.giphy.com/media/3o84U78CXEB2opZd4I/giphy.gif',
-            fit: BoxFit.fitHeight,
-          ),
-          BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Container(
-              //decoration: BoxDecoration(color: richtigesGrau.withOpacity(0.5)),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  _usernameTextField(),
-                  _passwordTextField(),
-                  _buildCaptcha(),
-                  _captchaTextField(),
-                  CupertinoButton(
-                    child: Text(sAnmelden),
-                    onPressed: () => _submit(),
-                    color: pr0grammOrange,
-                  )
-                ],
-              ),
-            ),
-          ),
+          _buildBackground(),
+          _loginFields(),
         ],
       ),
     );
