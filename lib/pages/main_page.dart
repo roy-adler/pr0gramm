@@ -5,6 +5,7 @@ import 'package:pr0gramm_app/content/pr0gramm_content.dart';
 import 'package:pr0gramm_app/content/pr0gramm_login.dart';
 import 'package:pr0gramm_app/pages/item_page.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
+import 'package:pr0gramm_app/pages/login_page.dart';
 import 'package:pr0gramm_app/widgets/loadingIndicator.dart';
 
 class MainPage extends StatefulWidget {
@@ -127,6 +128,14 @@ class MainPageState extends State<MainPage> {
         actions: <Widget>[
           Flexible(child: _buildTagButton("neu", 0)),
           Flexible(child: _buildTagButton("beliebt", 1)),
+          FlatButton(
+            child: Icon(
+              Icons.exit_to_app,
+              color: Colors.white,
+            ),
+            onPressed: () => Navigator.push(
+                context, MaterialPageRoute(builder: (context) => LoginPage())),
+          ),
           Flexible(child: _sFW()),
           Flexible(child: _nSFW()),
         ],
