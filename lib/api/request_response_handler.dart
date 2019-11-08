@@ -53,6 +53,10 @@ class RequestResponseHandler {
     ));
   }
 
+  Future<http.Response> logout() async {
+    return get(url: "/user/logout");
+  }
+
   Future<http.Response> isLoggedIn() async {
     if (internetDEBUG) {
       print("IsLoggedIn");

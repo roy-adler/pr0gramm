@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pr0gramm_app/api/response_parser.dart';
 import 'package:pr0gramm_app/content/pr0gramm_content.dart';
 import 'package:pr0gramm_app/content/pr0gramm_login.dart';
+import 'package:pr0gramm_app/content/pr0gramm_logout.dart';
 import 'package:pr0gramm_app/pages/item_page.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
 import 'package:pr0gramm_app/pages/login_page.dart';
@@ -141,8 +142,14 @@ class MainPageState extends State<MainPage> {
               Icons.exit_to_app,
               color: Colors.white,
             ),
-            onPressed: () => Navigator.push(
-                context, MaterialPageRoute(builder: (context) => LoginPage())),
+            onPressed: () async {
+              Pr0grammLogout pr0grammLogout = await ResponseParser.logout();
+              if (pr0grammLogout.success == true) {
+                ResponseParser.setCookie("");
+                return Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginPage()));
+              }
+            },
           ),
           Flexible(child: _sFW()),
           Flexible(child: _nSFW()),

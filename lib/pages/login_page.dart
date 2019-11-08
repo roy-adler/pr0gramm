@@ -40,7 +40,6 @@ class LoginPageState extends State<LoginPage> {
   @override
   initState() {
     super.initState();
-    _loadLastLogin();
     _loadCache();
   }
 
@@ -49,7 +48,7 @@ class LoginPageState extends State<LoginPage> {
       controller: usernameController,
       placeholder: sBenutzername,
       cursorColor: pr0grammOrange,
-      style: TextStyle(color: standardSchriftfarbe),
+      style: TextStyle(color: Colors.black),
       focusNode: usernameFocusNode,
       onSubmitted: (String s) {
         _fieldFocusChange(context, usernameFocusNode, passwordFocusNode);
@@ -168,33 +167,6 @@ class LoginPageState extends State<LoginPage> {
       passwordController.text = passWord;
     }
 //    setState(() {});
-  }
-
-  void _loadLastLogin() async {
-    String cookies = await Preferences.cookies();
-    if (cookies != null) {
-      await ResponseParser.setCookie(cookies);
-      IsLoggedIn isLoggedIn = await ResponseParser.isLoggedIn();
-      print("Hein?");
-      if (isLoggedIn.loggedIn) {
-        print("ok..");
-        Navigator.push(
-          context,
-          CupertinoPageRoute(
-            builder: (context) => MainPage(),
-          ),
-        );
-      } else {
-        if (internetDEBUG) {
-          print("Login:");
-          print(isLoggedIn.asString());
-        }
-      }
-    } else {
-      String tempCook =
-          "__cfduid=d463a08599513638b71402629a9ac673e1565721753;me=%7B%22n%22%3A%22Stroboy%22%2C%22id%22%3A%22969e799a1233874388a9c9a359cd46d2%22%2C%22a%22%3A0%2C%22pp%22%3A%22727d1cc2%22%2C%22paid%22%3Afalse%7D;pp=cd398c952f42d20764b55bc2781f8d7f";
-      Preferences.saveCookies(tempCook);
-    }
   }
 
   Widget _buildCaptcha() {

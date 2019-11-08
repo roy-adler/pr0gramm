@@ -9,6 +9,7 @@ import 'package:pr0gramm_app/content/pr0gramm_content_container.dart';
 import 'package:pr0gramm_app/api/request_response_handler.dart';
 import 'package:pr0gramm_app/content/pr0gramm_info.dart';
 import 'package:pr0gramm_app/content/pr0gramm_login.dart';
+import 'package:pr0gramm_app/content/pr0gramm_logout.dart';
 import 'package:pr0gramm_app/content/pr0gramm_tag.dart';
 
 abstract class ResponseParser {
@@ -77,11 +78,15 @@ abstract class ResponseParser {
   }
 
   static Future<IsLoggedIn> isLoggedIn() async {
-    print("Vorer..");
     Response response = await rrh.isLoggedIn();
-    print("weiter..");
     Map<String, dynamic> parsedJson = jsonDecode(response.body);
     return IsLoggedIn.fromJson(parsedJson);
+  }
+
+  static Future<Pr0grammLogout> logout() async {
+    Response response = await rrh.logout();
+    Map<String, dynamic> parsedJson = jsonDecode(response.body);
+    return Pr0grammLogout.fromJson(parsedJson);
   }
 
   static Future<CaptchaContainer> getCaptcha() async {
