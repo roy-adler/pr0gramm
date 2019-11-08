@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
-import 'dart:wasm';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -48,7 +46,14 @@ class LoginPageState extends State<LoginPage> {
   _usernameTextField() {
     return Column(
       children: <Widget>[
-        Align(child: Pr0Text(sBenutzername, textAlign: TextAlign.start,)),
+        Align(
+          alignment: AlignmentDirectional.centerStart,
+          child: Pr0Text(
+            sBenutzername,
+            textAlign: TextAlign.start,
+            heading: true,
+          ),
+        ),
         CupertinoTextField(
           controller: usernameController,
           placeholder: sBenutzername,
@@ -64,16 +69,28 @@ class LoginPageState extends State<LoginPage> {
   }
 
   _passwordTextField() {
-    return CupertinoTextField(
-      controller: passwordController,
-      placeholder: sPasswort,
-      cursorColor: pr0grammOrange,
-      style: TextStyle(color: standardSchriftfarbe),
-      obscureText: true,
-      focusNode: passwordFocusNode,
-      onSubmitted: (String s) {
-        _fieldFocusChange(context, passwordFocusNode, captchaFocusNode);
-      },
+    return Column(
+      children: <Widget>[
+        Align(
+          alignment: AlignmentDirectional.centerStart,
+          child: Pr0Text(
+            sPasswort,
+            textAlign: TextAlign.start,
+            heading: true,
+          ),
+        ),
+        CupertinoTextField(
+          controller: passwordController,
+          placeholder: sPasswort,
+          cursorColor: pr0grammOrange,
+          style: TextStyle(color: standardSchriftfarbe),
+          obscureText: true,
+          focusNode: passwordFocusNode,
+          onSubmitted: (String s) {
+            _fieldFocusChange(context, passwordFocusNode, captchaFocusNode);
+          },
+        ),
+      ],
     );
   }
 
@@ -177,31 +194,39 @@ class LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildCaptcha() {
-    return FutureBuilder(
-      future: ResponseParser.getCaptcha(),
-      builder: (context, snapshot) {
-        Image image;
-        if (snapshot.hasData) {
-          CaptchaContainer captchaContainer = snapshot.data;
-          print(captchaContainer.asString());
-          int position = captchaContainer.captcha.indexOf(',') + 1;
-          if (captchaContainer.captcha.length > position) {
-            Uint8List decoded =
-                base64Decode(captchaContainer.captcha.substring(position));
-            token = captchaContainer.token;
-            image = Image.memory(decoded);
-          }
-        }
-        return Stack(
-          children: <Widget>[
-            AnimatedOpacity(
-              duration: Duration(milliseconds: 300),
-              opacity: snapshot.hasData ? 1 : 0,
-              child: image ?? Container(width: 360, height: 90),
-            ),
-          ],
-        );
-      },
+    return Material(
+      borderRadius: BorderRadius.circular(10.0),
+      clipBehavior: Clip.antiAlias,
+      child: Container(
+        width: 360,
+        height: 90,
+        child: FutureBuilder(
+          future: ResponseParser.getCaptcha(),
+          builder: (context, snapshot) {
+            Image image;
+            if (snapshot.hasData) {
+              CaptchaContainer captchaContainer = snapshot.data;
+              print(captchaContainer.asString());
+              int position = captchaContainer.captcha.indexOf(',') + 1;
+              if (captchaContainer.captcha.length > position) {
+                Uint8List decoded =
+                    base64Decode(captchaContainer.captcha.substring(position));
+                token = captchaContainer.token;
+                image = Image.memory(decoded);
+              }
+            }
+            return Stack(
+              children: <Widget>[
+                AnimatedOpacity(
+                  duration: Duration(milliseconds: 300),
+                  opacity: snapshot.hasData ? 1 : 0,
+                  child: image ?? Container(width: 360, height: 90),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
     );
   }
 
@@ -253,6 +278,9 @@ class LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               _usernameTextField(),
+              Container(
+                height: 10,
+              ),
               _passwordTextField(),
               _buildCaptcha(),
               _captchaTextField(),
