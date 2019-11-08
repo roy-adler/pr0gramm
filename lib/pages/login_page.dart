@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -199,24 +200,34 @@ class LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: richtigesGrau,
-      body: Scrollable(
-        viewportBuilder: (BuildContext context, ViewportOffset position) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              _usernameTextField(),
-              _passwordTextField(),
-              _buildCaptcha(),
-              _captchaTextField(),
-              CupertinoButton(
-                child: Text(sAnmelden),
-                onPressed: () => _submit(),
-                color: pr0grammOrange,
-              )
-            ],
-          );
-        },
+      body: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          Image.network(
+            'https://media.giphy.com/media/3o84U78CXEB2opZd4I/giphy.gif',
+            fit: BoxFit.fitHeight,
+          ),
+          BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            child: Container(
+              //decoration: BoxDecoration(color: richtigesGrau.withOpacity(0.5)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  _usernameTextField(),
+                  _passwordTextField(),
+                  _buildCaptcha(),
+                  _captchaTextField(),
+                  CupertinoButton(
+                    child: Text(sAnmelden),
+                    onPressed: () => _submit(),
+                    color: pr0grammOrange,
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
