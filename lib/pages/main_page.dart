@@ -22,7 +22,7 @@ class MainPage extends StatefulWidget {
 class MainPageState extends State<MainPage> {
   String sFail =
       "Ups, da ist wohl etwas schief gelaufen!\nZum neu laden clicken";
-  int promoted;
+  int promoted = 1;
   int sFW = 9;
   int nSFW = 2;
   int nSFL = 4;
@@ -125,9 +125,17 @@ class MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ehemaligeHintergrundFarbeDerKommentare,
+        shape: RoundedRectangleBorder(
+          side: BorderSide(
+            width: 4,
+            style: BorderStyle.solid,
+          ),
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          ),
+        ),
         actions: <Widget>[
-          Flexible(child: _buildTagButton("neu", 0)),
-          Flexible(child: _buildTagButton("beliebt", 1)),
           FlatButton(
             child: Icon(
               Icons.exit_to_app,
