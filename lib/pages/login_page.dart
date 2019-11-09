@@ -17,6 +17,7 @@ import 'package:giphy_client/giphy_client.dart';
 String sBenutzername = "Benutzername";
 String sAnmelden = "Anmelden";
 String sPasswort = "Passwort";
+String sCaptcha = "Captcha";
 String sWrongLogin = "Falscher Benutzername oder Passwort";
 String sNeuLaden = "Neu laden";
 
@@ -83,7 +84,7 @@ class LoginPageState extends State<LoginPage> {
           controller: passwordController,
           placeholder: sPasswort,
           cursorColor: pr0grammOrange,
-          style: TextStyle(color: standardSchriftfarbe),
+          style: TextStyle(color: Colors.black),
           obscureText: true,
           focusNode: passwordFocusNode,
           onSubmitted: (String s) {
@@ -95,16 +96,29 @@ class LoginPageState extends State<LoginPage> {
   }
 
   _captchaTextField() {
-    return CupertinoTextField(
-      controller: captchaController,
-      cursorColor: pr0grammOrange,
-      style: TextStyle(color: standardSchriftfarbe),
-      obscureText: false,
-      focusNode: captchaFocusNode,
-      onSubmitted: (String s) {
-        captchaFocusNode.unfocus();
-        _submit();
-      },
+    return Column(
+      children: <Widget>[
+        _buildCaptcha(),
+        Align(
+          alignment: AlignmentDirectional.centerStart,
+          child: Pr0Text(
+            sCaptcha,
+            textAlign: TextAlign.start,
+            heading: true,
+          ),
+        ),
+        CupertinoTextField(
+          controller: captchaController,
+          cursorColor: pr0grammOrange,
+          style: TextStyle(color: Colors.black),
+          obscureText: false,
+          focusNode: captchaFocusNode,
+          onSubmitted: (String s) {
+            captchaFocusNode.unfocus();
+            _submit();
+          },
+        ),
+      ],
     );
   }
 
@@ -197,35 +211,32 @@ class LoginPageState extends State<LoginPage> {
     return Material(
       borderRadius: BorderRadius.circular(10.0),
       clipBehavior: Clip.antiAlias,
-      child: Container(
-        width: 360,
-        height: 90,
-        child: FutureBuilder(
-          future: ResponseParser.getCaptcha(),
-          builder: (context, snapshot) {
-            Image image;
-            if (snapshot.hasData) {
-              CaptchaContainer captchaContainer = snapshot.data;
-              print(captchaContainer.asString());
-              int position = captchaContainer.captcha.indexOf(',') + 1;
-              if (captchaContainer.captcha.length > position) {
-                Uint8List decoded =
-                    base64Decode(captchaContainer.captcha.substring(position));
-                token = captchaContainer.token;
-                image = Image.memory(decoded);
-              }
+      child: FutureBuilder(
+        future: ResponseParser.getCaptcha(),
+        builder: (context, snapshot) {
+          Image image;
+          if (snapshot.hasData) {
+            CaptchaContainer captchaContainer = snapshot.data;
+            print(captchaContainer.asString());
+            int position = captchaContainer.captcha.indexOf(',') + 1;
+            if (captchaContainer.captcha.length > position) {
+              Uint8List decoded =
+                  base64Decode(captchaContainer.captcha.substring(position));
+              token = captchaContainer.token;
+              image = Image.memory(decoded);
             }
-            return Stack(
-              children: <Widget>[
-                AnimatedOpacity(
-                  duration: Duration(milliseconds: 300),
-                  opacity: snapshot.hasData ? 1 : 0,
-                  child: image ?? Container(width: 360, height: 90),
-                ),
-              ],
-            );
-          },
-        ),
+          }
+          return Stack(
+            children: <Widget>[
+              AnimatedOpacity(
+                curve: Curves.easeOut,
+                duration: Duration(milliseconds: 400),
+                opacity: snapshot.hasData ? 1 : 0,
+                child: image ?? Container(width: 360, height: 90),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -271,26 +282,22 @@ class LoginPageState extends State<LoginPage> {
     return Padding(
       padding: const EdgeInsets.all(32.0),
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        child: Container(
-          //decoration: BoxDecoration(color: richtigesGrau.withOpacity(0.5)),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              _usernameTextField(),
-              Container(
-                height: 10,
-              ),
-              _passwordTextField(),
-              _buildCaptcha(),
-              _captchaTextField(),
-              CupertinoButton(
-                child: Text(sAnmelden),
-                onPressed: () => _submit(),
-                color: pr0grammOrange,
-              )
-            ],
-          ),
+        filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            _usernameTextField(),
+            Container(height: 10),
+            _passwordTextField(),
+            Container(height: 10),
+            _captchaTextField(),
+            Container(height: 10),
+            CupertinoButton(
+              child: Text(sAnmelden),
+              onPressed: () => _submit(),
+              color: pr0grammOrange,
+            )
+          ],
         ),
       ),
     );
