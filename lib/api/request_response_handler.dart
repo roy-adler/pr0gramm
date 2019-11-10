@@ -15,6 +15,10 @@ class RequestResponseHandler {
     return retString.substring(0, retString.length - 1);
   }
 
+  Future<http.Response> itemsGetWithoutPermission() {
+    return get(url: "/items/get");
+  }
+
   Future<http.Response> itemsGet(
       {int promotedNum = 1, int flagsNum = 9}) async {
     List<String> paramList = [];

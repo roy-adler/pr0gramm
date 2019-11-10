@@ -8,11 +8,15 @@ import 'package:flutter/rendering.dart';
 import 'package:pr0gramm_app/api/preferences.dart';
 import 'package:pr0gramm_app/api/response_parser.dart';
 import 'package:pr0gramm_app/content/captchaContainer.dart';
+import 'package:pr0gramm_app/content/pr0gramm_content.dart';
 import 'package:pr0gramm_app/content/pr0gramm_login.dart';
 import 'package:pr0gramm_app/design/pr0_text.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
 import 'package:pr0gramm_app/pages/main_page.dart';
 import 'package:giphy_client/giphy_client.dart';
+import 'package:pr0gramm_app/widgets/loadingIndicator.dart';
+import 'package:pr0gramm_app/widgets/pr0_dialog.dart';
+import 'package:pr0gramm_app/widgets/giphy.dart';
 
 String sBenutzername = "Benutzername";
 String sAnmelden = "Anmelden";
@@ -147,41 +151,8 @@ class LoginPageState extends State<LoginPage> {
         ),
       );
     } else {
-      showCupertinoDialog(
-        context: context,
-        builder: (context) => Container(
-          color: richtigesGrau.withAlpha(170),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                pr0grammLogin.error,
-                style: TextStyle(color: iRGENDWASDOOFESISTPASSIERTFarbe),
-              ),
-              Container(height: 10),
-              CupertinoButton(
-                color: pr0grammOrange,
-                child: Text(
-                  "Ok",
-                  style: TextStyle(color: standardSchriftfarbe),
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              )
-            ],
-          ),
-        ),
-      );
+      Pr0Dialog(pr0grammLogin.userError(), context);
     }
-  }
-
-  _refreshButton() {
-    return CupertinoButton(
-      child: Text(sNeuLaden),
-      onPressed: () => setState(() {}),
-      color: pr0grammOrange,
-    );
   }
 
   _fieldFocusChange(
@@ -241,26 +212,47 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
-  giphy() async {
-    final GiphyClient client =
-        new GiphyClient(apiKey: 'ld3KZO5fFhCj5beHTMJ3NcrmBy8nIuNm');
-    final GiphyCollection gifs = await client.trending();
-
-    var rng = new Random();
-    // Fetch & print a collection with options
-    final nsfwGifs = await client.search(
-      "hyperlapse",
-      offset: rng.nextInt(30),
-      limit: 30,
-      rating: GiphyRating.r,
+  Widget _buildBackground() {
+    return Scaffold(
+      backgroundColor: richtigesGrau,
+      body: FutureBuilder(
+        future: ResponseParser.getContentWithoutPermission(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<Pr0grammContent> contentList = snapshot.data;
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: SizedBox(
+                  // width: 300,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        child: GridView.builder(
+                          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                              maxCrossAxisExtent: 150),
+                          itemCount: contentList.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: contentList[index],
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }
+          return Container(color: Colors.red, height: 800, width: 200,);
+        },
+      ),
     );
 
-    print(nsfwGifs.data.first);
-    var a = nsfwGifs.data.first.images.fixedHeight;
-    return a.url;
-  }
-
-  Widget _buildBackground() {
     return FutureBuilder(
       future: giphy(),
       builder: (context, snapshot) {
@@ -282,7 +274,7 @@ class LoginPageState extends State<LoginPage> {
     return Padding(
       padding: const EdgeInsets.all(32.0),
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -305,7 +297,6 @@ class LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    giphy();
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,

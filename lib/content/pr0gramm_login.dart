@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
+import 'package:pr0gramm_app/widgets/greyText.dart';
 
 class Pr0grammLogin extends StatelessWidget {
   final bool success;
@@ -38,14 +38,18 @@ class Pr0grammLogin extends StatelessWidget {
 
   String asString() {
     String heading = "Pr0grammLogin:\n";
-    String body =
-        " success: $success\n ban: $ban\n identifier: $identifier\n"
+    String body = " success: $success\n ban: $ban\n identifier: $identifier\n"
         " ts: $ts\n cache: $cache\n rt: $rt\n qc: $qc\n";
     return heading + body;
   }
 
-  greyText(String s) {
-    return Text(s, style: TextStyle(color: standardSchriftfarbe));
+  String userError() {
+    if (error.toLowerCase().contains("captcha")) {
+      return "Falsches Captcha";
+    } else if (error.toLowerCase().contains("login")) {
+      return "Falsche Login-Daten";
+    }
+    return "Server: " + error;
   }
 
   @override

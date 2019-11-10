@@ -16,19 +16,31 @@ abstract class ResponseParser {
   static RequestResponseHandler rrh = RequestResponseHandler();
 
   //Content
-  static Future<Pr0grammContentContainer> getPr0grammContentContainer(
-      int promoted, int flags) async {
+  static Future<Pr0ContentContainer> getPr0grammContentContainer(
+    int promoted,
+    int flags,
+  ) async {
     Response response =
         await rrh.itemsGet(promotedNum: promoted, flagsNum: flags);
     Map<String, dynamic> parsedJson = jsonDecode(response.body);
-    Pr0grammContentContainer pr0grammContentContainer =
-        Pr0grammContentContainer.fromJson(parsedJson);
-    return pr0grammContentContainer;
+    final contentContainer = Pr0ContentContainer.fromJson(parsedJson);
+    return contentContainer;
+  }
+
+  static Future<List<Pr0grammContent>> getContentWithoutPermission() async {
+    Response response = await rrh.itemsGetWithoutPermission();
+    Map<String, dynamic> parsedJson = jsonDecode(response.body);
+    final contentContainer = Pr0ContentContainer.fromJson(parsedJson);
+
+    List<Pr0grammContent> pr0grammContentList = List<Pr0grammContent>();
+    pr0grammContentList =
+        contentContainer.items.map((i) => Pr0grammContent.fromJson(i)).toList();
+    return pr0grammContentList;
   }
 
   static Future<List<Pr0grammContent>> getPr0grammContentList(
       int promoted, int flags) async {
-    Pr0grammContentContainer pr0grammContentContainer =
+    Pr0ContentContainer pr0grammContentContainer =
         await getPr0grammContentContainer(promoted, flags);
     List<Pr0grammContent> pr0grammContentList = List<Pr0grammContent>();
     pr0grammContentList = pr0grammContentContainer.items
