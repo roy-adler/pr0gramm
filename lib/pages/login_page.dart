@@ -133,10 +133,11 @@ class LoginPageState extends State<LoginPage> {
     Preferences.savePassword(passwordController.text);
 
     Pr0grammLogin pr0grammLogin = await ResponseParser.getPr0grammLogin(
-        username: usernameController.text,
-        password: passwordController.text,
-        captcha: captchaController.text,
-        token: pr0captcha.token);
+      username: usernameController.text,
+      password: passwordController.text,
+      captcha: captchaController.text,
+      token: pr0captcha.token,
+    );
 
     print(pr0grammLogin.asString());
     if (pr0grammLogin.success == true) {
@@ -225,10 +226,10 @@ class LoginPageState extends State<LoginPage> {
   }
 
   Widget _loginFields() {
-    return Padding(
-      padding: const EdgeInsets.all(32.0),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+    return BackdropFilter(
+      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+      child: Padding(
+        padding: const EdgeInsets.all(32.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
