@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:pr0gramm_app/api/debug.dart';
 import 'package:pr0gramm_app/api/preferences.dart';
 import 'package:pr0gramm_app/api/response_parser.dart';
 import 'package:pr0gramm_app/content/captchaContainer.dart';
@@ -139,7 +140,9 @@ class LoginPageState extends State<LoginPage> {
       token: pr0captcha.token,
     );
 
-    print(pr0grammLogin.asString());
+    if (internetDEBUG) {
+      print(pr0grammLogin.asString());
+    }
     if (pr0grammLogin.success == true) {
       await _setCache();
       Navigator.push(
@@ -152,9 +155,16 @@ class LoginPageState extends State<LoginPage> {
         ),
       );
     } else {
-      Pr0Dialog(pr0grammLogin.userError(), context, function: pr0captcha.loadNewcaptcha);
+      Pr0Dialog(pr0grammLogin.userError(), context,
+          function: pr0captcha.loadNewcaptcha);
       setState(() {
-        if(pr0grammLogin.userError())
+        captchaController.text = "";
+        if (pr0grammLogin.loginError() == LoginError.userdata) {
+          passwordController.text = "";
+          _fieldFocusChange(context, captchaFocusNode, passwordFocusNode);
+        } else if (pr0grammLogin.loginError() == LoginError.captcha) {
+          _fieldFocusChange(context, captchaFocusNode, captchaFocusNode);
+        }
       });
     }
   }

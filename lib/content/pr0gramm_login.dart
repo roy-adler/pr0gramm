@@ -64,4 +64,19 @@ class Pr0grammLogin extends StatelessWidget {
       ],
     );
   }
+
+  LoginError loginError() {
+    if (error.toLowerCase().contains("captcha")) {
+      return LoginError.captcha;
+    } else if (error.toLowerCase().contains("login")) {
+      return LoginError.userdata;
+    }
+    return LoginError.other;
+  }
+}
+
+enum LoginError {
+  userdata,
+  captcha,
+  other,
 }

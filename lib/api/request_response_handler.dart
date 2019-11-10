@@ -19,8 +19,10 @@ class RequestResponseHandler {
     return get(url: "/items/get");
   }
 
-  Future<http.Response> itemsGet(
-      {int promotedNum = 1, int flagsNum = 9}) async {
+  Future<http.Response> itemsGet({
+    int promotedNum = 1,
+    int flagsNum = 9,
+  }) async {
     List<String> paramList = [];
     String promoted = "promoted=" + promotedNum.toString();
     String flags = "flags=" + flagsNum.toString();
@@ -58,6 +60,9 @@ class RequestResponseHandler {
   }
 
   Future<http.Response> logout() async {
+    if (internetDEBUG) {
+      print("Logout");
+    }
     return get(url: "/user/logout");
   }
 

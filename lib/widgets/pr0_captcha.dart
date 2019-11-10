@@ -40,7 +40,6 @@ class _Pr0CaptchaState extends State<Pr0Captcha> {
               Image currentImage;
               if (snapshot.hasData) {
                 CaptchaContainer captchaContainer = snapshot.data;
-                print(captchaContainer.asString());
                 int position = captchaContainer.captcha.indexOf(',') + 1;
                 if (captchaContainer.captcha.length > position) {
                   Uint8List decoded = base64Decode(
