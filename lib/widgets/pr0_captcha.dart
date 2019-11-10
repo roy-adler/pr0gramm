@@ -7,6 +7,7 @@ import 'package:pr0gramm_app/content/captchaContainer.dart';
 
 class Pr0Captcha extends StatefulWidget {
   String token;
+  Function loadNewcaptcha;
 
   @override
   _Pr0CaptchaState createState() => _Pr0CaptchaState();
@@ -14,6 +15,16 @@ class Pr0Captcha extends StatefulWidget {
 
 class _Pr0CaptchaState extends State<Pr0Captcha> {
   Image oldImage;
+
+  void reload() {
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    widget.loadNewcaptcha = reload;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +78,7 @@ class _Pr0CaptchaState extends State<Pr0Captcha> {
                 color: Colors.white,
                 size: 24,
               ),
-              onPressed: () => setState(() {}),
+              onPressed: reload,
             ),
           )
         ],

@@ -152,9 +152,9 @@ class LoginPageState extends State<LoginPage> {
         ),
       );
     } else {
-      Pr0Dialog(pr0grammLogin.userError(), context);
+      Pr0Dialog(pr0grammLogin.userError(), context, function: pr0captcha.loadNewcaptcha);
       setState(() {
-        //pr0captcha = Pr0Captcha();
+        if(pr0grammLogin.userError())
       });
     }
   }
