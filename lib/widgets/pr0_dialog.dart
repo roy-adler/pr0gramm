@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
 
-Pr0Dialog(String message, BuildContext context) async {
+Pr0Dialog(String message, BuildContext context, {Function function}) async {
   return showDialog(
     context: context,
     builder: (context) => Scaffold(
@@ -37,6 +37,9 @@ Pr0Dialog(String message, BuildContext context) async {
                       ),
                       onPressed: () {
                         Navigator.pop(context);
+                        if (function != null) {
+                          function();
+                        }
                       },
                     )
                   ],

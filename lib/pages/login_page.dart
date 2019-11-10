@@ -15,6 +15,7 @@ import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
 import 'package:pr0gramm_app/pages/main_page.dart';
 import 'package:giphy_client/giphy_client.dart';
 import 'package:pr0gramm_app/widgets/loadingIndicator.dart';
+import 'package:pr0gramm_app/widgets/pr0_captcha.dart';
 import 'package:pr0gramm_app/widgets/pr0_dialog.dart';
 import 'package:pr0gramm_app/widgets/giphy.dart';
 
@@ -39,8 +40,7 @@ class LoginPageState extends State<LoginPage> {
   final FocusNode usernameFocusNode = FocusNode(debugLabel: "usrnmFocusNode");
   final FocusNode passwordFocusNode = FocusNode(debugLabel: "pwFocusNode");
   final FocusNode captchaFocusNode = FocusNode(debugLabel: "captchaFocusNode");
-
-  String token = "";
+  final Pr0Captcha pr0captcha = Pr0Captcha();
 
   @override
   initState() {
@@ -102,7 +102,7 @@ class LoginPageState extends State<LoginPage> {
   _captchaTextField() {
     return Column(
       children: <Widget>[
-        _buildCaptcha(),
+        pr0captcha,
         Align(
           alignment: AlignmentDirectional.centerStart,
           child: Pr0Text(
@@ -136,7 +136,7 @@ class LoginPageState extends State<LoginPage> {
         username: usernameController.text,
         password: passwordController.text,
         captcha: captchaController.text,
-        token: token);
+        token: pr0captcha.token);
 
     print(pr0grammLogin.asString());
     if (pr0grammLogin.success == true) {
@@ -152,6 +152,9 @@ class LoginPageState extends State<LoginPage> {
       );
     } else {
       Pr0Dialog(pr0grammLogin.userError(), context);
+      setState(() {
+        //pr0captcha = Pr0Captcha();
+      });
     }
   }
 
@@ -178,40 +181,6 @@ class LoginPageState extends State<LoginPage> {
 //    setState(() {});
   }
 
-  Widget _buildCaptcha() {
-    return Material(
-      borderRadius: BorderRadius.circular(10.0),
-      clipBehavior: Clip.antiAlias,
-      child: FutureBuilder(
-        future: ResponseParser.getCaptcha(),
-        builder: (context, snapshot) {
-          Image image;
-          if (snapshot.hasData) {
-            CaptchaContainer captchaContainer = snapshot.data;
-            print(captchaContainer.asString());
-            int position = captchaContainer.captcha.indexOf(',') + 1;
-            if (captchaContainer.captcha.length > position) {
-              Uint8List decoded =
-                  base64Decode(captchaContainer.captcha.substring(position));
-              token = captchaContainer.token;
-              image = Image.memory(decoded);
-            }
-          }
-          return Stack(
-            children: <Widget>[
-              AnimatedOpacity(
-                curve: Curves.easeOut,
-                duration: Duration(milliseconds: 400),
-                opacity: snapshot.hasData ? 1 : 0,
-                child: image ?? Container(width: 360, height: 90),
-              ),
-            ],
-          );
-        },
-      ),
-    );
-  }
-
   Widget _buildBackground() {
     return Scaffold(
       backgroundColor: richtigesGrau,
@@ -231,8 +200,9 @@ class LoginPageState extends State<LoginPage> {
                     children: <Widget>[
                       Expanded(
                         child: GridView.builder(
-                          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                              maxCrossAxisExtent: 150),
+                          gridDelegate:
+                              SliverGridDelegateWithMaxCrossAxisExtent(
+                                  maxCrossAxisExtent: 150),
                           itemCount: contentList.length,
                           itemBuilder: (context, index) {
                             return Padding(
@@ -248,25 +218,9 @@ class LoginPageState extends State<LoginPage> {
               ),
             );
           }
-          return Container(color: Colors.red, height: 800, width: 200,);
+          return Container();
         },
       ),
-    );
-
-    return FutureBuilder(
-      future: giphy(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Image.network(
-            snapshot.data,
-            fit: BoxFit.fitHeight,
-          );
-        }
-        return Image.network(
-          'https://media.giphy.com/media/3o84U78CXEB2opZd4I/giphy.gif',
-          fit: BoxFit.fitHeight,
-        );
-      },
     );
   }
 
