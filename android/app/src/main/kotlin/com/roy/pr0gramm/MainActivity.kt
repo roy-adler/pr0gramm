@@ -1,4 +1,4 @@
-package com.example.pr0gramm_app
+package com.roy.pr0gramm
 
 import android.os.Bundle
 import io.flutter.app.FlutterActivity
