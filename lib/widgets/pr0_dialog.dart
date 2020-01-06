@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
 
-Pr0Dialog(String message, BuildContext context, {Function function}) async {
+pr0Dialog(String message, BuildContext context, {Function function}) async {
   return showDialog(
     context: context,
     builder: (context) => Scaffold(

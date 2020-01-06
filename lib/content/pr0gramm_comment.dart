@@ -98,7 +98,9 @@ class Pr0grammComment extends StatelessWidget {
               ),
             ),
           ),
-          Container(height: heightPadding,),
+          Container(
+            height: heightPadding,
+          ),
           Flexible(
             child: Row(
               children: <Widget>[
@@ -122,6 +124,6 @@ class Pr0grammComment extends StatelessWidget {
   String _showTime(DateTime dateTime) {
     String time = dateTime.hour.toString();
     String formattedDate = DateFormat('kk:mm').format(dateTime);
-    return formattedDate;
+    return formattedDate + ", " + time;
   }
 }

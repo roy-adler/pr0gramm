@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:math';
-import 'dart:typed_data';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,17 +5,13 @@ import 'package:flutter/rendering.dart';
 import 'package:pr0gramm_app/api/debug.dart';
 import 'package:pr0gramm_app/api/preferences.dart';
 import 'package:pr0gramm_app/api/response_parser.dart';
-import 'package:pr0gramm_app/content/captchaContainer.dart';
 import 'package:pr0gramm_app/content/pr0gramm_content.dart';
 import 'package:pr0gramm_app/content/pr0gramm_login.dart';
 import 'package:pr0gramm_app/design/pr0_text.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
 import 'package:pr0gramm_app/pages/main_page.dart';
-import 'package:giphy_client/giphy_client.dart';
-import 'package:pr0gramm_app/widgets/loadingIndicator.dart';
 import 'package:pr0gramm_app/widgets/pr0_captcha.dart';
 import 'package:pr0gramm_app/widgets/pr0_dialog.dart';
-import 'package:pr0gramm_app/widgets/giphy.dart';
 
 String sBenutzername = "Benutzername";
 String sAnmelden = "Anmelden";
@@ -155,7 +148,7 @@ class LoginPageState extends State<LoginPage> {
         ),
       );
     } else {
-      Pr0Dialog(pr0grammLogin.userError(), context,
+      pr0Dialog(pr0grammLogin.userError(), context,
           function: pr0captcha.loadNewcaptcha);
       setState(() {
         captchaController.text = "";

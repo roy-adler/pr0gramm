@@ -5,10 +5,7 @@ import 'package:pr0gramm_app/content/pr0gramm_comment.dart';
 import 'package:pr0gramm_app/content/pr0gramm_content.dart';
 import 'package:pr0gramm_app/content/pr0gramm_info.dart';
 import 'package:pr0gramm_app/content/pr0gramm_tag.dart';
-import 'package:pr0gramm_app/design/pr0_text.dart';
 import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
-import 'package:pr0gramm_app/pages/comment_page.dart';
-import 'package:pr0gramm_app/pages/tag_page.dart';
 
 class ItemPage extends StatefulWidget {
   final Pr0grammContent pr0grammContent;
@@ -88,35 +85,6 @@ class ItemPageState extends State<ItemPage> {
             ),
           )
         ],
-      ),
-    );
-
-    return MaterialApp(
-      title: 'Video Demo',
-      home: Scaffold(
-        appBar: AppBar(title: Text(pr0grammContent.fullsize)),
-        body: Center(child: pr0grammContent.bigPicture()),
-      ),
-    );
-    return CupertinoPageScaffold(
-      backgroundColor: richtigesGrau,
-      navigationBar: CupertinoNavigationBar(
-        backgroundColor: ehemaligeHintergrundFarbeDerKommentare,
-        middle: Pr0Text("Content"),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListView(children: <Widget>[
-          pr0grammContent.bigPicture(),
-          _buildVotes(),
-          TagPage(tagList: pr0grammTagList),
-          Divider(
-            color: standardSchriftfarbe,
-          ),
-          Container(
-            child: CommentPage(commentList: pr0grammCommentList),
-          ),
-        ]),
       ),
     );
   }

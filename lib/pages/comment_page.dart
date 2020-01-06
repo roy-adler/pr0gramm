@@ -21,9 +21,6 @@ class CommentPage extends StatelessWidget {
       return _emptyList();
     }
 
-    List<int> toDelete = [];
-    List<ParCom> parComList = [];
-
     if (commentList.isEmpty) {
       return _emptyList();
     }

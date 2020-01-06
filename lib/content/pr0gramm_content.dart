@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pr0gramm_app/pages/video_screen.dart';
-import 'package:video_player/video_player.dart';
 
 class Pr0grammContent extends StatelessWidget {
   final int id;
