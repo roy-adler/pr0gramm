@@ -80,6 +80,7 @@ class ItemPageState extends State<ItemPage> {
           Align(
             alignment: AlignmentDirectional.topEnd,
             child: FlatButton(
+              color: Colors.white,
               onPressed: widget.toggleFullscreen,
               child: Icon(Icons.fullscreen_exit),
             ),
