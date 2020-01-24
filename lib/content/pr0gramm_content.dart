@@ -116,26 +116,36 @@ class Pr0grammContent extends StatelessWidget {
   Widget _getPr0Image({bool bigPicture = false}) {
     String type = "";
     if (bigPicture) {
-      type = "img";
+      switch (mediaType) {
+        case MediaType.pic:
+          type = "img";
+          break;
+        case MediaType.gif:
+          type = "img";
+          break;
+        case MediaType.vid:
+          type = "vid";
+          break;
+      }
     } else {
       type = "thumb";
     }
     String pr0API = "https://$type.pr0gramm.com/";
     Widget pr0Image = Image.network(
         "https://media.giphy.com/media/xUOxfjsW9fWPqEWouI/giphy.gif");
-    if (image.endsWith("jpg") || image.endsWith("png")) {
+    if (mediaType == MediaType.pic) {
       if (bigPicture) {
         pr0Image = Image.network(pr0API + image);
       } else {
         pr0Image = Image.network(pr0API + thumb);
       }
-    } else if (image.endsWith("mp4")) {
+    } else if (mediaType == MediaType.vid) {
       if (bigPicture) {
-        pr0Image = VideoScreen(url: null);
+        pr0Image = VideoScreen(url: pr0API + image);
       } else {
         pr0Image = Image.network(pr0API + thumb);
       }
-    } else if (image.endsWith("gif")) {
+    } else if (mediaType == MediaType.gif) {
       if (bigPicture) {
         pr0Image = Image.network(pr0API + image);
       } else {
