@@ -3,6 +3,10 @@ import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
 
 class VideoScreen extends StatefulWidget {
+  final url;
+
+  VideoScreen({this.url});
+
   @override
   _VideoScreenState createState() => _VideoScreenState();
 }
@@ -13,8 +17,12 @@ class _VideoScreenState extends State<VideoScreen> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(
-        'http://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4')
+    var url = widget.url;
+    if (url == null) {
+      url =
+          'http://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4';
+    }
+    _controller = VideoPlayerController.network(url)
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {});

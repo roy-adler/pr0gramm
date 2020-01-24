@@ -14,6 +14,7 @@ class Pr0grammContent extends StatelessWidget {
   final double width;
   final double height;
   final bool audio;
+  final MediaType mediaType;
 
   Pr0grammContent({
     this.id,
@@ -27,6 +28,7 @@ class Pr0grammContent extends StatelessWidget {
     this.width,
     this.height,
     this.audio,
+    this.mediaType,
   });
 
   factory Pr0grammContent.dummy() {
@@ -42,6 +44,7 @@ class Pr0grammContent extends StatelessWidget {
       width: 200,
       height: 400,
       audio: false,
+      mediaType: MediaType.pic,
     );
   }
 
@@ -58,6 +61,7 @@ class Pr0grammContent extends StatelessWidget {
       width: json["width"].toDouble(),
       height: json["height"].toDouble(),
       audio: json['audio'],
+      mediaType: getMediaTypeFromUrl(json["image"]),
     );
   }
 
@@ -85,14 +89,12 @@ class Pr0grammContent extends StatelessWidget {
   }
 
   Widget bigPicture() {
-    return Hero(
-      tag: id,
-      child: Container(
-        width: width, //TODO
-        child: FittedBox(
-          fit: BoxFit.fitWidth,
-          child: _getPr0Image(bigPicture: true),
-        ),
+    return _getPr0Image(bigPicture: true);
+    return Container(
+      width: width, //TODO
+      child: FittedBox(
+        fit: BoxFit.fitWidth,
+        child: _getPr0Image(bigPicture: true),
       ),
     );
   }
@@ -112,12 +114,43 @@ class Pr0grammContent extends StatelessWidget {
   }
 
   Widget _getPr0Image({bool bigPicture = false}) {
+    String type = "";
+    if (bigPicture) {
+      type = "img";
+    } else {
+      type = "thumb";
+    }
+    String pr0API = "https://$type.pr0gramm.com/";
     Widget pr0Image = Image.network(
         "https://media.giphy.com/media/xUOxfjsW9fWPqEWouI/giphy.gif");
     if (image.endsWith("jpg") || image.endsWith("png")) {
-      pr0Image = Image.network("https://img.pr0gramm.com/" + image);
+      if (bigPicture) {
+        pr0Image = Image.network(pr0API + image);
+      } else {
+        pr0Image = Image.network(pr0API + thumb);
+      }
     } else if (image.endsWith("mp4")) {
-      if (bigPicture) pr0Image = VideoScreen();
+      if (bigPicture) {
+        pr0Image = VideoScreen(url: null);
+      } else {
+        pr0Image = Image.network(pr0API + thumb);
+      }
+    } else if (image.endsWith("gif")) {
+      if (bigPicture) {
+        pr0Image = Image.network(pr0API + image);
+      } else {
+        pr0Image = Stack(
+          children: <Widget>[
+            Image.network(pr0API + thumb),
+            Center(
+              child: Text(
+                "GIF",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        );
+      }
     }
 
     return pr0Image;
@@ -125,4 +158,19 @@ class Pr0grammContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => smallPicture();
+}
+
+MediaType getMediaTypeFromUrl(String url) {
+  if (url.endsWith("mp4")) {
+    return MediaType.vid;
+  } else if (url.endsWith("gif")) {
+    return MediaType.gif;
+  }
+  return MediaType.pic;
+}
+
+enum MediaType {
+  pic,
+  vid,
+  gif,
 }
