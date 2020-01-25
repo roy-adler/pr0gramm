@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:pr0gramm_app/content/pr0gramm_tag.dart';
+import 'package:pr0gramm/content/pr0gramm_tag.dart';
 
 class TagPage extends StatelessWidget {
   final List<Pr0grammTag> tagList;

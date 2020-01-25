@@ -1,16 +1,16 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:pr0gramm_app/content/captchaContainer.dart';
-import 'package:pr0gramm_app/content/is_loggedIn.dart';
-import 'package:pr0gramm_app/content/pr0gramm_comment.dart';
-import 'package:pr0gramm_app/content/pr0gramm_content.dart';
-import 'package:pr0gramm_app/content/pr0gramm_content_container.dart';
-import 'package:pr0gramm_app/api/request_response_handler.dart';
-import 'package:pr0gramm_app/content/pr0gramm_info.dart';
-import 'package:pr0gramm_app/content/pr0gramm_login.dart';
-import 'package:pr0gramm_app/content/pr0gramm_logout.dart';
-import 'package:pr0gramm_app/content/pr0gramm_tag.dart';
+import 'package:pr0gramm/content/captchaContainer.dart';
+import 'package:pr0gramm/content/is_loggedIn.dart';
+import 'package:pr0gramm/content/pr0gramm_comment.dart';
+import 'package:pr0gramm/content/pr0gramm_content.dart';
+import 'package:pr0gramm/content/pr0gramm_content_container.dart';
+import 'package:pr0gramm/api/request_response_handler.dart';
+import 'package:pr0gramm/content/pr0gramm_info.dart';
+import 'package:pr0gramm/content/pr0gramm_login.dart';
+import 'package:pr0gramm/content/pr0gramm_logout.dart';
+import 'package:pr0gramm/content/pr0gramm_tag.dart';
 
 abstract class ResponseParser {
   static RequestResponseHandler rrh = RequestResponseHandler();

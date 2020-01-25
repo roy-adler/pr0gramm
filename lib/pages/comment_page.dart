@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:pr0gramm_app/content/pr0gramm_comment.dart';
-import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
+import 'package:pr0gramm/content/pr0gramm_comment.dart';
+import 'package:pr0gramm/design/pr0gramm_colors.dart';
 
 class CommentPage extends StatelessWidget {
   final List<Pr0grammComment> commentList;
@@ -8,7 +8,7 @@ class CommentPage extends StatelessWidget {
   CommentPage({@required this.commentList});
 
   _emptyList() {
-    print("LEEEr");
+    print("Leere Liste");
     return Text(
       "Noch keine Kommentare vorhanden.",
       style: TextStyle(color: iRGENDWASDOOFESISTPASSIERTFarbe),

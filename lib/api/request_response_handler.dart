@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
-import 'package:pr0gramm_app/api/debug.dart';
-import 'package:pr0gramm_app/api/preferences.dart';
+import 'package:pr0gramm/api/debug.dart';
+import 'package:pr0gramm/api/preferences.dart';
 import 'dart:async';
 
 class RequestResponseHandler {

@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pr0gramm_app/api/response_parser.dart';
-import 'package:pr0gramm_app/content/pr0gramm_content.dart';
-import 'package:pr0gramm_app/content/pr0gramm_login.dart';
-import 'package:pr0gramm_app/content/pr0gramm_logout.dart';
-import 'package:pr0gramm_app/pages/item_page.dart';
-import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
-import 'package:pr0gramm_app/pages/login_page.dart';
-import 'package:pr0gramm_app/widgets/loadingIndicator.dart';
+import 'package:pr0gramm/api/response_parser.dart';
+import 'package:pr0gramm/content/pr0gramm_content.dart';
+import 'package:pr0gramm/content/pr0gramm_login.dart';
+import 'package:pr0gramm/content/pr0gramm_logout.dart';
+import 'package:pr0gramm/pages/item_page.dart';
+import 'package:pr0gramm/design/pr0gramm_colors.dart';
+import 'package:pr0gramm/pages/login_page.dart';
+import 'package:pr0gramm/widgets/loadingIndicator.dart';
 
 class MainPage extends StatefulWidget {
   final Pr0grammLogin pr0grammLogin;

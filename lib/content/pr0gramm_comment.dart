@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
-import 'package:pr0gramm_app/content/pr0gramm_content.dart';
-import 'package:pr0gramm_app/pages/item_page.dart';
+import 'package:pr0gramm/content/pr0gramm_content.dart';
+import 'package:pr0gramm/pages/item_page.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
+import 'package:pr0gramm/design/pr0gramm_colors.dart';
 import 'package:intl/intl.dart';
 
 class Pr0grammComment extends StatelessWidget {

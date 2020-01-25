@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:pr0gramm_app/api/response_parser.dart';
-import 'package:pr0gramm_app/content/captchaContainer.dart';
+import 'package:pr0gramm/api/response_parser.dart';
+import 'package:pr0gramm/content/captchaContainer.dart';
 
 class Pr0Captcha extends StatefulWidget {
   String token;

@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pr0gramm_app/api/response_parser.dart';
-import 'package:pr0gramm_app/content/pr0gramm_comment.dart';
-import 'package:pr0gramm_app/content/pr0gramm_content.dart';
-import 'package:pr0gramm_app/content/pr0gramm_info.dart';
-import 'package:pr0gramm_app/content/pr0gramm_tag.dart';
-import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
+import 'package:pr0gramm/api/response_parser.dart';
+import 'package:pr0gramm/content/pr0gramm_comment.dart';
+import 'package:pr0gramm/content/pr0gramm_content.dart';
+import 'package:pr0gramm/content/pr0gramm_info.dart';
+import 'package:pr0gramm/content/pr0gramm_tag.dart';
+import 'package:pr0gramm/design/pr0gramm_colors.dart';
 
 class ItemPage extends StatefulWidget {
   final Pr0grammContent pr0grammContent;

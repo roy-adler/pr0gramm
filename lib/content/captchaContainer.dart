@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pr0gramm_app/design/pr0gramm_colors.dart';
+import 'package:pr0gramm/design/pr0gramm_colors.dart';
 
 class CaptchaContainer extends StatelessWidget {
   final String token;

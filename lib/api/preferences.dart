@@ -1,4 +1,4 @@
-import 'package:pr0gramm_app/api/debug.dart';
+import 'package:pr0gramm/api/debug.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class Preferences {
