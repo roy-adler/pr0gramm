@@ -176,7 +176,7 @@ class MainPageState extends State<MainPage> {
                             ? PageView.builder(
                                 controller:
                                     PageController(initialPage: itemPos),
-                                scrollDirection: Axis.vertical,
+                                scrollDirection: Axis.horizontal,
                                 itemCount: contentList.length,
                                 itemBuilder: (context, index) {
                                   List<ItemPage> itemPageList =

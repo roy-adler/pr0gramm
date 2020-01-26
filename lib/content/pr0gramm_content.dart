@@ -10,7 +10,7 @@ class Pr0grammContent extends StatelessWidget {
   final int created;
   final String image;
   final String thumb;
-  final String fullsize; //TODO
+  final String fullSize; //TODO
   final double width;
   final double height;
   final bool audio;
@@ -24,7 +24,7 @@ class Pr0grammContent extends StatelessWidget {
     this.created,
     this.image,
     this.thumb,
-    this.fullsize,
+    this.fullSize,
     this.width,
     this.height,
     this.audio,
@@ -40,7 +40,7 @@ class Pr0grammContent extends StatelessWidget {
       created: 0,
       image: "",
       thumb: "",
-      fullsize: "",
+      fullSize: "",
       width: 200,
       height: 400,
       audio: false,
@@ -57,7 +57,7 @@ class Pr0grammContent extends StatelessWidget {
       created: json["created"],
       image: json["image"],
       thumb: json["thumb"],
-      fullsize: json["fullsize"],
+      fullSize: json["fullsize"],
       width: json["width"].toDouble(),
       height: json["height"].toDouble(),
       audio: json['audio'],
@@ -69,7 +69,7 @@ class Pr0grammContent extends StatelessWidget {
     String heading = "Pr0grammContent:\n";
     String body = " id: $id\n promoted: $promoted\n up: $up\n down: $down\n"
         " created: $created\n image: $image\n thumb: $thumb\n"
-        " fullsize: $fullsize\n width: $width\n height: $height\n"
+        " fullsize: $fullSize\n width: $width\n height: $height\n"
         " audio: $audio\n";
     return heading + body;
   }
@@ -82,19 +82,19 @@ class Pr0grammContent extends StatelessWidget {
         height: 200,
         child: FittedBox(
           fit: BoxFit.cover,
-          child: _getPr0Image(),
+          child: _getContent(),
         ),
       ),
     );
   }
 
   Widget bigPicture() {
-    return _getPr0Image(bigPicture: true);
+    return _getContent(fullScreen: true);
     return Container(
       width: width, //TODO
       child: FittedBox(
         fit: BoxFit.fitWidth,
-        child: _getPr0Image(bigPicture: true),
+        child: _getContent(fullScreen: true),
       ),
     );
   }
@@ -107,63 +107,37 @@ class Pr0grammContent extends StatelessWidget {
         height: 200,
         child: FittedBox(
           fit: BoxFit.cover,
-          child: _getPr0Image(),
+          child: _getContent(),
         ),
       ),
     );
   }
 
-  Widget _getPr0Image({bool bigPicture = false}) {
+  Widget _getContent({bool fullScreen = false}) {
+    if (mediaType == MediaType.vid && fullScreen) {
+      return VideoScreen(url: buildURL(fullScreen));
+    }
+    return Image.network(buildURL(fullScreen));
+  }
+
+  String buildURL(bool fullScreen) {
+    String media = "";
     String type = "";
-    if (bigPicture) {
+    if (fullScreen) {
+      type = image;
       switch (mediaType) {
         case MediaType.pic:
-          type = "img";
-          break;
-        case MediaType.gif:
-          type = "img";
+          media = "img";
           break;
         case MediaType.vid:
-          type = "vid";
+          media = "vid";
           break;
       }
     } else {
-      type = "thumb";
+      type = thumb;
+      media = "thumb";
     }
-    String pr0API = "https://$type.pr0gramm.com/";
-    Widget pr0Image = Image.network(
-        "https://media.giphy.com/media/xUOxfjsW9fWPqEWouI/giphy.gif");
-    if (mediaType == MediaType.pic) {
-      if (bigPicture) {
-        pr0Image = Image.network(pr0API + image);
-      } else {
-        pr0Image = Image.network(pr0API + thumb);
-      }
-    } else if (mediaType == MediaType.vid) {
-      if (bigPicture) {
-        pr0Image = VideoScreen(url: pr0API + image);
-      } else {
-        pr0Image = Image.network(pr0API + thumb);
-      }
-    } else if (mediaType == MediaType.gif) {
-      if (bigPicture) {
-        pr0Image = Image.network(pr0API + image);
-      } else {
-        pr0Image = Stack(
-          children: <Widget>[
-            Image.network(pr0API + thumb),
-            Center(
-              child: Text(
-                "GIF",
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ],
-        );
-      }
-    }
-
-    return pr0Image;
+    return "https://$media.pr0gramm.com/$type";
   }
 
   @override
@@ -173,8 +147,6 @@ class Pr0grammContent extends StatelessWidget {
 MediaType getMediaTypeFromUrl(String url) {
   if (url.endsWith("mp4")) {
     return MediaType.vid;
-  } else if (url.endsWith("gif")) {
-    return MediaType.gif;
   }
   return MediaType.pic;
 }
@@ -182,5 +154,4 @@ MediaType getMediaTypeFromUrl(String url) {
 enum MediaType {
   pic,
   vid,
-  gif,
 }
