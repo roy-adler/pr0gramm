@@ -8,7 +8,7 @@ class Pr0grammContent extends StatelessWidget {
   final int up;
   final int down;
   final int created;
-  final String image;
+  final String mediaLink;
   final String thumb;
   final String fullSize; //TODO
   final double width;
@@ -22,7 +22,7 @@ class Pr0grammContent extends StatelessWidget {
     this.up,
     this.down,
     this.created,
-    this.image,
+    this.mediaLink,
     this.thumb,
     this.fullSize,
     this.width,
@@ -38,7 +38,7 @@ class Pr0grammContent extends StatelessWidget {
       up: 2,
       down: 3,
       created: 0,
-      image: "",
+      mediaLink: "",
       thumb: "",
       fullSize: "",
       width: 200,
@@ -55,20 +55,20 @@ class Pr0grammContent extends StatelessWidget {
       up: json["up"],
       down: json["down"],
       created: json["created"],
-      image: json["image"],
+      mediaLink: json["image"],
       thumb: json["thumb"],
       fullSize: json["fullsize"],
       width: json["width"].toDouble(),
       height: json["height"].toDouble(),
       audio: json['audio'],
-      mediaType: getMediaTypeFromUrl(json["image"]),
+      mediaType: getMediaTypeFromImage(json["image"]),
     );
   }
 
   String asString() {
     String heading = "Pr0grammContent:\n";
     String body = " id: $id\n promoted: $promoted\n up: $up\n down: $down\n"
-        " created: $created\n image: $image\n thumb: $thumb\n"
+        " created: $created\n image: $mediaLink\n thumb: $thumb\n"
         " fullsize: $fullSize\n width: $width\n height: $height\n"
         " audio: $audio\n";
     return heading + body;
@@ -115,16 +115,42 @@ class Pr0grammContent extends StatelessWidget {
 
   Widget _getContent({bool fullScreen = false}) {
     if (mediaType == MediaType.vid && fullScreen) {
-      return VideoScreen(url: buildURL(fullScreen));
+      return VideoWidget(pr0grammContent: this);
     }
     return Image.network(buildURL(fullScreen));
+  }
+
+  String get thumbURL {
+    String media = "";
+    switch (mediaType) {
+      case MediaType.pic:
+        media = "img";
+        break;
+      case MediaType.vid:
+        media = "vid";
+        break;
+    }
+    return "https://$media.pr0gramm.com/$thumb";
+  }
+
+  String get mediaURL {
+    String media = "";
+    switch (mediaType) {
+      case MediaType.pic:
+        media = "img";
+        break;
+      case MediaType.vid:
+        media = "vid";
+        break;
+    }
+    return "https://$media.pr0gramm.com/$mediaLink";
   }
 
   String buildURL(bool fullScreen) {
     String media = "";
     String type = "";
     if (fullScreen) {
-      type = image;
+      type = mediaLink;
       switch (mediaType) {
         case MediaType.pic:
           media = "img";
@@ -144,8 +170,8 @@ class Pr0grammContent extends StatelessWidget {
   Widget build(BuildContext context) => smallPicture();
 }
 
-MediaType getMediaTypeFromUrl(String url) {
-  if (url.endsWith("mp4")) {
+MediaType getMediaTypeFromImage(String image) {
+  if (image.endsWith("mp4")) {
     return MediaType.vid;
   }
   return MediaType.pic;

@@ -63,7 +63,7 @@ class ItemPageState extends State<ItemPage> {
             ],
           ),
           Container(
-            child: pr0Text(pr0grammContent.image, size: 12),
+            child: pr0Text(pr0grammContent.mediaLink, size: 12),
           )
         ],
       ),
