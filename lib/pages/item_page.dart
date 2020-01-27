@@ -97,7 +97,7 @@ class ItemPageState extends State<ItemPage> {
             child: Column(
               children: <Widget>[
                 pr0grammContent.bigPicture(),
-                _buildVotes(),
+                pr0grammContent.buildVotes(),
                 // TagPage(tagList: pr0grammTagList),
                 // CommentPage(commentList: pr0grammCommentList),
               ],
@@ -108,17 +108,6 @@ class ItemPageState extends State<ItemPage> {
     );
   }
 
-  List<Widget> wi() {
-    return [
-      FittedBox(
-        fit: BoxFit.fitWidth,
-        child: pr0grammContent.bigPicture(),
-      ),
-      _buildVotes(),
-      TagPage(tagList: pr0grammTagList),
-      CommentPage(commentList: pr0grammCommentList),
-    ];
-  }
 
   makeGetRequest() async {
     Pr0grammInfo pr0grammInfo =

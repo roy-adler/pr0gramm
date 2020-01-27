@@ -1,8 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:pr0gramm/content/file_loader.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
 import 'package:pr0gramm/pages/video_screen.dart';
 import 'package:pr0gramm/widgets/Pr0Text.dart';
+import 'package:pr0gramm/widgets/loadingIndicator.dart';
+import 'package:http/http.dart' as http;
+import 'package:path/path.dart' as path;
 
 class Pr0grammContent extends StatelessWidget {
   final int id;
@@ -76,7 +83,7 @@ class Pr0grammContent extends StatelessWidget {
     return heading + body;
   }
 
-  Widget smallPicture() {
+  Widget thumbnail() {
     return Hero(
       tag: id,
       child: Container(
@@ -84,31 +91,83 @@ class Pr0grammContent extends StatelessWidget {
         height: 200,
         child: FittedBox(
           fit: BoxFit.cover,
-          child: _getContent(),
+          child: _getContent(fullScreen: false),
         ),
       ),
     );
   }
 
   Widget bigPicture() {
-    return _getContent(fullScreen: true);
-  }
-
-  Widget fullScreenPicture() {
-    return Hero(
-      tag: id,
-      child: Container(
-        width: 200,
-        height: 200,
-        child: FittedBox(
-          fit: BoxFit.cover,
-          child: _getContent(),
-        ),
-      ),
+    return AspectRatio(
+      aspectRatio: width / height,
+      child: _getContent(fullScreen: true),
     );
   }
 
+  Future<File> _downloadFile(String url) async {
+    return FileLoader.getThumbnail(thumb);
+
+    try {
+      // Local
+      String filename = path.dirname(mediaLink);
+      String dir = (await getApplicationDocumentsDirectory()).path;
+      String fileDir = '$dir/$filename/';
+      File file = new File(fileDir + path.basename(mediaLink));
+      if (await file.exists()) {
+        return file;
+      }
+      new Directory(fileDir)
+          .create(recursive: true)
+          .then((Directory directory) {
+        print("created dir: ${directory.path}");
+      });
+
+      http.Client _client = new http.Client();
+      var req = await _client.get(Uri.parse(url));
+      var bytes = req.bodyBytes;
+
+      // Download
+      await file.writeAsBytes(bytes);
+      return file;
+    } catch (error) {
+      print("DownloadError: " + error.toString());
+    }
+  }
+
+  Future<Widget> fileLoader(bool fullScreen) async {
+    try {
+      Future<File> loadingfile = fullScreen
+          ? FileLoader.getMedia(mediaLink)
+          : FileLoader.getThumbnail(thumb);
+      File mediaFile = await loadingfile;
+      if (mediaType == MediaType.vid && fullScreen) {
+        //TODO: Videoplayer needs to use downloaded files (Also use streaming while File isn't there)
+        return VideoWidget(pr0grammContent: this);
+      }
+      return Image.file(mediaFile);
+    } catch (error) {
+      print("FileLaoderError:${error.toString()}");
+    }
+  }
+
   Widget _getContent({bool fullScreen = false}) {
+    return FutureBuilder(
+      future: fileLoader(fullScreen),
+      builder: (context, snapshot) {
+        return Stack(
+          children: <Widget>[
+            AnimatedOpacity(
+              opacity: snapshot.hasData ? 1 : 0,
+              duration: Duration(milliseconds: 300),
+              curve: Curves.easeOutCubic,
+              child: snapshot.hasData ? snapshot.data : Container(),
+            ),
+            snapshot.hasData ? Container() : LoadingIndicator(),
+          ],
+        );
+      },
+    );
+
     if (mediaType == MediaType.vid && fullScreen) {
       return VideoWidget(pr0grammContent: this);
     }
@@ -161,7 +220,7 @@ class Pr0grammContent extends StatelessWidget {
     return "https://$media.pr0gramm.com/$type";
   }
 
-  Widget _buildVotes() {
+  Widget buildVotes() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
@@ -182,13 +241,19 @@ class Pr0grammContent extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Pr0Text((up - down).toString()),
+                child: Pr0Text(
+                  (up - down).toString(),
+                  fontSize: 32,
+                ),
               ),
               Icon(CupertinoIcons.heart_solid, color: standardSchriftfarbe),
             ],
           ),
           Container(
-            child: Pr0Text("OCname"),
+            child: Pr0Text(
+              "OCname",
+              fontSize: 22,
+            ),
           )
         ],
       ),
@@ -196,7 +261,7 @@ class Pr0grammContent extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) => smallPicture();
+  Widget build(BuildContext context) => thumbnail();
 }
 
 MediaType getMediaTypeFromImage(String image) {
