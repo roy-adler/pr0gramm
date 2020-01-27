@@ -54,6 +54,14 @@ class _VideoWidgetState extends State<VideoWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (!loaded.isCompleted) {
+      return Container(
+        width: 200,
+        height: 200,
+        color: Colors.red,
+      );
+    }
+
     return Chewie(
       controller: chewieController,
     );

@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pr0gramm/design/pr0gramm_colors.dart';
 import 'package:pr0gramm/pages/video_screen.dart';
+import 'package:pr0gramm/widgets/Pr0Text.dart';
 
 class Pr0grammContent extends StatelessWidget {
   final int id;
@@ -90,13 +92,6 @@ class Pr0grammContent extends StatelessWidget {
 
   Widget bigPicture() {
     return _getContent(fullScreen: true);
-    return Container(
-      width: width, //TODO
-      child: FittedBox(
-        fit: BoxFit.fitWidth,
-        child: _getContent(fullScreen: true),
-      ),
-    );
   }
 
   Widget fullScreenPicture() {
@@ -164,6 +159,40 @@ class Pr0grammContent extends StatelessWidget {
       media = "thumb";
     }
     return "https://$media.pr0gramm.com/$type";
+  }
+
+  Widget _buildVotes() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Icon(CupertinoIcons.add_circled, color: standardSchriftfarbe),
+                  Container(
+                    width: 4,
+                  ),
+                  Icon(CupertinoIcons.minus_circled,
+                      color: standardSchriftfarbe),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Pr0Text((up - down).toString()),
+              ),
+              Icon(CupertinoIcons.heart_solid, color: standardSchriftfarbe),
+            ],
+          ),
+          Container(
+            child: Pr0Text("OCname"),
+          )
+        ],
+      ),
+    );
   }
 
   @override

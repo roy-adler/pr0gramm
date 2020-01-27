@@ -21,10 +21,6 @@ class CommentPage extends StatelessWidget {
       return _emptyList();
     }
 
-    if (commentList.isEmpty) {
-      return _emptyList();
-    }
-
     return Column(
       children: commentList,
     );

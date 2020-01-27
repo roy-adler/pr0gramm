@@ -98,22 +98,12 @@ class ItemPageState extends State<ItemPage> {
               children: <Widget>[
                 pr0grammContent.bigPicture(),
                 _buildVotes(),
-                TagPage(tagList: pr0grammTagList),
-                CommentPage(commentList: pr0grammCommentList),
+                // TagPage(tagList: pr0grammTagList),
+                // CommentPage(commentList: pr0grammCommentList),
               ],
             ),
           ),
         ),
-      ),
-    );
-
-    return Scaffold(
-      backgroundColor: richtigesGrau,
-      body: ListView.builder(
-        itemCount: 4,
-        itemBuilder: (context, index) {
-          return wi()[index];
-        },
       ),
     );
   }

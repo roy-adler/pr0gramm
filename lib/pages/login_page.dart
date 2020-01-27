@@ -7,9 +7,9 @@ import 'package:pr0gramm/api/preferences.dart';
 import 'package:pr0gramm/api/response_parser.dart';
 import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:pr0gramm/content/pr0gramm_login.dart';
-import 'package:pr0gramm/design/pr0_text.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
 import 'package:pr0gramm/pages/main_page.dart';
+import 'package:pr0gramm/widgets/Pr0Text.dart';
 import 'package:pr0gramm/widgets/pr0_captcha.dart';
 import 'package:pr0gramm/widgets/pr0_dialog.dart';
 
@@ -47,11 +47,7 @@ class LoginPageState extends State<LoginPage> {
       children: <Widget>[
         Align(
           alignment: AlignmentDirectional.centerStart,
-          child: Pr0Text(
-            sBenutzername,
-            textAlign: TextAlign.start,
-            heading: true,
-          ),
+          child: Pr0Text(sBenutzername),
         ),
         CupertinoTextField(
           controller: usernameController,
@@ -72,11 +68,7 @@ class LoginPageState extends State<LoginPage> {
       children: <Widget>[
         Align(
           alignment: AlignmentDirectional.centerStart,
-          child: Pr0Text(
-            sPasswort,
-            textAlign: TextAlign.start,
-            heading: true,
-          ),
+          child: Pr0Text(sPasswort),
         ),
         CupertinoTextField(
           controller: passwordController,
@@ -99,11 +91,7 @@ class LoginPageState extends State<LoginPage> {
         pr0captcha,
         Align(
           alignment: AlignmentDirectional.centerStart,
-          child: Pr0Text(
-            sCaptcha,
-            textAlign: TextAlign.start,
-            heading: true,
-          ),
+          child: Pr0Text(sCaptcha),
         ),
         CupertinoTextField(
           controller: captchaController,

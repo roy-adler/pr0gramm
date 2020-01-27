@@ -3,20 +3,17 @@ import 'package:pr0gramm/design/pr0gramm_colors.dart';
 
 class Pr0Text extends StatelessWidget {
   final String text;
-  final TextAlign textAlign;
-  final bool heading;
+  final double fontSize;
 
-  const Pr0Text(this.text,
-      {this.textAlign = TextAlign.center, this.heading = false});
+  Pr0Text(this.text, {this.fontSize});
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
-      textAlign: textAlign,
       style: TextStyle(
         color: standardSchriftfarbe,
-        fontSize: heading ? 22 : 16,
+        fontSize: fontSize,
       ),
     );
   }
