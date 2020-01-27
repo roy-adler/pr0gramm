@@ -63,7 +63,7 @@ class ItemPageState extends State<ItemPage> {
             ],
           ),
           Container(
-            child: pr0Text(pr0grammContent.mediaLink, size: 12),
+            child: pr0Text("OCname"),
           )
         ],
       ),
@@ -88,6 +88,25 @@ class ItemPageState extends State<ItemPage> {
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: richtigesGrau,
+      body: SingleChildScrollView(
+        child: LayoutBuilder(
+          builder: (context, constraints) => Container(
+            width: constraints.maxWidth,
+            child: Column(
+              children: <Widget>[
+                pr0grammContent.bigPicture(),
+                _buildVotes(),
+                TagPage(tagList: pr0grammTagList),
+                CommentPage(commentList: pr0grammCommentList),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+
     return Scaffold(
       backgroundColor: richtigesGrau,
       body: ListView.builder(

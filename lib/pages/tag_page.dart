@@ -26,21 +26,24 @@ class _TagPageState extends State<TagPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        AnimatedContainer(
-          color: Colors.red,
-          duration: Duration(milliseconds: 500),
-          child: folded
-              ? Wrap(children: widget.tagList.sublist(0, maxFoldedItems))
-              : Wrap(children: widget.tagList),
-        ),
-        CupertinoButton(
-          child: Icon(
-              folded ? CupertinoIcons.down_arrow : CupertinoIcons.up_arrow),
-          onPressed: () => setState(() => folded = !folded),
-        )
-      ],
+    return LayoutBuilder(
+      builder: (context, constraints) => Column(
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          AnimatedContainer(
+            width: constraints.maxWidth,
+            duration: Duration(milliseconds: 500),
+            child: folded
+                ? Wrap(children: widget.tagList.sublist(0, 4))
+                : Wrap(children: widget.tagList),
+          ),
+          CupertinoButton(
+            child: Icon(
+                folded ? CupertinoIcons.down_arrow : CupertinoIcons.up_arrow),
+            onPressed: () => setState(() => folded = !folded),
+          )
+        ],
+      ),
     );
   }
 }
