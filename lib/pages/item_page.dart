@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pr0gramm/api/response_parser.dart';
-import 'package:pr0gramm/content/pr0gramm_comment.dart';
+import 'package:pr0gramm/content/pr0_comment.dart';
 import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:pr0gramm/content/pr0gramm_info.dart';
 import 'package:pr0gramm/content/pr0gramm_tag.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
+import 'package:pr0gramm/pages/comment_page.dart';
 import 'package:pr0gramm/pages/tag_page.dart';
 
 class ItemPage extends StatefulWidget {
@@ -22,7 +23,7 @@ class ItemPage extends StatefulWidget {
 
 class ItemPageState extends State<ItemPage> {
   List<Pr0grammTag> pr0grammTagList = List<Pr0grammTag>();
-  List<Pr0grammComment> pr0grammCommentList = List<Pr0grammComment>();
+  List<Pr0Comment> pr0grammCommentList = List<Pr0Comment>();
   Pr0grammContent pr0grammContent;
   bool b = false; // TODO: What is this bool for?
 
@@ -96,7 +97,7 @@ class ItemPageState extends State<ItemPage> {
             pr0grammContent.bigPicture(),
             pr0grammContent.buildVotes(),
             TagPage(pr0grammContentID: pr0grammContent.id),
-            // CommentPage(commentList: pr0grammCommentList),
+            CommentPage(pr0grammContentID: pr0grammContent.id),
           ],
         ),
       ),
@@ -106,7 +107,7 @@ class ItemPageState extends State<ItemPage> {
   makeGetRequest() async {
     Pr0grammInfo pr0grammInfo =
         await ResponseParser.getPr0grammInfo(pr0grammContent.id);
-    List<Pr0grammComment> pr0grammCommentListRequest =
+    List<Pr0Comment> pr0grammCommentListRequest =
         await ResponseParser.getComments(pr0grammInfo);
     List<Pr0grammTag> pr0grammTagListRequest =
         await ResponseParser.getTags(pr0grammInfo);

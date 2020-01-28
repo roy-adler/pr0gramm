@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
 import 'package:intl/intl.dart';
 
-class Pr0grammComment extends StatelessWidget {
+class Pr0Comment extends StatelessWidget {
   final int id;
   final int parent;
   final String content;
@@ -20,7 +20,7 @@ class Pr0grammComment extends StatelessWidget {
   static const double commentPadding = 20;
   static const double heightPadding = 6;
 
-  Pr0grammComment({
+  Pr0Comment({
     this.id,
     this.parent,
     this.content,
@@ -32,8 +32,8 @@ class Pr0grammComment extends StatelessWidget {
     this.mark,
   });
 
-  factory Pr0grammComment.fromJson(Map<String, dynamic> parsedJson) {
-    return Pr0grammComment(
+  factory Pr0Comment.fromJson(Map<String, dynamic> parsedJson) {
+    return Pr0Comment(
       id: parsedJson['id'],
       parent: parsedJson['parent'],
       content: parsedJson['content'],
