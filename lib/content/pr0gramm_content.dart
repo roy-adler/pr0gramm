@@ -11,6 +11,7 @@ import 'package:pr0gramm/widgets/loadingIndicator.dart';
 class Pr0grammContent extends StatelessWidget {
   final int id;
   final int promoted;
+  final int userId;
   final int up;
   final int down;
   final int created;
@@ -20,11 +21,18 @@ class Pr0grammContent extends StatelessWidget {
   final double width;
   final double height;
   final bool audio;
+  final String source;
+  final int flags;
+  final int deleted;
+  final String user;
+  final int mark;
+  final int gift;
   final MediaType mediaType;
 
   Pr0grammContent({
     this.id,
     this.promoted,
+    this.userId,
     this.up,
     this.down,
     this.created,
@@ -34,6 +42,12 @@ class Pr0grammContent extends StatelessWidget {
     this.width,
     this.height,
     this.audio,
+    this.source,
+    this.flags,
+    this.deleted,
+    this.user,
+    this.mark,
+    this.gift,
     this.mediaType,
   });
 
@@ -42,6 +56,7 @@ class Pr0grammContent extends StatelessWidget {
       id: 0,
       promoted: 0,
       up: 2,
+      userId: 63701,
       down: 3,
       created: 0,
       mediaLink: "",
@@ -58,6 +73,7 @@ class Pr0grammContent extends StatelessWidget {
     return new Pr0grammContent(
       id: json["id"],
       promoted: json["promoted"],
+      userId: json["userId"],
       up: json["up"],
       down: json["down"],
       created: json["created"],
@@ -66,15 +82,23 @@ class Pr0grammContent extends StatelessWidget {
       fullSize: json["fullsize"],
       width: json["width"].toDouble(),
       height: json["height"].toDouble(),
-      audio: json['audio'],
+      audio: json["audio"],
+      source: json["source"],
+      flags: json["flags"],
+      deleted: json["deleted"],
+      user: json["user"],
+      mark: json["mark"],
+      gift: json["gift"],
       mediaType: getMediaTypeFromImage(json["image"]),
     );
   }
 
+
+  // TODO: ToString prints not all the variables
   String asString() {
     String heading = "Pr0grammContent:\n";
-    String body = " id: $id\n promoted: $promoted\n up: $up\n down: $down\n"
-        " created: $created\n image: $mediaLink\n thumb: $thumb\n"
+    String body = " id: $id\n promoted: $promoted\n userId: $userId\n up: $up\n"
+        " down: $down\n created: $created\n image: $mediaLink\n thumb: $thumb\n"
         " fullsize: $fullSize\n width: $width\n height: $height\n"
         " audio: $audio\n";
     return heading + body;
@@ -196,7 +220,7 @@ class Pr0grammContent extends StatelessWidget {
 
   Widget buildVotes() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -225,7 +249,7 @@ class Pr0grammContent extends StatelessWidget {
           ),
           Container(
             child: Pr0Text(
-              "OCname",
+              user,
               fontSize: 22,
             ),
           )
