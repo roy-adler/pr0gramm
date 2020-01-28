@@ -65,9 +65,8 @@ class _TagPageState extends State<TagPage> {
             builder: (context, constraints) => Column(
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
-                AnimatedContainer(
+                Container(
                   width: constraints.maxWidth,
-                  duration: Duration(milliseconds: 500),
                   child: folded && tagList.length > foldedItems
                       ? Wrap(
                           children: getFilteredTagList(
