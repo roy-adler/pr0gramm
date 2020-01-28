@@ -59,6 +59,15 @@ abstract class ResponseParser {
     return pr0grammInfo;
   }
 
+  static getTagsOverID(int pr0grammContentID) async {
+    List<Pr0grammTag> pr0grammTagList = List<Pr0grammTag>();
+    pr0grammTagList = (await getPr0grammInfo(pr0grammContentID))
+        .tags
+        .map((i) => Pr0grammTag.fromJson(i))
+        .toList();
+    return pr0grammTagList;
+  }
+
   static getTags(Pr0grammInfo pr0grammInfo) async {
     List<Pr0grammTag> pr0grammTagList = List<Pr0grammTag>();
     pr0grammTagList =
