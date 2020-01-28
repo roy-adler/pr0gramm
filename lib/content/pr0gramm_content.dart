@@ -2,14 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:pr0gramm/content/file_loader.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
 import 'package:pr0gramm/pages/video_screen.dart';
 import 'package:pr0gramm/widgets/Pr0Text.dart';
 import 'package:pr0gramm/widgets/loadingIndicator.dart';
-import 'package:http/http.dart' as http;
-import 'package:path/path.dart' as path;
 
 class Pr0grammContent extends StatelessWidget {
   final int id;
@@ -104,55 +101,37 @@ class Pr0grammContent extends StatelessWidget {
     );
   }
 
-  Future<File> _downloadFile(String url) async {
-    return FileLoader.getThumbnail(thumb);
-
+  Future<Widget> fileToWidgetLoader(bool fullScreen) async {
     try {
-      // Local
-      String filename = path.dirname(mediaLink);
-      String dir = (await getApplicationDocumentsDirectory()).path;
-      String fileDir = '$dir/$filename/';
-      File file = new File(fileDir + path.basename(mediaLink));
-      if (await file.exists()) {
-        return file;
-      }
-      new Directory(fileDir)
-          .create(recursive: true)
-          .then((Directory directory) {
-        print("created dir: ${directory.path}");
-      });
-
-      http.Client _client = new http.Client();
-      var req = await _client.get(Uri.parse(url));
-      var bytes = req.bodyBytes;
-
-      // Download
-      await file.writeAsBytes(bytes);
-      return file;
-    } catch (error) {
-      print("DownloadError: " + error.toString());
-    }
-  }
-
-  Future<Widget> fileLoader(bool fullScreen) async {
-    try {
-      Future<File> loadingfile = fullScreen
+      Future<File> loadingFile = fullScreen
           ? FileLoader.getMedia(mediaLink)
           : FileLoader.getThumbnail(thumb);
-      File mediaFile = await loadingfile;
+      File mediaFile = await loadingFile;
       if (mediaType == MediaType.vid && fullScreen) {
-        //TODO: Videoplayer needs to use downloaded files (Also use streaming while File isn't there)
+        // TODO: Videoplayer needs to use downloaded files (Also use streaming while File isn't there)
         return VideoWidget(pr0grammContent: this);
       }
       return Image.file(mediaFile);
     } catch (error) {
       print("FileLaoderError:${error.toString()}");
     }
+
+    return Container(
+      width: width,
+      height: height,
+      color: richtigesGrau,
+      child: Center(
+        child: Text(
+          "Ladefehler",
+          style: TextStyle(color: iRGENDWASDOOFESISTPASSIERTFarbe),
+        ),
+      ),
+    );
   }
 
   Widget _getContent({bool fullScreen = false}) {
     return FutureBuilder(
-      future: fileLoader(fullScreen),
+      future: fileToWidgetLoader(fullScreen),
       builder: (context, snapshot) {
         return Stack(
           children: <Widget>[
@@ -167,11 +146,6 @@ class Pr0grammContent extends StatelessWidget {
         );
       },
     );
-
-    if (mediaType == MediaType.vid && fullScreen) {
-      return VideoWidget(pr0grammContent: this);
-    }
-    return Image.network(buildURL(fullScreen));
   }
 
   String get thumbURL {
