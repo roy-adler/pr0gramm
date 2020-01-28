@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pr0gramm/api/response_parser.dart';
 import 'package:pr0gramm/content/pr0gramm_tag.dart';
+import 'package:pr0gramm/design/animated_wrap.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
 
 class TagPage extends StatefulWidget {
@@ -47,7 +48,6 @@ class _TagPageState extends State<TagPage> {
   }
 
   List<Widget> getFilteredTagList(List<Widget> tagList, int moreItems) {
-    //tagList.add(moreTagsButton(moreItems));
     List<Widget> widgetList = tagList.map((title) => title).toList();
     widgetList.add(moreTagsButton(moreItems));
     return widgetList;
@@ -68,12 +68,12 @@ class _TagPageState extends State<TagPage> {
                 Container(
                   width: constraints.maxWidth,
                   child: folded && tagList.length > foldedItems
-                      ? Wrap(
+                      ? AnimatedWrap(
                           children: getFilteredTagList(
                               tagList.sublist(0, foldedItems),
                               tagList.length - foldedItems),
                         )
-                      : Wrap(children: tagList),
+                      : AnimatedWrap(children: tagList),
                 ),
               ],
             ),
