@@ -19,7 +19,8 @@ class _VideoWidgetState extends State<VideoWidget> {
 
   var chewieController;
 
-  Completer loaded = Completer(); // TODO: Completer for video input
+  Completer loaded =
+      Completer(); // TODO: Completer for video input (UPDATE NOT NEEDED: Is it needed?)
 
   @override
   void initState() {
@@ -54,14 +55,6 @@ class _VideoWidgetState extends State<VideoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (!loaded.isCompleted) {
-      return Container(
-        width: 200,
-        height: 200,
-        color: Colors.red,
-      );
-    }
-
     return Chewie(
       controller: chewieController,
     );

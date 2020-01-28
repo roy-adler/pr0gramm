@@ -16,7 +16,7 @@ class Pr0grammContent extends StatelessWidget {
   final int created;
   final String mediaLink;
   final String thumb;
-  final String fullSize; //TODO
+  final String fullSize;
   final double width;
   final double height;
   final bool audio;
