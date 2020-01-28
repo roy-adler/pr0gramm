@@ -90,23 +90,18 @@ class ItemPageState extends State<ItemPage> {
     return Scaffold(
       backgroundColor: richtigesGrau,
       body: SingleChildScrollView(
-        child: LayoutBuilder(
-          builder: (context, constraints) => Container(
-            width: constraints.maxWidth,
-            child: Column(
-              children: <Widget>[
-                pr0grammContent.bigPicture(),
-                pr0grammContent.buildVotes(),
-                TagPage(tagList: pr0grammTagList),
-                // CommentPage(commentList: pr0grammCommentList),
-              ],
-            ),
-          ),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            pr0grammContent.bigPicture(),
+            pr0grammContent.buildVotes(),
+            TagPage(pr0grammContentID: pr0grammContent.id),
+            // CommentPage(commentList: pr0grammCommentList),
+          ],
         ),
       ),
     );
   }
-
 
   makeGetRequest() async {
     Pr0grammInfo pr0grammInfo =

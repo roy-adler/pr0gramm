@@ -113,7 +113,7 @@ class Pr0grammContent extends StatelessWidget {
       }
       return Image.file(mediaFile);
     } catch (error) {
-      print("FileLaoderError:${error.toString()}");
+      print("FileLoaderError:${error.toString()}");
     }
 
     return Container(
