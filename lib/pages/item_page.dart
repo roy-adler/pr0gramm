@@ -6,6 +6,7 @@ import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:pr0gramm/content/pr0gramm_info.dart';
 import 'package:pr0gramm/content/pr0gramm_tag.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
+import 'package:pr0gramm/pages/tag_page.dart';
 
 class ItemPage extends StatefulWidget {
   final Pr0grammContent pr0grammContent;
@@ -23,7 +24,7 @@ class ItemPageState extends State<ItemPage> {
   List<Pr0grammTag> pr0grammTagList = List<Pr0grammTag>();
   List<Pr0grammComment> pr0grammCommentList = List<Pr0grammComment>();
   Pr0grammContent pr0grammContent;
-  bool b = false;
+  bool b = false; // TODO: What is this bool for?
 
   @override
   void initState() {
@@ -96,7 +97,7 @@ class ItemPageState extends State<ItemPage> {
               children: <Widget>[
                 pr0grammContent.bigPicture(),
                 pr0grammContent.buildVotes(),
-                // TagPage(tagList: pr0grammTagList),
+                TagPage(tagList: pr0grammTagList),
                 // CommentPage(commentList: pr0grammCommentList),
               ],
             ),
