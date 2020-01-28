@@ -43,7 +43,7 @@ class FileLoader {
     } catch (error) {
       print("DownloadError: " + error.toString());
     }
-    
+
     return file;
   }
 
