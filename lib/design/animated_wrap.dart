@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class AnimatedLogo extends AnimatedWidget {
+class AnimatedTag extends AnimatedWidget {
   static final _opacityTween = Tween<double>(begin: 0.1, end: 1);
   final Widget widget;
 
-  AnimatedLogo({this.widget, Key key, Animation<double> animation})
+  AnimatedTag({this.widget, Key key, Animation<double> animation})
       : super(key: key, listenable: animation);
 
   Widget build(BuildContext context) {
@@ -32,8 +32,8 @@ class _AnimatedWrapState extends State<AnimatedWrap>
   @override
   void initState() {
     super.initState();
-    controller =
-        AnimationController(duration: const Duration(milliseconds: 200), vsync: this);
+    controller = AnimationController(
+        duration: const Duration(milliseconds: 200), vsync: this);
     animation = CurvedAnimation(parent: controller, curve: Curves.easeOut);
     controller.forward();
   }
@@ -42,9 +42,12 @@ class _AnimatedWrapState extends State<AnimatedWrap>
   Widget build(BuildContext context) {
     List<Widget> tagList = [];
     widget.children.forEach((element) {
-      tagList.add(AnimatedLogo(widget: element, animation: animation,));
+      tagList.add(AnimatedTag(
+        widget: element,
+        animation: animation,
+      ));
     });
-    return Wrap(children: tagList,);
+    return Wrap(children: tagList);
   }
 
   @override
