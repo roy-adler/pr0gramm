@@ -51,6 +51,50 @@ class Pr0grammContent extends StatelessWidget {
     this.mediaType,
   });
 
+  copy({
+    id,
+    promoted,
+    userId,
+    up,
+    down,
+    created,
+    mediaLink,
+    thumb,
+    fullSize,
+    width,
+    height,
+    audio,
+    source,
+    flags,
+    deleted,
+    user,
+    mark,
+    gift,
+    mediaType,
+  }) {
+    return Pr0grammContent(
+      id: this.id,
+      promoted: this.promoted,
+      userId: this.userId,
+      up: this.up,
+      down: this.down,
+      created: this.created,
+      mediaLink: this.mediaLink,
+      thumb: this.thumb,
+      fullSize: this.fullSize,
+      width: this.width,
+      height: this.height,
+      audio: this.audio,
+      source: this.source,
+      flags: this.flags,
+      deleted: this.deleted,
+      user: this.user,
+      mark: this.mark,
+      gift: this.gift,
+      mediaType: this.mediaType,
+    );
+  }
+
   factory Pr0grammContent.dummy() {
     return new Pr0grammContent(
       id: 0,
