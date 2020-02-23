@@ -67,14 +67,14 @@ abstract class ResponseParser {
     return getComments((await getPr0grammInfo(pr0grammContentID)));
   }
 
-  static getTags(Pr0grammInfo pr0grammInfo) async {
+  static getTags(Pr0grammInfo pr0grammInfo)  {
     List<Pr0grammTag> pr0grammTagList = List<Pr0grammTag>();
     pr0grammTagList =
         pr0grammInfo.tags.map((i) => Pr0grammTag.fromJson(i)).toList();
     return pr0grammTagList;
   }
 
-  static getComments(Pr0grammInfo pr0grammInfo) async {
+  static getComments(Pr0grammInfo pr0grammInfo) {
     List<Pr0Comment> pr0grammCommentList = List<Pr0Comment>();
     pr0grammCommentList =
         pr0grammInfo.comments.map((i) => Pr0Comment.fromJson(i)).toList();
