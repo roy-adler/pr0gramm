@@ -170,9 +170,7 @@ class MainPageState extends State<MainPage> {
                                   );
                                 },
                                 // TODO: Hero Thing? With Fullscreen Page
-                                child: Hero(
-                                    tag: contentList[index].id,
-                                    child: contentList[index]),
+                                child: contentList[index],
                               ),
                             );
                           },
