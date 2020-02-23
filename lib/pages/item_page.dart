@@ -75,6 +75,8 @@ class ItemPageState extends State<ItemPage> {
         style: TextStyle(color: standardSchriftfarbe, fontSize: size));
   }
 
+
+  // TODO
   Widget fullscreenCloseButton() {
     return Align(
       alignment: AlignmentDirectional.topEnd,

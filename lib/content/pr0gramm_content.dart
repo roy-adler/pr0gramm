@@ -93,7 +93,6 @@ class Pr0grammContent extends StatelessWidget {
     );
   }
 
-
   // TODO: ToString prints not all the variables
   String asString() {
     String heading = "Pr0grammContent:\n";
@@ -105,15 +104,12 @@ class Pr0grammContent extends StatelessWidget {
   }
 
   Widget thumbnail() {
-    return Hero(
-      tag: id,
-      child: Container(
-        width: 200,
-        height: 200,
-        child: FittedBox(
-          fit: BoxFit.cover,
-          child: _getContent(fullScreen: false),
-        ),
+    return Container(
+      width: 200,
+      height: 200,
+      child: FittedBox(
+        fit: BoxFit.cover,
+        child: _getContent(fullScreen: false),
       ),
     );
   }

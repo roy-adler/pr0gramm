@@ -4,10 +4,12 @@ import 'package:pr0gramm/api/response_parser.dart';
 import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:pr0gramm/content/pr0gramm_login.dart';
 import 'package:pr0gramm/content/pr0gramm_logout.dart';
+import 'package:pr0gramm/pages/fullscreen_page.dart';
 import 'package:pr0gramm/pages/item_page.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
 import 'package:pr0gramm/pages/login_page.dart';
 import 'package:pr0gramm/widgets/loadingIndicator.dart';
+import 'package:pr0gramm/widgets/logout_btn.dart';
 
 class MainPage extends StatefulWidget {
   final Pr0grammLogin pr0grammLogin;
@@ -56,7 +58,7 @@ class MainPageState extends State<MainPage> {
     );
   }
 
-  Widget _sFW() {
+  Widget sfwBtn() {
     return FlatButton(
       highlightColor: pr0grammOrange,
       onPressed: () {
@@ -72,7 +74,7 @@ class MainPageState extends State<MainPage> {
     );
   }
 
-  Widget _nSFW() {
+  Widget nsfwBtn() {
     return FlatButton(
       highlightColor: pr0grammOrange,
       onPressed: () {
@@ -99,16 +101,19 @@ class MainPageState extends State<MainPage> {
     return flags;
   }
 
-  List<ItemPage> _getItemPageList(
+  List<Hero> _getItemPageList(
     List<Pr0grammContent> list,
     Function toggleFullscreen,
   ) {
-    List<ItemPage> itemPageList = [];
+    List<Hero> itemPageList = [];
     list.forEach(
       (Pr0grammContent element) => itemPageList.add(
-        ItemPage(
-          pr0grammContent: element,
-          toggleFullscreen: toggleFullscreen,
+        Hero(
+          tag: element.id,
+          child: ItemPage(
+            pr0grammContent: element,
+            toggleFullscreen: toggleFullscreen,
+          ),
         ),
       ),
     );
@@ -124,37 +129,6 @@ class MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: ehemaligeHintergrundFarbeDerKommentare,
-        shape: RoundedRectangleBorder(
-          side: BorderSide(
-            width: 4,
-            style: BorderStyle.solid,
-          ),
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(20),
-            bottomRight: Radius.circular(20),
-          ),
-        ),
-        actions: <Widget>[
-          FlatButton(
-            child: Icon(
-              Icons.exit_to_app,
-              color: Colors.white,
-            ),
-            onPressed: () async {
-              Pr0grammLogout pr0grammLogout = await ResponseParser.logout();
-              if (pr0grammLogout.success == true) {
-                ResponseParser.setCookie("");
-                return Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginPage()));
-              }
-            },
-          ),
-          Flexible(child: _sFW()),
-          Flexible(child: _nSFW()),
-        ],
-      ),
       backgroundColor: richtigesGrau,
       body: FutureBuilder(
         future: ResponseParser.getPr0grammContentList(promoted, _createFlags()),
@@ -172,41 +146,37 @@ class MainPageState extends State<MainPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Expanded(
-                        child: isFullscreen
-                            ? PageView.builder(
-                                controller:
-                                    PageController(initialPage: itemPos),
-                                scrollDirection: Axis.horizontal,
-                                itemCount: contentList.length,
-                                itemBuilder: (context, index) {
-                                  List<ItemPage> itemPageList =
-                                      _getItemPageList(
-                                    contentList,
-                                    toggleFullscreen,
-                                  );
-                                  return itemPageList[index];
-                                },
-                              )
-                            : GridView.builder(
-                                gridDelegate:
-                                    SliverGridDelegateWithMaxCrossAxisExtent(
-                                        maxCrossAxisExtent: 150),
-                                itemCount: contentList.length,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          itemPos = index;
-                                          toggleFullscreen();
-                                        });
+                        child: GridView.builder(
+                          gridDelegate:
+                              SliverGridDelegateWithMaxCrossAxisExtent(
+                                  maxCrossAxisExtent: 150),
+                          itemCount: contentList.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      fullscreenDialog: true,
+                                      builder: (context) {
+                                        return FullscreenPage(
+                                          contentList: contentList,
+                                          itemPos: index,
+                                        );
                                       },
-                                      child: snapshot.data[index],
                                     ),
                                   );
                                 },
+                                // TODO: Hero Thing? With Fullscreen Page
+                                child: Hero(
+                                    tag: contentList[index].id,
+                                    child: contentList[index]),
                               ),
+                            );
+                          },
+                        ),
                       ),
                     ],
                   ),
