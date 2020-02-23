@@ -8,6 +8,7 @@ import 'package:pr0gramm/content/pr0gramm_tag.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
 import 'package:pr0gramm/pages/comment_page.dart';
 import 'package:pr0gramm/pages/tag_page.dart';
+import 'package:pr0gramm/widgets/loadingIndicator.dart';
 
 class ItemPage extends StatefulWidget {
   final Pr0grammContent pr0grammContent;
@@ -30,8 +31,9 @@ class ItemPageState extends State<ItemPage> {
   @override
   void initState() {
     // TODO: implement initState
-    pr0grammContent = widget.pr0grammContent;
-    makeGetRequest();
+    // TODO: Janky code with the gift
+    pr0grammContent = widget.pr0grammContent.copy(gift: "");
+    // TODO Remove makeGetRequest();
     super.initState();
   }
 
@@ -75,7 +77,6 @@ class ItemPageState extends State<ItemPage> {
         style: TextStyle(color: standardSchriftfarbe, fontSize: size));
   }
 
-
   // TODO
   Widget fullscreenCloseButton() {
     return Align(
@@ -92,31 +93,29 @@ class ItemPageState extends State<ItemPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: richtigesGrau,
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            pr0grammContent.bigPicture(),
-            pr0grammContent.buildVotes(),
-            TagPage(pr0grammContentID: pr0grammContent.id),
-            CommentPage(pr0grammContentID: pr0grammContent.id),
-          ],
-        ),
+      body: FutureBuilder(
+        future: ResponseParser.getPr0grammInfo(pr0grammContent.id),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return LoadingIndicator();
+          }
+          Pr0grammInfo pr0grammInfo = snapshot.data;
+          pr0grammCommentList = ResponseParser.getComments(pr0grammInfo);
+          pr0grammTagList = ResponseParser.getTags(pr0grammInfo);
+
+          return SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                pr0grammContent.bigPicture(),
+                pr0grammContent.buildVotes(),
+                TagPage(pr0grammContentID: pr0grammContent.id),
+                CommentPage(pr0grammContentID: pr0grammContent.id),
+              ],
+            ),
+          );
+        },
       ),
     );
-  }
-
-  makeGetRequest() async {
-    Pr0grammInfo pr0grammInfo =
-        await ResponseParser.getPr0grammInfo(pr0grammContent.id);
-    List<Pr0Comment> pr0grammCommentListRequest =
-        await ResponseParser.getComments(pr0grammInfo);
-    List<Pr0grammTag> pr0grammTagListRequest =
-        await ResponseParser.getTags(pr0grammInfo);
-    setState(() {
-      pr0grammCommentList = pr0grammCommentListRequest;
-      pr0grammTagList = pr0grammTagListRequest;
-      b = true;
-    });
   }
 }

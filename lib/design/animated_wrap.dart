@@ -1,37 +1,55 @@
 import 'package:flutter/material.dart';
 
+class AnimatedLogo extends AnimatedWidget {
+  static final _opacityTween = Tween<double>(begin: 0.1, end: 1);
+  final Widget widget;
+
+  AnimatedLogo({this.widget, Key key, Animation<double> animation})
+      : super(key: key, listenable: animation);
+
+  Widget build(BuildContext context) {
+    final animation = listenable as Animation<double>;
+    return Opacity(
+      opacity: _opacityTween.evaluate(animation),
+      child: widget,
+    );
+  }
+}
+
 class AnimatedWrap extends StatefulWidget {
   final List<Widget> children;
 
   AnimatedWrap({this.children});
 
-  @override
   _AnimatedWrapState createState() => _AnimatedWrapState();
 }
 
-class _AnimatedWrapState extends State<AnimatedWrap> {
-  double opacity;
+class _AnimatedWrapState extends State<AnimatedWrap>
+    with SingleTickerProviderStateMixin {
+  Animation<double> animation;
+  AnimationController controller;
 
   @override
   void initState() {
-    opacity = 0;
     super.initState();
+    controller =
+        AnimationController(duration: const Duration(milliseconds: 200), vsync: this);
+    animation = CurvedAnimation(parent: controller, curve: Curves.easeOut);
+    controller.forward();
   }
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> widgetList = widget.children.map((item) {
-      int i = widget.children.indexOf(item);
-      final animated = AnimatedOpacity(
-        duration: Duration(milliseconds: 200+i*50),
-        opacity: opacity,
-        child: item,
-      );
-      return animated;
-    }).toList();
-    opacity = 1.0;
-    return Wrap(
-      children: widgetList,
-    );
+    List<Widget> tagList = [];
+    widget.children.forEach((element) {
+      tagList.add(AnimatedLogo(widget: element, animation: animation,));
+    });
+    return Wrap(children: tagList,);
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }
