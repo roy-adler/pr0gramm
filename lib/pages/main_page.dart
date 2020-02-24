@@ -22,7 +22,8 @@ class MainPage extends StatefulWidget {
 
 class MainPageState extends State<MainPage> {
   String sFail =
-      "Ups, da ist wohl etwas schief gelaufen!\nZum neu laden clicken";
+      "Ups, da ist wohl etwas schief gelaufen!\n"
+      "Zum neu laden clicken";
   int promoted = 1;
   int sFW = 9;
   int nSFW = 2;
