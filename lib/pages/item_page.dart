@@ -5,6 +5,7 @@ import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
 import 'package:pr0gramm/pages/comment_page.dart';
 import 'package:pr0gramm/pages/tag_page.dart';
+import 'package:pr0gramm/widgets/Design/loadingIndicator.dart';
 
 class ItemPage extends StatefulWidget {
   final Pr0grammContent pr0grammContent;

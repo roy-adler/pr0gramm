@@ -3,7 +3,7 @@ import 'package:pr0gramm/content/file_loader.dart';
 
 class Content extends StatelessWidget {
   downloadThumbnail(){
-    FileLoader.getThumbnail(mediaLink);
+    FileLoader.getThumbnail("");
   }
 
   @override

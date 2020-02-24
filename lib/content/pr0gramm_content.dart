@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:pr0gramm/content/file_loader.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
 import 'package:pr0gramm/pages/video_screen.dart';
+import 'package:pr0gramm/widgets/Design/Pr0Text.dart';
+import 'package:pr0gramm/widgets/Design/loadingIndicator.dart';
 
 class Pr0grammContent extends StatelessWidget {
   final int id;
