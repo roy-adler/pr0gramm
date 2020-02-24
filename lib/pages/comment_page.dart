@@ -14,7 +14,6 @@ class CommentPage extends StatefulWidget {
 
 class _CommentPageState extends State<CommentPage> {
   _emptyList() {
-    print("Leere Liste");
     return Text(
       "Noch keine Kommentare vorhanden.",
       style: TextStyle(color: iRGENDWASDOOFESISTPASSIERTFarbe),
@@ -28,6 +27,9 @@ class _CommentPageState extends State<CommentPage> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<Pr0Comment> tagList = snapshot.data;
+          if(tagList.isEmpty){
+            return _emptyList();
+          }
           return Column(
             children: snapshot.data,
           );
