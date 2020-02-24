@@ -152,7 +152,7 @@ class MainPageState extends State<MainPage> {
                           itemCount: contentList.length,
                           itemBuilder: (context, index) {
                             return Padding(
-                              padding: const EdgeInsets.all(4.0),
+                              padding: const EdgeInsets.all(1),
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.push(

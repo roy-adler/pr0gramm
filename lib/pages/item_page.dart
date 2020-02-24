@@ -20,7 +20,6 @@ class ItemPage extends StatefulWidget {
 }
 
 class ItemPageState extends State<ItemPage> {
-
   Pr0grammContent pr0grammContent;
 
   @override
@@ -31,54 +30,22 @@ class ItemPageState extends State<ItemPage> {
     super.initState();
   }
 
-  Widget _buildVotes() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Icon(CupertinoIcons.add_circled, color: standardSchriftfarbe),
-                  Container(
-                    width: 4,
-                  ),
-                  Icon(CupertinoIcons.minus_circled,
-                      color: standardSchriftfarbe),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: pr0Text(
-                    (pr0grammContent.up - pr0grammContent.down).toString()),
-              ),
-              Icon(CupertinoIcons.heart_solid, color: standardSchriftfarbe),
-            ],
-          ),
-          Container(
-            child: pr0Text("OCname"),
-          )
-        ],
-      ),
+  // TODO Check this shit out?!
+  Widget pr0Text(String s, {double size = 32}) {
+    return Text(
+      s,
+      style: TextStyle(color: standardSchriftfarbe, fontSize: size),
     );
   }
 
-  Widget pr0Text(String s, {double size = 32}) {
-    return Text(s,
-        style: TextStyle(color: standardSchriftfarbe, fontSize: size));
-  }
-
   // TODO
-  Widget fullscreenCloseButton() {
-    return Align(
-      alignment: AlignmentDirectional.topEnd,
-      child: FlatButton(
-        color: Colors.white,
-        onPressed: widget.toggleFullscreen,
-        child: Icon(Icons.fullscreen_exit),
+  Widget fullscreenCloseButton(BuildContext context) {
+    return FlatButton(
+      onPressed: () => Navigator.pop(context),
+      child: Icon(
+        Icons.close,
+        size: 32,
+        color: pr0grammOrange,
       ),
     );
   }
@@ -87,25 +54,35 @@ class ItemPageState extends State<ItemPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: richtigesGrau,
-      body: FutureBuilder(
-        future: ResponseParser.getPr0grammInfo(pr0grammContent.id),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return LoadingIndicator();
-          }
+      body: Stack(
+        children: <Widget>[
+          FutureBuilder(
+            future: ResponseParser.getPr0grammInfo(pr0grammContent.id),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return LoadingIndicator();
+              }
 
-          return SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                pr0grammContent.bigPicture(),
-                pr0grammContent.buildVotes(),
-                TagPage(pr0grammContentID: pr0grammContent.id),
-                CommentPage(pr0grammContentID: pr0grammContent.id),
-              ],
-            ),
-          );
-        },
+              return SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    pr0grammContent.bigPicture(),
+                    pr0grammContent.buildVotes(),
+                    TagPage(pr0grammContentID: pr0grammContent.id),
+                    CommentPage(pr0grammContentID: pr0grammContent.id),
+                  ],
+                ),
+              );
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Align(
+              alignment: AlignmentDirectional.topEnd,
+                child: fullscreenCloseButton(context)),
+          ),
+        ],
       ),
     );
   }
