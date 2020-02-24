@@ -1,14 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pr0gramm/api/response_parser.dart';
-import 'package:pr0gramm/content/pr0_comment.dart';
 import 'package:pr0gramm/content/pr0gramm_content.dart';
-import 'package:pr0gramm/content/pr0gramm_info.dart';
-import 'package:pr0gramm/content/pr0gramm_tag.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
 import 'package:pr0gramm/pages/comment_page.dart';
 import 'package:pr0gramm/pages/tag_page.dart';
-import 'package:pr0gramm/widgets/loadingIndicator.dart';
 
 class ItemPage extends StatefulWidget {
   final Pr0grammContent pr0grammContent;
@@ -23,17 +19,14 @@ class ItemPage extends StatefulWidget {
 }
 
 class ItemPageState extends State<ItemPage> {
-  List<Pr0grammTag> pr0grammTagList = List<Pr0grammTag>();
-  List<Pr0Comment> pr0grammCommentList = List<Pr0Comment>();
+
   Pr0grammContent pr0grammContent;
-  bool b = false; // TODO: What is this bool for?
 
   @override
   void initState() {
     // TODO: implement initState
     // TODO: Janky code with the gift
     pr0grammContent = widget.pr0grammContent.copy(gift: "");
-    // TODO Remove makeGetRequest();
     super.initState();
   }
 
@@ -99,9 +92,6 @@ class ItemPageState extends State<ItemPage> {
           if (!snapshot.hasData) {
             return LoadingIndicator();
           }
-          Pr0grammInfo pr0grammInfo = snapshot.data;
-          pr0grammCommentList = ResponseParser.getComments(pr0grammInfo);
-          pr0grammTagList = ResponseParser.getTags(pr0grammInfo);
 
           return SingleChildScrollView(
             child: Column(

@@ -18,11 +18,11 @@ class FileLoader {
     return "${path.dirname(mediaLink)}/$folderName/${path.basename(mediaLink)}";
   }
 
-  static Future<File> downloadFile(String url, String mediaLink) async {
-    String filename = path.dirname(mediaLink);
+  static Future<File> downloadFile(String url, String filePath) async {
+    String filename = path.dirname(filePath);
     String dir = (await getApplicationDocumentsDirectory()).path;
     String fileDir = '$dir/$filename/';
-    File file = new File(fileDir + path.basename(mediaLink));
+    File file = new File(fileDir + path.basename(filePath));
     if (await file.exists()) {
       return file;
     }

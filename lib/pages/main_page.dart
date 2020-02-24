@@ -8,8 +8,6 @@ import 'package:pr0gramm/pages/fullscreen_page.dart';
 import 'package:pr0gramm/pages/item_page.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
 import 'package:pr0gramm/pages/login_page.dart';
-import 'package:pr0gramm/widgets/loadingIndicator.dart';
-import 'package:pr0gramm/widgets/logout_btn.dart';
 
 class MainPage extends StatefulWidget {
   final Pr0grammLogin pr0grammLogin;

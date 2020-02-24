@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
-import 'package:pr0gramm/widgets/Pr0Text.dart';
 
 class MailPage extends StatefulWidget {
   @override

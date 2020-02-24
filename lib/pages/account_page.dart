@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:pr0gramm/api/response_parser.dart';
 import 'package:pr0gramm/content/is_loggedIn.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
-import 'package:pr0gramm/widgets/Pr0Text.dart';
 
 class AccountPage extends StatefulWidget {
   @override

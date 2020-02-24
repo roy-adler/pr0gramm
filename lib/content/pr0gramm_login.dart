@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pr0gramm/widgets/greyText.dart';
 
 class Pr0grammLogin extends StatelessWidget {
   final bool success;
