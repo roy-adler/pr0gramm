@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:pr0gramm/animations/Reachable/ReachableField.dart';
 import 'package:pr0gramm/api/response_parser.dart';
 import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:pr0gramm/content/pr0gramm_login.dart';
-import 'package:pr0gramm/content/pr0gramm_logout.dart';
-import 'package:pr0gramm/pages/fullscreen_page.dart';
 import 'package:pr0gramm/pages/item_page.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
-import 'package:pr0gramm/pages/login_page.dart';
 import 'package:pr0gramm/widgets/Design/loadingIndicator.dart';
+import 'package:pull_to_reach/pull_to_reach.dart';
 
 class MainPage extends StatefulWidget {
   final Pr0grammLogin pr0grammLogin;
@@ -125,65 +125,138 @@ class MainPageState extends State<MainPage> {
     });
   }
 
+  Offset offsetStart;
+  Offset offsetEnd;
+
+  Widget _buildList() {
+    List<Widget> list = [];
+    for (int i = 0; i < 20; i++) {
+      list.add(Container(
+        padding: EdgeInsets.all(20),
+        child: Center(child: Text("Element")),
+      ));
+    }
+
+    return ListView(children: list);
+  }
+
+  _showSearchBox() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ItemPage(
+                  pr0grammContent: Pr0grammContent.dummy(),
+                )));
+  }
+
+  Color iconColor = Colors.white;
+
   @override
   Widget build(BuildContext context) {
+    ScrollController scrollController;
+    return PullToReachContext(
+        indexCount: 2,
+        child: Scaffold(
+          body: ScrollToIndexConverter(
+            child: FutureBuilder(
+              future: ResponseParser.getPr0grammContentList(
+                  promoted, _createFlags()),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  List<Pr0grammContent> contentList = snapshot.data;
+                  List<Widget> widgetList = [];
+                  for (int i = 0; i < contentList.length; i++) {
+                    widgetList.add(contentList[i]);
+                  }
+
+                  widgetList[0] = ReachableField(
+                    icon: Icon(Icons.search),
+                    index: 1,
+                    onSelect: () {
+                      double offset = scrollController.offset;
+                      scrollController.jumpTo(offset - 10);
+                      _showSearchBox();
+                    },
+                  );
+
+                  // widgetList[0] = SliverAppBar(backgroundColor: Colors.redAccent, expandedHeight: 100);
+
+                  SliverAppBar sliverAppBar = SliverAppBar(
+                    backgroundColor: richtigesGrau,
+                    pinned: false,
+                    expandedHeight: 100,
+                    centerTitle: true,
+                    title: Container(
+                      color: pr0grammOrange,
+                      child: ReachableField(
+                        icon: Icon(Icons.search),
+                        index: 1,
+                        onSelect: () {
+                          _showSearchBox();
+                        },
+                      ),
+                    ),
+                  );
+
+                  SliverGrid sliverGrid = SliverGrid(
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 200.0,
+                      mainAxisSpacing: 10.0,
+                      crossAxisSpacing: 10.0,
+                      childAspectRatio: 4.0,
+                    ),
+                    delegate: SliverChildBuilderDelegate(
+                      (BuildContext context, int index) {
+                        return contentList[index];
+                      },
+                      childCount: contentList.length,
+                    ),
+                  );
+
+                  return CustomScrollView(
+                    slivers: <Widget>[
+                      sliverAppBar,
+                      sliverGrid,
+                    ],
+                  );
+                  return ListView(
+                    controller: scrollController,
+                    children: widgetList,
+                  );
+                }
+
+                return LoadingIndicator();
+              },
+            ),
+          ),
+        ));
+
     return Scaffold(
       backgroundColor: richtigesGrau,
-      body: FutureBuilder(
-        future: ResponseParser.getPr0grammContentList(promoted, _createFlags()),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            List<Pr0grammContent> contentList = snapshot.data;
-
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: SizedBox(
-                  // width: 300,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Expanded(
-                        child: GridView.builder(
-                          gridDelegate:
-                              SliverGridDelegateWithMaxCrossAxisExtent(
-                                  maxCrossAxisExtent: 150),
-                          itemCount: contentList.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(1),
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      fullscreenDialog: true,
-                                      builder: (context) {
-                                        return FullscreenPage(
-                                          contentList: contentList,
-                                          itemPos: index,
-                                        );
-                                      },
-                                    ),
-                                  );
-                                },
-                                // TODO: Hero Thing? With Fullscreen Page
-                                child: contentList[index],
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          }
-
-          return LoadingIndicator();
+      body: GestureDetector(
+        onHorizontalDragStart: (details) {
+          offsetStart = details.globalPosition;
         },
+        onHorizontalDragUpdate: (details) {
+          offsetEnd = details.globalPosition;
+        },
+        onHorizontalDragEnd: (DragEndDetails details) {
+          print("Start: $offsetStart , End: $offsetEnd");
+          double a = details.primaryVelocity;
+          Velocity b = details.velocity;
+        },
+        child: FutureBuilder(
+          future:
+              ResponseParser.getPr0grammContentList(promoted, _createFlags()),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              List<Pr0grammContent> contentList = snapshot.data;
+              return contentList.first;
+            }
+
+            return LoadingIndicator();
+          },
+        ),
       ),
     );
   }
