@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pr0gramm/animations/cube_page_route.dart';
+import 'package:pr0gramm/animations/page_view_builder.dart';
 import 'package:pr0gramm/api/preferences.dart';
 import 'package:pr0gramm/api/response_parser.dart';
 import 'package:pr0gramm/content/is_loggedIn.dart';
@@ -50,7 +52,7 @@ class LoadStart extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data) {
-              return MainPage();
+              return CubicPageView();
             } else {
               return LoginPage();
             }

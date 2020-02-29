@@ -33,10 +33,19 @@ class MainPageState extends State<MainPage> {
   bool sFWbool = true;
   bool nSFWbool = false;
   bool isFullscreen = false;
+  PageController pageController;
+  var currentPageValue = 0.0;
 
   @override
   void initState() {
     promoted = 1;
+    PageController pageController = PageController();
+
+    pageController.addListener(() {
+      setState(() {
+        currentPageValue = pageController.page;
+      });
+    });
     super.initState();
   }
 
@@ -149,115 +158,101 @@ class MainPageState extends State<MainPage> {
                 )));
   }
 
-  Color iconColor = Colors.white;
+  Widget _getContentGrid() {
+    return FutureBuilder(
+      future: ResponseParser.getPr0grammContentList(promoted, _createFlags()),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          List<Pr0grammContent> contentList = snapshot.data;
+
+          SliverAppBar sliverAppBar = SliverAppBar(
+            backgroundColor: richtigesGrau,
+            pinned: false,
+            stretch: true,
+            expandedHeight: 0,
+            centerTitle: true,
+            onStretchTrigger: () async => print("Hellosk"),
+            title: FlatButton(
+              onPressed: _showSearchBox,
+              color: pr0grammOrange,
+              child: Icon(Icons.search),
+            ),
+          );
+
+          SliverGrid sliverGrid = SliverGrid(
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 150.0,
+              mainAxisSpacing: 10.0,
+              crossAxisSpacing: 10.0,
+              childAspectRatio: 1.0,
+            ),
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                return contentList[index];
+              },
+              childCount: contentList.length,
+            ),
+          );
+
+          return CustomScrollView(
+            slivers: <Widget>[
+              sliverAppBar,
+              sliverGrid,
+            ],
+          );
+        }
+
+        return LoadingIndicator();
+      },
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    ScrollController scrollController;
-    return PullToReachContext(
-        indexCount: 2,
-        child: Scaffold(
-          body: ScrollToIndexConverter(
-            child: FutureBuilder(
-              future: ResponseParser.getPr0grammContentList(
-                  promoted, _createFlags()),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  List<Pr0grammContent> contentList = snapshot.data;
-                  List<Widget> widgetList = [];
-                  for (int i = 0; i < contentList.length; i++) {
-                    widgetList.add(contentList[i]);
-                  }
 
-                  widgetList[0] = ReachableField(
-                    icon: Icon(Icons.search),
-                    index: 1,
-                    onSelect: () {
-                      double offset = scrollController.offset;
-                      scrollController.jumpTo(offset - 10);
-                      _showSearchBox();
-                    },
-                  );
-
-                  // widgetList[0] = SliverAppBar(backgroundColor: Colors.redAccent, expandedHeight: 100);
-
-                  SliverAppBar sliverAppBar = SliverAppBar(
-                    backgroundColor: richtigesGrau,
-                    pinned: false,
-                    expandedHeight: 100,
-                    centerTitle: true,
-                    title: Container(
-                      color: pr0grammOrange,
-                      child: ReachableField(
-                        icon: Icon(Icons.search),
-                        index: 1,
-                        onSelect: () {
-                          _showSearchBox();
-                        },
-                      ),
-                    ),
-                  );
-
-                  SliverGrid sliverGrid = SliverGrid(
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 200.0,
-                      mainAxisSpacing: 10.0,
-                      crossAxisSpacing: 10.0,
-                      childAspectRatio: 4.0,
-                    ),
-                    delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                        return contentList[index];
-                      },
-                      childCount: contentList.length,
-                    ),
-                  );
-
-                  return CustomScrollView(
-                    slivers: <Widget>[
-                      sliverAppBar,
-                      sliverGrid,
-                    ],
-                  );
-                  return ListView(
-                    controller: scrollController,
-                    children: widgetList,
-                  );
-                }
-
-                return LoadingIndicator();
-              },
+    return PageView.builder(
+      controller: pageController,
+      itemBuilder: (context, position) {
+        if (position == currentPageValue.floor()) {
+          return Transform(
+            transform: Matrix4.identity()..rotateX(currentPageValue - position),
+            child: Container(
+              color: position % 2 == 0 ? Colors.blue : Colors.pink,
+              child: Center(
+                child: Text(
+                  "Page ${position + 1}",
+                  style: TextStyle(color: Colors.white, fontSize: 22.0),
+                ),
+              ),
             ),
-          ),
-        ));
-
-    return Scaffold(
-      backgroundColor: richtigesGrau,
-      body: GestureDetector(
-        onHorizontalDragStart: (details) {
-          offsetStart = details.globalPosition;
-        },
-        onHorizontalDragUpdate: (details) {
-          offsetEnd = details.globalPosition;
-        },
-        onHorizontalDragEnd: (DragEndDetails details) {
-          print("Start: $offsetStart , End: $offsetEnd");
-          double a = details.primaryVelocity;
-          Velocity b = details.velocity;
-        },
-        child: FutureBuilder(
-          future:
-              ResponseParser.getPr0grammContentList(promoted, _createFlags()),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              List<Pr0grammContent> contentList = snapshot.data;
-              return contentList.first;
-            }
-
-            return LoadingIndicator();
-          },
-        ),
-      ),
+          );
+        } else if (position == currentPageValue.floor() + 1) {
+          return Transform(
+            transform: Matrix4.identity()..rotateX(currentPageValue - position),
+            child: Container(
+              color: position % 2 == 0 ? Colors.blue : Colors.pink,
+              child: Center(
+                child: Text(
+                  "Page ${position + 1}",
+                  style: TextStyle(color: Colors.white, fontSize: 22.0),
+                ),
+              ),
+            ),
+          );
+        } else {
+          return Container(
+            color: position % 2 == 0 ? Colors.blue : Colors.pink,
+            child: Center(
+              child: Text(
+                "Page ${position + 1}",
+                style: TextStyle(color: Colors.white, fontSize: 22.0),
+              ),
+            ),
+          );
+        }
+      },
+      itemCount: 4,
     );
   }
 }
