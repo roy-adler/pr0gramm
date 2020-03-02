@@ -7,6 +7,7 @@ import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:pr0gramm/content/pr0gramm_login.dart';
 import 'package:pr0gramm/pages/item_page.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
+import 'package:pr0gramm/widgets/Content/content_grid.dart';
 import 'package:pr0gramm/widgets/Design/loadingIndicator.dart';
 import 'package:pull_to_reach/pull_to_reach.dart';
 
@@ -166,12 +167,12 @@ class MainPageState extends State<MainPage> {
           List<Pr0grammContent> contentList = snapshot.data;
 
           SliverAppBar sliverAppBar = SliverAppBar(
-            backgroundColor: richtigesGrau,
+            backgroundColor: richtigesGrau.withOpacity(0.5),
             pinned: false,
-            stretch: true,
-            expandedHeight: 0,
+            snap: false,
+            floating: true,
             centerTitle: true,
-            onStretchTrigger: () async => print("Hellosk"),
+            // expandedHeight: 200,
             title: FlatButton(
               onPressed: _showSearchBox,
               color: pr0grammOrange,
@@ -179,25 +180,12 @@ class MainPageState extends State<MainPage> {
             ),
           );
 
-          SliverGrid sliverGrid = SliverGrid(
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 150.0,
-              mainAxisSpacing: 10.0,
-              crossAxisSpacing: 10.0,
-              childAspectRatio: 1.0,
-            ),
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return contentList[index];
-              },
-              childCount: contentList.length,
-            ),
-          );
+          // SliverGrid sliverGrid = ContentGrid(contentList: contentList);
 
           return CustomScrollView(
             slivers: <Widget>[
               sliverAppBar,
-              sliverGrid,
+              ContentGrid(contentList: contentList),
             ],
           );
         }
@@ -207,52 +195,8 @@ class MainPageState extends State<MainPage> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
-
-    return PageView.builder(
-      controller: pageController,
-      itemBuilder: (context, position) {
-        if (position == currentPageValue.floor()) {
-          return Transform(
-            transform: Matrix4.identity()..rotateX(currentPageValue - position),
-            child: Container(
-              color: position % 2 == 0 ? Colors.blue : Colors.pink,
-              child: Center(
-                child: Text(
-                  "Page ${position + 1}",
-                  style: TextStyle(color: Colors.white, fontSize: 22.0),
-                ),
-              ),
-            ),
-          );
-        } else if (position == currentPageValue.floor() + 1) {
-          return Transform(
-            transform: Matrix4.identity()..rotateX(currentPageValue - position),
-            child: Container(
-              color: position % 2 == 0 ? Colors.blue : Colors.pink,
-              child: Center(
-                child: Text(
-                  "Page ${position + 1}",
-                  style: TextStyle(color: Colors.white, fontSize: 22.0),
-                ),
-              ),
-            ),
-          );
-        } else {
-          return Container(
-            color: position % 2 == 0 ? Colors.blue : Colors.pink,
-            child: Center(
-              child: Text(
-                "Page ${position + 1}",
-                style: TextStyle(color: Colors.white, fontSize: 22.0),
-              ),
-            ),
-          );
-        }
-      },
-      itemCount: 4,
-    );
+    return _getContentGrid();
   }
 }

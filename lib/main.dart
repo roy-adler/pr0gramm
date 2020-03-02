@@ -52,7 +52,7 @@ class LoadStart extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data) {
-              return CubicPageView();
+              return MainPage();
             } else {
               return LoginPage();
             }
