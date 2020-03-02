@@ -1,22 +1,43 @@
 import 'package:flutter/material.dart';
 
-class CubicPageView extends StatefulWidget {
+class ContentPageViewBuilder extends StatefulWidget {
+  final Widget newsPage;
+  final Widget sFWPage;
+  final Widget nSFWPage;
+  final Widget nSFLPage;
+
+  const ContentPageViewBuilder({
+    Key key,
+    this.newsPage,
+    this.sFWPage,
+    this.nSFWPage,
+    this.nSFLPage,
+  }) : super(key: key);
+
   @override
-  _CubicPageViewState createState() => _CubicPageViewState();
+  _ContentPageViewBuilderState createState() => _ContentPageViewBuilderState();
 }
 
-class _CubicPageViewState extends State<CubicPageView> {
-  PageController controller = PageController();
+class _ContentPageViewBuilderState extends State<ContentPageViewBuilder> {
+  PageController controller = PageController(initialPage: 1);
   var currentPageValue = 0.0;
+  List<Widget> pageList;
 
   @override
   void initState() {
     controller.addListener(() {
       setState(() {
         currentPageValue = controller.page;
-        print(currentPageValue);
+        //print(currentPageValue);
       });
     });
+
+    pageList = [
+      widget.newsPage,
+      widget.sFWPage,
+      widget.nSFWPage,
+      widget.nSFLPage,
+    ];
     super.initState();
   }
 
@@ -28,21 +49,13 @@ class _CubicPageViewState extends State<CubicPageView> {
       itemBuilder: (context, position) {
         if (position == currentPageValue.floor()) {
           return Opacity(
-            opacity: 1-op,
+            opacity: 1 - op,
             child: Transform(
               alignment: Alignment.center,
               transform: Matrix4.identity()
                 ..setEntry(3, 2, 0.0010)
                 ..rotateY(currentPageValue - position),
-              child: Container(
-                color: position % 2 == 0 ? Colors.blue : Colors.pink,
-                child: Center(
-                  child: Text(
-                    "Page",
-                    style: TextStyle(color: Colors.white, fontSize: 22.0),
-                  ),
-                ),
-              ),
+              child: pageList[currentPageValue.floor()],
             ),
           );
         } else if (position == currentPageValue.floor() + 1) {
@@ -53,15 +66,7 @@ class _CubicPageViewState extends State<CubicPageView> {
               transform: Matrix4.identity()
                 ..setEntry(3, 2, 0.0025)
                 ..rotateY(currentPageValue - position),
-              child: Container(
-                color: position % 2 == 0 ? Colors.blue : Colors.pink,
-                child: Center(
-                  child: Text(
-                    "Page",
-                    style: TextStyle(color: Colors.white, fontSize: 22.0),
-                  ),
-                ),
-              ),
+              child: pageList[currentPageValue.floor() + 1],
             ),
           );
         } else {
@@ -76,7 +81,7 @@ class _CubicPageViewState extends State<CubicPageView> {
           );
         }
       },
-      itemCount: 10,
+      itemCount: 4,
     );
   }
 }

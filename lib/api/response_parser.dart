@@ -38,8 +38,9 @@ abstract class ResponseParser {
     return pr0grammContentList;
   }
 
+  // TODO: Implement TagSearch
   static Future<List<Pr0grammContent>> getPr0grammContentList(
-      int promoted, int flags) async {
+      int promoted, int flags, {String tags}) async {
     Pr0ContentContainer pr0grammContentContainer =
         await getPr0grammContentContainer(promoted, flags);
     List<Pr0grammContent> pr0grammContentList = List<Pr0grammContent>();

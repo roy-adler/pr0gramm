@@ -1,15 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:pr0gramm/animations/Reachable/ReachableField.dart';
 import 'package:pr0gramm/api/response_parser.dart';
 import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:pr0gramm/content/pr0gramm_login.dart';
 import 'package:pr0gramm/pages/item_page.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
-import 'package:pr0gramm/widgets/Content/content_grid.dart';
+import 'package:pr0gramm/widgets/Content/contents_page.dart';
+import 'package:pr0gramm/widgets/Content/content_sliver.dart';
 import 'package:pr0gramm/widgets/Design/loadingIndicator.dart';
-import 'package:pull_to_reach/pull_to_reach.dart';
 
 class MainPage extends StatefulWidget {
   final Pr0grammLogin pr0grammLogin;
@@ -39,7 +38,6 @@ class MainPageState extends State<MainPage> {
 
   @override
   void initState() {
-    promoted = 1;
     PageController pageController = PageController();
 
     pageController.addListener(() {
@@ -150,53 +148,10 @@ class MainPageState extends State<MainPage> {
     return ListView(children: list);
   }
 
-  _showSearchBox() {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => ItemPage(
-                  pr0grammContent: Pr0grammContent.dummy(),
-                )));
-  }
 
-  Widget _getContentGrid() {
-    return FutureBuilder(
-      future: ResponseParser.getPr0grammContentList(promoted, _createFlags()),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          List<Pr0grammContent> contentList = snapshot.data;
-
-          SliverAppBar sliverAppBar = SliverAppBar(
-            backgroundColor: richtigesGrau.withOpacity(0.5),
-            pinned: false,
-            snap: false,
-            floating: true,
-            centerTitle: true,
-            // expandedHeight: 200,
-            title: FlatButton(
-              onPressed: _showSearchBox,
-              color: pr0grammOrange,
-              child: Icon(Icons.search),
-            ),
-          );
-
-          // SliverGrid sliverGrid = ContentGrid(contentList: contentList);
-
-          return CustomScrollView(
-            slivers: <Widget>[
-              sliverAppBar,
-              ContentGrid(contentList: contentList),
-            ],
-          );
-        }
-
-        return LoadingIndicator();
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
-    return _getContentGrid();
+    return ContentsPage();
   }
 }
