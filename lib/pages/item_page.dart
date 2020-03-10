@@ -38,51 +38,29 @@ class ItemPageState extends State<ItemPage> {
     );
   }
 
-  // TODO
-  Widget fullscreenCloseButton(BuildContext context) {
-    return FlatButton(
-      onPressed: () => Navigator.pop(context),
-      child: Icon(
-        Icons.close,
-        size: 32,
-        color: pr0grammOrange,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: richtigesGrau,
-      body: Stack(
-        children: <Widget>[
-          FutureBuilder(
-            future: ResponseParser.getPr0grammInfo(pr0grammContent.id),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return LoadingIndicator();
-              }
+      body: FutureBuilder(
+        future: ResponseParser.getPr0grammInfo(pr0grammContent.id),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return LoadingIndicator();
+          }
 
-              return SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    pr0grammContent.bigPicture(),
-                    pr0grammContent.buildVotes(),
-                    TagPage(pr0grammContentID: pr0grammContent.id),
-                    CommentPage(pr0grammContentID: pr0grammContent.id),
-                  ],
-                ),
-              );
-            },
-          ),
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Align(
-              alignment: AlignmentDirectional.topEnd,
-                child: fullscreenCloseButton(context)),
-          ),
-        ],
+          return SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                pr0grammContent.bigPicture(),
+                pr0grammContent.buildVotes(),
+                TagPage(pr0grammContentID: pr0grammContent.id),
+                CommentPage(pr0grammContentID: pr0grammContent.id),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

@@ -19,9 +19,10 @@ abstract class ResponseParser {
   static Future<Pr0ContentContainer> getPr0grammContentContainer(
     int promoted,
     int flags,
+  {String tag}
   ) async {
     Response response =
-        await rrh.itemsGet(promotedNum: promoted, flagsNum: flags);
+        await rrh.itemsGet(promotedNum: promoted, flagsNum: flags, tag: tag);
     Map<String, dynamic> parsedJson = jsonDecode(response.body);
     final contentContainer = Pr0ContentContainer.fromJson(parsedJson);
     return contentContainer;
@@ -40,9 +41,9 @@ abstract class ResponseParser {
 
   // TODO: Implement TagSearch
   static Future<List<Pr0grammContent>> getPr0grammContentList(
-      int promoted, int flags, {String tags}) async {
+      int promoted, int flags, {String tag}) async {
     Pr0ContentContainer pr0grammContentContainer =
-        await getPr0grammContentContainer(promoted, flags);
+        await getPr0grammContentContainer(promoted, flags, tag: tag);
     List<Pr0grammContent> pr0grammContentList = List<Pr0grammContent>();
     pr0grammContentList = pr0grammContentContainer.items
         .map((i) => Pr0grammContent.fromJson(i))

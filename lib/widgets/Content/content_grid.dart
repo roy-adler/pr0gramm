@@ -7,11 +7,16 @@ class ContentGrid extends StatelessWidget {
 
   ContentGrid({this.contentList});
 
-  void _route(BuildContext context, Widget page) {
+  void _route(BuildContext context, Pr0grammContent pr0grammContent) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => ItemPage(
-          pr0grammContent: page,
+        builder: (context) => Dismissible(
+          onDismissed: (_) => Navigator.of(context).pop(),
+          direction: DismissDirection.horizontal,
+          key: Key(pr0grammContent.id.toString()),
+          child: ItemPage(
+            pr0grammContent: pr0grammContent,
+          ),
         ),
       ),
     );
@@ -27,7 +32,7 @@ class ContentGrid extends StatelessWidget {
         childAspectRatio: 1.0,
       ),
       delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
+        (BuildContext context, int index) {
           return GestureDetector(
             onTap: () => _route(context, contentList[index]),
             child: contentList[index],

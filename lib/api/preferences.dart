@@ -5,14 +5,24 @@ abstract class Preferences {
   static String _usernameKey = "username";
   static String _passwordKey = "password";
   static String _cooKey = "cookey";
+  static String _tag = "tag";
+
+  //tag
+  static Future<String> tag() async {
+    return await _read(_tag);
+  }
+
+  static Future<void> saveTag(String tag) async {
+    await _save(_tag, tag);
+  }
 
   //Username
   static Future<String> username() async {
     return await _read(_usernameKey);
   }
 
-  static void saveUsername(String username) async {
-    _save(_usernameKey, username);
+  static Future<void> saveUsername(String username) async {
+    await _save(_usernameKey, username);
   }
 
   // Password
@@ -20,8 +30,8 @@ abstract class Preferences {
     return await _read(_passwordKey);
   }
 
-  static void savePassword(String password) async {
-    _save(_passwordKey, password);
+  static Future<void> savePassword(String password) async {
+    await _save(_passwordKey, password);
   }
 
   // Cookies
@@ -29,12 +39,12 @@ abstract class Preferences {
     return await _read(_cooKey);
   }
 
-  static void saveCookies(String cookies) async {
-    _save(_cooKey, cookies);
+  static Future<void> saveCookies(String cookies) async {
+    await _save(_cooKey, cookies);
   }
 
   // General Data
-  static _save(String key, String value) async {
+  static Future<void> _save(String key, String value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(key, value);
     if (saveDEBUG) {

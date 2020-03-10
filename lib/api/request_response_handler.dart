@@ -22,12 +22,21 @@ class RequestResponseHandler {
   Future<http.Response> itemsGet({
     int promotedNum = 1,
     int flagsNum = 9,
+    String tag,
   }) async {
     List<String> paramList = [];
     String promoted = "promoted=" + promotedNum.toString();
     String flags = "flags=" + flagsNum.toString();
     paramList.add(flags);
     paramList.add(promoted);
+
+
+    if (tag != null) {
+      print("Tag: " + tag);
+      String tags = "tags=" + tag;
+      paramList.add(tags);
+    }
+
     String req = paramsMaker(paramList);
     return get(url: "/items/get$req");
   }

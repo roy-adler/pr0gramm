@@ -8,14 +8,14 @@ class ContentList {
   static int nSFL = 4;
 
   static Future<List<Pr0grammContent>> getSFWContentList({String search}) {
-    return ResponseParser.getPr0grammContentList(promoted, sFW);
+    return ResponseParser.getPr0grammContentList(promoted, sFW, tag: search);
   }
 
   static Future<List<Pr0grammContent>> getNSFWContentList({String search}) {
-    return ResponseParser.getPr0grammContentList(promoted, nSFW);
+    return ResponseParser.getPr0grammContentList(promoted, nSFW, tag: search);
   }
 
   static Future<List<Pr0grammContent>> getNSFLContentList({String search}) {
-    return ResponseParser.getPr0grammContentList(promoted, nSFL);
+    return ResponseParser.getPr0grammContentList(promoted, nSFL, tag: search);
   }
 }
