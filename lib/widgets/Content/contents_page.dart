@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
 import 'package:pr0gramm/widgets/Content/content_list.dart';
 import 'package:pr0gramm/widgets/Content/content_page_view.dart';
+import 'package:pr0gramm/widgets/Content/content_page_view_builder.dart';
 import 'package:pr0gramm/widgets/Design/loadingIndicator.dart';
 
 class ContentsPage extends StatefulWidget {
@@ -75,6 +76,24 @@ class _ContentsPageState extends State<ContentsPage> {
         });
   }
 
+  Widget getNsfw() {
+    return FutureBuilder(
+        future:
+        ContentList.getNSFWContentList(search: textEditingController.text),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return ContentPageView(
+              contentList: snapshot.data,
+              controller: ScrollController(),
+              appBar: _getAppBar(),
+              key: Key(textEditingController.text),
+              homeScaffold: widget.shellWidget,
+            );
+          }
+          return LoadingIndicator();
+        });
+  }
+
   Widget backButton() {
     return Container(
       decoration: BoxDecoration(
@@ -94,7 +113,7 @@ class _ContentsPageState extends State<ContentsPage> {
 
     return Scaffold(
       backgroundColor: richtigesGrau,
-      body: getSfw(),
+      body: ContentPageViewBuilder(sFWPage: getSfw(),nSFWPage: getNsfw(),),
     );
   }
 }
