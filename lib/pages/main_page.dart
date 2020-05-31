@@ -6,6 +6,7 @@ import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:pr0gramm/content/pr0gramm_login.dart';
 import 'package:pr0gramm/pages/item_page.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
+import 'package:pr0gramm/widgets/Content/content_page_shell.dart';
 import 'package:pr0gramm/widgets/Content/contents_page.dart';
 import 'package:pr0gramm/widgets/Content/content_sliver.dart';
 import 'package:pr0gramm/widgets/Design/loadingIndicator.dart';
@@ -23,7 +24,7 @@ class MainPage extends StatefulWidget {
 
 class MainPageState extends State<MainPage> {
   String sFail =
-      "Ups, da ist wohl etwas schief gelaufen!\nZum neu laden clicken";
+      "Ups, da ist wohl etwas schief gelaufen!\nZum neu laden klicken";
 
   PageController pageController;
   var currentPageValue = 0.0;
@@ -42,6 +43,6 @@ class MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ContentsPage();
+    return ContentPageShell();
   }
 }

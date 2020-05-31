@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:pr0gramm/animations/enter_exit_route.dart';
 import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:pr0gramm/pages/item_page.dart';
 
 class ContentGrid extends StatelessWidget {
   final List<Pr0grammContent> contentList;
+  final Widget homeScaffold;
 
-  ContentGrid({this.contentList});
+  ContentGrid({this.contentList, this.homeScaffold});
 
-  void _route(BuildContext context, Pr0grammContent pr0grammContent) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => Dismissible(
-          onDismissed: (_) => Navigator.of(context).pop(),
-          direction: DismissDirection.horizontal,
-          key: Key(pr0grammContent.id.toString()),
-          child: ItemPage(
-            pr0grammContent: pr0grammContent,
-          ),
-        ),
-      ),
+  void _route(BuildContext context, int initIndex) {
+    PageController pageController = PageController(initialPage: initIndex);
+    Widget pageViewBuilder = PageView.builder(
+      controller: pageController,
+      itemCount: contentList.length,
+      itemBuilder: (BuildContext context, int index) {
+        return ItemPage(pr0grammContent: contentList[index]);
+      },
     );
+
+    Navigator.of(context)
+        .push(EnterExitRoute(exitPage: homeScaffold, enterPage: pageViewBuilder));
   }
 
   @override
@@ -34,7 +35,7 @@ class ContentGrid extends StatelessWidget {
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
           return GestureDetector(
-            onTap: () => _route(context, contentList[index]),
+            onTap: () => _route(context, index),
             child: contentList[index],
           );
         },

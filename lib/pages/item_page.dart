@@ -42,25 +42,40 @@ class ItemPageState extends State<ItemPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: richtigesGrau,
-      body: FutureBuilder(
-        future: ResponseParser.getPr0grammInfo(pr0grammContent.id),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return LoadingIndicator();
-          }
+      body: Stack(
+        children: [
+          FutureBuilder(
+            future: ResponseParser.getPr0grammInfo(pr0grammContent.id),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return LoadingIndicator();
+              }
 
-          return SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                pr0grammContent.bigPicture(),
-                pr0grammContent.buildVotes(),
-                TagPage(pr0grammContentID: pr0grammContent.id),
-                CommentPage(pr0grammContentID: pr0grammContent.id),
-              ],
+              return SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    pr0grammContent.bigPicture(),
+                    pr0grammContent.buildVotes(),
+                    TagPage(pr0grammContentID: pr0grammContent.id),
+                    CommentPage(pr0grammContentID: pr0grammContent.id),
+                  ],
+                ),
+              );
+            },
+          ),
+          SafeArea(
+              child: IconButton(
+            onPressed: () => Navigator.maybePop(context),
+            icon: Container(
+              decoration: BoxDecoration(
+                color: richtigesGrau.withOpacity(0.4),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Icon(Icons.arrow_back, color: Colors.white),
             ),
-          );
-        },
+          )),
+        ],
       ),
     );
   }

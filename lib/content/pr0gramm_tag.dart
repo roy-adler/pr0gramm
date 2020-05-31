@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
+import 'package:pr0gramm/widgets/Content/content_page_shell.dart';
 import 'package:pr0gramm/widgets/Content/contents_page.dart';
 
 class Pr0grammTag extends StatelessWidget {
@@ -28,7 +29,7 @@ class Pr0grammTag extends StatelessWidget {
           context,
           CupertinoPageRoute(
             fullscreenDialog: true,
-              builder: (context) => ContentsPage(
+              builder: (context) => ContentPageShell(
                     tagSearch: tag,
                   ))),
       child: Container(

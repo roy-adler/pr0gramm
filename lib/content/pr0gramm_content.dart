@@ -201,7 +201,7 @@ class Pr0grammContent extends StatelessWidget {
           children: <Widget>[
             AnimatedOpacity(
               opacity: snapshot.hasData ? 1 : 0,
-              duration: Duration(milliseconds: 300),
+              duration: Duration(milliseconds: 100),
               curve: Curves.easeOutCubic,
               child: snapshot.hasData ? snapshot.data : Container(),
             ),
