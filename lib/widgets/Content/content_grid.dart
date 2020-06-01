@@ -5,9 +5,8 @@ import 'package:pr0gramm/pages/item_page.dart';
 
 class ContentGrid extends StatelessWidget {
   final List<Pr0grammContent> contentList;
-  final Widget homeScaffold;
 
-  ContentGrid({this.contentList, this.homeScaffold});
+  ContentGrid({this.contentList});
 
   void _route(BuildContext context, int initIndex) {
     PageController pageController = PageController(initialPage: initIndex);

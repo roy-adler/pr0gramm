@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
 import 'package:pr0gramm/widgets/Content/content_list.dart';
 import 'package:pr0gramm/widgets/Content/content_page_view.dart';
-import 'package:pr0gramm/widgets/Content/content_page_view_builder.dart';
 import 'package:pr0gramm/widgets/Design/loadingIndicator.dart';
 
 class ContentsPage extends StatefulWidget {
   // TODO: "Good" ScrollController Implementation
   final String tagSearch;
   final Widget shellWidget;
-  const ContentsPage({Key key, this.tagSearch, this.shellWidget}) : super(key: key);
+
+  const ContentsPage({Key key, this.tagSearch, this.shellWidget})
+      : super(key: key);
 
   @override
   _ContentsPageState createState() => _ContentsPageState();
@@ -69,7 +70,6 @@ class _ContentsPageState extends State<ContentsPage> {
               controller: ScrollController(),
               appBar: _getAppBar(),
               key: Key(textEditingController.text),
-              homeScaffold: widget.shellWidget,
             );
           }
           return LoadingIndicator();
