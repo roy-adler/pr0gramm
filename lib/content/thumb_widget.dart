@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:pr0gramm/content/pr0gramm_content.dart';
-import 'package:pr0gramm/pages/video_screen.dart';
 import 'package:pr0gramm/widgets/Design/loadingIndicator.dart';
 
 class ThumbWidget extends StatelessWidget {
