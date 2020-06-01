@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:pr0gramm/api/response_parser.dart';
 import 'package:pr0gramm/content/captchaContainer.dart';
 
+
+// TODO: Fix Pr0Captcha - Immutable but not final
 class Pr0Captcha extends StatefulWidget {
   String token;
   Function loadNewcaptcha;

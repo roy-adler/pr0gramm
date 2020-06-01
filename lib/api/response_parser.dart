@@ -17,10 +17,8 @@ abstract class ResponseParser {
 
   //Content
   static Future<Pr0ContentContainer> getPr0grammContentContainer(
-    int promoted,
-    int flags,
-  {String tag}
-  ) async {
+      int promoted, int flags,
+      {String tag}) async {
     Response response =
         await rrh.itemsGet(promotedNum: promoted, flagsNum: flags, tag: tag);
     Map<String, dynamic> parsedJson = jsonDecode(response.body);
@@ -39,9 +37,9 @@ abstract class ResponseParser {
     return pr0grammContentList;
   }
 
-  // TODO: Implement TagSearch
   static Future<List<Pr0grammContent>> getPr0grammContentList(
-      int promoted, int flags, {String tag}) async {
+      int promoted, int flags,
+      {String tag}) async {
     Pr0ContentContainer pr0grammContentContainer =
         await getPr0grammContentContainer(promoted, flags, tag: tag);
     List<Pr0grammContent> pr0grammContentList = List<Pr0grammContent>();
@@ -69,7 +67,7 @@ abstract class ResponseParser {
     return getComments((await getPr0grammInfo(pr0grammContentID)));
   }
 
-  static getTags(Pr0grammInfo pr0grammInfo)  {
+  static getTags(Pr0grammInfo pr0grammInfo) {
     List<Pr0grammTag> pr0grammTagList = List<Pr0grammTag>();
     pr0grammTagList =
         pr0grammInfo.tags.map((i) => Pr0grammTag.fromJson(i)).toList();
