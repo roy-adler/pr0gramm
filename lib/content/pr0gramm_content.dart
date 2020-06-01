@@ -131,7 +131,8 @@ class Pr0grammContent {
   }
 
   // TODO: ToString prints not all the variables
-  String asString() {
+  @override
+  String toString() {
     String heading = "Pr0grammContent:\n";
     String body = " id: $id\n promoted: $promoted\n userId: $userId\n up: $up\n"
         " down: $down\n created: $created\n image: $mediaLink\n thumb: $thumb\n"
