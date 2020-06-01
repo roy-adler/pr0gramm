@@ -65,7 +65,6 @@ class _ContentsPageState extends State<ContentsPage> {
             ContentList.getSFWContentList(search: textEditingController.text),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-
             return ContentPageView(
               contentList: snapshot.data,
               controller: ScrollController(),
@@ -94,6 +93,7 @@ class _ContentsPageState extends State<ContentsPage> {
         });
   }
 
+  // TODO: Check what usage could be
   Widget backButton() {
     return Container(
       decoration: BoxDecoration(
