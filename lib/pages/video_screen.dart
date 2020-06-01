@@ -39,6 +39,7 @@ class _VideoWidgetState extends State<VideoWidget> {
       looping: true,
     );
     loaded.complete();
+    _controller.play();
   }
 
   @override
