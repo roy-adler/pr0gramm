@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pr0gramm/content/file_loader.dart';
@@ -165,6 +164,24 @@ class Pr0grammContent extends StatelessWidget {
     );
   }
 
+  Future<File> getThumbnail() async {
+    try {
+       return FileLoader.getThumbnail(thumb);
+    } catch (error) {
+      print("FileLoaderError:${error.toString()}");
+    }
+    return null;
+  }
+
+  Future<File> getMedia() async {
+    try {
+      return FileLoader.getMedia(mediaLink);
+    } catch (error) {
+      print("FileLoaderError:${error.toString()}");
+    }
+    return null;
+  }
+
   Future<Widget> fileToWidgetLoader(bool fullScreen) async {
     try {
       Future<File> loadingFile = fullScreen
@@ -203,7 +220,9 @@ class Pr0grammContent extends StatelessWidget {
               opacity: snapshot.hasData ? 1 : 0,
               duration: Duration(milliseconds: 100),
               curve: Curves.easeOutCubic,
-              child: snapshot.hasData ? snapshot.data : Container(),
+              child: snapshot.hasData
+                  ? snapshot.data
+                  : Container(),
             ),
             snapshot.hasData ? Container() : LoadingIndicator(),
           ],
