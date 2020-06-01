@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
-import 'package:pr0gramm/widgets/Content/contents_page.dart';
+import 'package:pr0gramm/pages/contents_page.dart';
 
 class Pr0grammTag extends StatelessWidget {
   final int id;
