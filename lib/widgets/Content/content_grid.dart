@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pr0gramm/animations/enter_exit_route.dart';
 import 'package:pr0gramm/content/pr0gramm_content.dart';
+import 'package:pr0gramm/content/thumb_widget.dart';
 import 'package:pr0gramm/pages/item_page.dart';
 
 class ContentGrid extends StatelessWidget {
@@ -34,7 +35,7 @@ class ContentGrid extends StatelessWidget {
         (BuildContext context, int index) {
           return GestureDetector(
             onTap: () => _route(context, index),
-            child: contentList[index],
+            child: ThumbWidget(pr0grammContent: contentList[index]),
           );
         },
         childCount: contentList.length,

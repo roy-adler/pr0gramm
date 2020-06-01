@@ -12,8 +12,10 @@ class MediaWidget extends StatelessWidget {
 
   Widget fileToWidget(File mediaFile) {
     if (pr0grammContent.mediaType == MediaType.vid) {
-      // TODO: Videoplayer needs to use downloaded files (Also use streaming while File isn't there)
-      return VideoWidget(pr0grammContent: pr0grammContent);
+      return VideoWidget(
+        videoFile: mediaFile,
+        pr0grammContent: pr0grammContent,
+      );
     }
     return Image.file(mediaFile);
   }

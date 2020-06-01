@@ -55,11 +55,13 @@ class FileLoader {
 
     // Download file if it doesn't exists
     try {
-      new Directory(fileDir)
-          .create(recursive: true)
-          .then((Directory directory) {
-        print("created dir: ${directory.path}");
-      });
+      if (!(await Directory(fileDir).exists())) {
+        new Directory(fileDir)
+            .create(recursive: true)
+            .then((Directory directory) {
+          print("created dir: ${directory.path}");
+        });
+      }
 
       http.Client _client = new http.Client();
 
