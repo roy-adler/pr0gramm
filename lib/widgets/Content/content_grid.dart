@@ -18,8 +18,7 @@ class ContentGrid extends StatelessWidget {
       },
     );
 
-    Navigator.of(context)
-        .push(ScaleRoute(page: pageViewBuilder));
+    Navigator.of(context).push(ScaleRoute(page: pageViewBuilder));
   }
 
   @override

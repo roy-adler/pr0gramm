@@ -79,7 +79,7 @@ class _ContentsPageState extends State<ContentsPage> {
   Widget getNsfw() {
     return FutureBuilder(
         future:
-        ContentList.getNSFWContentList(search: textEditingController.text),
+            ContentList.getNSFWContentList(search: textEditingController.text),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ContentPageView(
@@ -87,7 +87,6 @@ class _ContentsPageState extends State<ContentsPage> {
               controller: ScrollController(),
               appBar: _getAppBar(),
               key: Key(textEditingController.text),
-              homeScaffold: widget.shellWidget,
             );
           }
           return LoadingIndicator();
@@ -113,7 +112,7 @@ class _ContentsPageState extends State<ContentsPage> {
 
     return Scaffold(
       backgroundColor: richtigesGrau,
-      body: ContentPageViewBuilder(sFWPage: getSfw(),nSFWPage: getNsfw(),),
+      body: getSfw(),
     );
   }
 }
