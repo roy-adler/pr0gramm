@@ -58,10 +58,7 @@ class ItemPageState extends State<ItemPage> {
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
-                      Hero(
-                        tag: pr0grammContent.id,
-                        child: MediaWidget(pr0grammContent: pr0grammContent),
-                      ),
+                      MediaWidget(pr0grammContent: pr0grammContent),
                       VotesPage(pr0grammContent: pr0grammContent),
                       TagPage(pr0grammContent: pr0grammContent),
                       CommentPage(pr0grammContentID: pr0grammContent.id),

@@ -12,13 +12,16 @@ class ThumbWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: pr0grammContent.getThumbnail(),
-      builder: (context, snapshot) {
-        return snapshot.hasData
-            ? Image.file(snapshot.data)
-            : LoadingIndicator();
-      },
+    return Hero(
+      tag: pr0grammContent.id,
+      child: FutureBuilder(
+        future: pr0grammContent.getThumbnail(),
+        builder: (context, snapshot) {
+          return snapshot.hasData
+              ? Image.file(snapshot.data)
+              : LoadingIndicator();
+        },
+      ),
     );
   }
 }
