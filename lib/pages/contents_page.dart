@@ -65,6 +65,7 @@ class _ContentsPageState extends State<ContentsPage> {
             ContentList.getSFWContentList(search: textEditingController.text),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+
             return ContentPageView(
               contentList: snapshot.data,
               controller: ScrollController(),

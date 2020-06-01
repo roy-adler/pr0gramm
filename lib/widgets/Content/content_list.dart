@@ -1,6 +1,7 @@
 import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:pr0gramm/api/response_parser.dart';
 
+// TODO: Change Behaviour/ Datamodel
 class ContentList {
   static int promoted = 1;
   static int sFW = 9;
