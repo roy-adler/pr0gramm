@@ -9,9 +9,9 @@ import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:pr0gramm/content/pr0gramm_login.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
 import 'package:pr0gramm/pages/main_page.dart';
-import 'package:pr0gramm/widgets/Pr0Text.dart';
-import 'package:pr0gramm/widgets/pr0_captcha.dart';
-import 'package:pr0gramm/widgets/pr0_dialog.dart';
+import 'package:pr0gramm/widgets/Design/Pr0Text.dart';
+import 'package:pr0gramm/widgets/Functionality/pr0_captcha.dart';
+import 'package:pr0gramm/widgets/Functionality/pr0_dialog.dart';
 
 String sBenutzername = "Benutzername";
 String sAnmelden = "Anmelden";

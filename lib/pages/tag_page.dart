@@ -2,12 +2,16 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pr0gramm/api/response_parser.dart';
+import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:pr0gramm/content/pr0gramm_tag.dart';
+import 'package:pr0gramm/design/animated_wrap.dart';
+import 'package:pr0gramm/design/pr0gramm_colors.dart';
 
 class TagPage extends StatefulWidget {
-  final List<Pr0grammTag> tagList;
+  final Pr0grammContent pr0grammContent;
 
-  TagPage({@required this.tagList});
+  TagPage({@required this.pr0grammContent});
 
   @override
   _TagPageState createState() => _TagPageState();
@@ -15,35 +19,69 @@ class TagPage extends StatefulWidget {
 
 class _TagPageState extends State<TagPage> {
   bool folded;
-  int maxFoldedItems;
+  int maxFoldedItems = 5;
 
   @override
   void initState() {
     folded = true;
-    maxFoldedItems = min(4, widget.tagList.length);
     super.initState();
+  }
+
+  Widget moreTagsButton(int moreItems) {
+    return Container(
+      margin: EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(6),
+      ),
+      padding: EdgeInsets.all(6),
+      child: GestureDetector(
+        onTap: () => setState(() => folded = !folded),
+        child: Text(
+          "${moreItems.toString()} weitere anzeigen",
+          style: TextStyle(
+            color: pr0grammOrange,
+            fontSize: 14,
+          ),
+        ),
+      ),
+    );
+  }
+
+  List<Widget> getFilteredTagList(List<Widget> tagList, int moreItems) {
+    List<Widget> widgetList = tagList.map((title) => title).toList();
+    widgetList.add(moreTagsButton(moreItems));
+    return widgetList;
   }
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) => Column(
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          AnimatedContainer(
-            width: constraints.maxWidth,
-            duration: Duration(milliseconds: 500),
-            child: folded
-                ? Wrap(children: widget.tagList.sublist(0, 4))
-                : Wrap(children: widget.tagList),
-          ),
-          CupertinoButton(
-            child: Icon(
-                folded ? CupertinoIcons.down_arrow : CupertinoIcons.up_arrow),
-            onPressed: () => setState(() => folded = !folded),
-          )
-        ],
-      ),
+    return FutureBuilder(
+      future: ResponseParser.getTagsOverID(widget.pr0grammContent.id),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          List<Pr0grammTag> tagList = snapshot.data;
+          int foldedItems = min(maxFoldedItems, tagList.length);
+          return LayoutBuilder(
+            builder: (context, constraints) => Column(
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Container(
+                  width: constraints.maxWidth,
+                  child: folded && tagList.length > foldedItems
+                      ? AnimatedWrap(
+                          children: getFilteredTagList(
+                              tagList.sublist(0, foldedItems),
+                              tagList.length - foldedItems),
+                        )
+                      : AnimatedWrap(children: tagList),
+                ),
+              ],
+            ),
+          );
+        }
+        return Container();
+      },
     );
   }
 }

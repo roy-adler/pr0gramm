@@ -4,28 +4,54 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
 class FileLoader {
-  static Future<File> getThumbnail(String mediaLink) {
-    return downloadFile(
-        _buildThumbURL(mediaLink), addFolder(mediaLink, "thumb"));
+  static Future<File> getThumbnail(String mediaLink) async {
+    return await thumbnailExists(mediaLink) ??
+        _downloadFile(
+          _buildThumbURL(mediaLink),
+          _addFolder(mediaLink, "thumb"),
+        );
   }
 
-  static Future<File> getMedia(String mediaLink) {
-    return downloadFile(
-        _buildMediaURL(mediaLink), addFolder(mediaLink, "original"));
+  static Future<File> getMedia(String mediaLink) async {
+    return await mediaExists(mediaLink) ??
+        _downloadFile(
+          _buildMediaURL(mediaLink),
+          _addFolder(mediaLink, "original"),
+        );
   }
 
-  static String addFolder(String mediaLink, String folderName) {
-    return "${path.dirname(mediaLink)}/$folderName/${path.basename(mediaLink)}";
-  }
-
-  static Future<File> downloadFile(String url, String mediaLink) async {
-    String filename = path.dirname(mediaLink);
-    String dir = (await getApplicationDocumentsDirectory()).path;
-    String fileDir = '$dir/$filename/';
-    File file = new File(fileDir + path.basename(mediaLink));
+  static Future<File> thumbnailExists(String mediaLink) async {
+    File file = await _getPreparedFile(_addFolder(mediaLink, "thumb"));
     if (await file.exists()) {
       return file;
     }
+    return null;
+  }
+
+  static Future<File> mediaExists(String mediaLink) async {
+    File file = await _getPreparedFile(_addFolder(mediaLink, "original"));
+    if (await file.exists()) {
+      return file;
+    }
+    return null;
+  }
+
+  static Future<File> _getPreparedFile(String filePath) async {
+    String filename = path.dirname(filePath);
+    String dir = (await getApplicationDocumentsDirectory()).path;
+    String fileDir = '$dir/$filename/';
+    return File(fileDir + path.basename(filePath));
+  }
+
+  static String _addFolder(String mediaLink, String folderName) {
+    return "${path.dirname(mediaLink)}/$folderName/${path.basename(mediaLink)}";
+  }
+
+  static Future<File> _downloadFile(String url, String filePath) async {
+    String filename = path.dirname(filePath);
+    String dir = (await getApplicationDocumentsDirectory()).path;
+    String fileDir = '$dir/$filename/';
+    File file = new File(fileDir + path.basename(filePath));
 
     // Download file if it doesn't exists
     try {

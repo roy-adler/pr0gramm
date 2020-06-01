@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pr0gramm/api/response_parser.dart';
-import 'package:pr0gramm/content/pr0gramm_comment.dart';
+import 'package:pr0gramm/content/media_widget.dart';
 import 'package:pr0gramm/content/pr0gramm_content.dart';
-import 'package:pr0gramm/content/pr0gramm_info.dart';
-import 'package:pr0gramm/content/pr0gramm_tag.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
+import 'package:pr0gramm/pages/comment_page.dart';
+import 'package:pr0gramm/pages/tag_page.dart';
+import 'package:pr0gramm/pages/votes_page.dart';
+import 'package:pr0gramm/widgets/Design/loadingIndicator.dart';
 
 class ItemPage extends StatefulWidget {
   final Pr0grammContent pr0grammContent;
@@ -20,67 +22,21 @@ class ItemPage extends StatefulWidget {
 }
 
 class ItemPageState extends State<ItemPage> {
-  List<Pr0grammTag> pr0grammTagList = List<Pr0grammTag>();
-  List<Pr0grammComment> pr0grammCommentList = List<Pr0grammComment>();
   Pr0grammContent pr0grammContent;
-  bool b = false;
 
   @override
   void initState() {
     // TODO: implement initState
-    pr0grammContent = widget.pr0grammContent;
-    makeGetRequest();
+    // TODO: Janky code with the gift
+    pr0grammContent = widget.pr0grammContent.copy(gift: "");
     super.initState();
   }
 
-  Widget _buildVotes() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Icon(CupertinoIcons.add_circled, color: standardSchriftfarbe),
-                  Container(
-                    width: 4,
-                  ),
-                  Icon(CupertinoIcons.minus_circled,
-                      color: standardSchriftfarbe),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: pr0Text(
-                    (pr0grammContent.up - pr0grammContent.down).toString()),
-              ),
-              Icon(CupertinoIcons.heart_solid, color: standardSchriftfarbe),
-            ],
-          ),
-          Container(
-            child: pr0Text("OCname"),
-          )
-        ],
-      ),
-    );
-  }
-
+  // TODO Check this shit out?!
   Widget pr0Text(String s, {double size = 32}) {
-    return Text(s,
-        style: TextStyle(color: standardSchriftfarbe, fontSize: size));
-  }
-
-  Widget fullscreenCloseButton() {
-    return Align(
-      alignment: AlignmentDirectional.topEnd,
-      child: FlatButton(
-        color: Colors.white,
-        onPressed: widget.toggleFullscreen,
-        child: Icon(Icons.fullscreen_exit),
-      ),
+    return Text(
+      s,
+      style: TextStyle(color: standardSchriftfarbe, fontSize: size),
     );
   }
 
@@ -88,36 +44,45 @@ class ItemPageState extends State<ItemPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: richtigesGrau,
-      body: SingleChildScrollView(
-        child: LayoutBuilder(
-          builder: (context, constraints) => Container(
-            width: constraints.maxWidth,
-            child: Column(
-              children: <Widget>[
-                pr0grammContent.bigPicture(),
-                pr0grammContent.buildVotes(),
-                // TagPage(tagList: pr0grammTagList),
-                // CommentPage(commentList: pr0grammCommentList),
-              ],
+      body: SafeArea(
+        child: Stack(
+          children: [
+            FutureBuilder(
+              future: ResponseParser.getPr0grammInfo(pr0grammContent.id),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return LoadingIndicator();
+                }
+
+                return SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      Hero(
+                        tag: pr0grammContent.id,
+                        child: MediaWidget(pr0grammContent: pr0grammContent),
+                      ),
+                      VotesPage(pr0grammContent: pr0grammContent),
+                      TagPage(pr0grammContent: pr0grammContent),
+                      CommentPage(pr0grammContentID: pr0grammContent.id),
+                    ],
+                  ),
+                );
+              },
             ),
-          ),
+            IconButton(
+              onPressed: () => Navigator.maybePop(context),
+              icon: Container(
+                decoration: BoxDecoration(
+                  color: richtigesGrau.withOpacity(0.4),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Icon(Icons.arrow_back, color: Colors.white),
+              ),
+            ),
+          ],
         ),
       ),
     );
-  }
-
-
-  makeGetRequest() async {
-    Pr0grammInfo pr0grammInfo =
-        await ResponseParser.getPr0grammInfo(pr0grammContent.id);
-    List<Pr0grammComment> pr0grammCommentListRequest =
-        await ResponseParser.getComments(pr0grammInfo);
-    List<Pr0grammTag> pr0grammTagListRequest =
-        await ResponseParser.getTags(pr0grammInfo);
-    setState(() {
-      pr0grammCommentList = pr0grammCommentListRequest;
-      pr0grammTagList = pr0grammTagListRequest;
-      b = true;
-    });
   }
 }

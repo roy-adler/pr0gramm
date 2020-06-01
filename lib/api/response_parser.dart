@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:pr0gramm/content/captchaContainer.dart';
 import 'package:pr0gramm/content/is_loggedIn.dart';
-import 'package:pr0gramm/content/pr0gramm_comment.dart';
+import 'package:pr0gramm/content/pr0_comment.dart';
 import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:pr0gramm/content/pr0gramm_content_container.dart';
 import 'package:pr0gramm/api/request_response_handler.dart';
@@ -19,9 +19,10 @@ abstract class ResponseParser {
   static Future<Pr0ContentContainer> getPr0grammContentContainer(
     int promoted,
     int flags,
+  {String tag}
   ) async {
     Response response =
-        await rrh.itemsGet(promotedNum: promoted, flagsNum: flags);
+        await rrh.itemsGet(promotedNum: promoted, flagsNum: flags, tag: tag);
     Map<String, dynamic> parsedJson = jsonDecode(response.body);
     final contentContainer = Pr0ContentContainer.fromJson(parsedJson);
     return contentContainer;
@@ -38,10 +39,11 @@ abstract class ResponseParser {
     return pr0grammContentList;
   }
 
+  // TODO: Implement TagSearch
   static Future<List<Pr0grammContent>> getPr0grammContentList(
-      int promoted, int flags) async {
+      int promoted, int flags, {String tag}) async {
     Pr0ContentContainer pr0grammContentContainer =
-        await getPr0grammContentContainer(promoted, flags);
+        await getPr0grammContentContainer(promoted, flags, tag: tag);
     List<Pr0grammContent> pr0grammContentList = List<Pr0grammContent>();
     pr0grammContentList = pr0grammContentContainer.items
         .map((i) => Pr0grammContent.fromJson(i))
@@ -59,17 +61,25 @@ abstract class ResponseParser {
     return pr0grammInfo;
   }
 
-  static getTags(Pr0grammInfo pr0grammInfo) async {
+  static getTagsOverID(int pr0grammContentID) async {
+    return getTags((await getPr0grammInfo(pr0grammContentID)));
+  }
+
+  static getCommentsOverID(int pr0grammContentID) async {
+    return getComments((await getPr0grammInfo(pr0grammContentID)));
+  }
+
+  static getTags(Pr0grammInfo pr0grammInfo)  {
     List<Pr0grammTag> pr0grammTagList = List<Pr0grammTag>();
     pr0grammTagList =
         pr0grammInfo.tags.map((i) => Pr0grammTag.fromJson(i)).toList();
     return pr0grammTagList;
   }
 
-  static getComments(Pr0grammInfo pr0grammInfo) async {
-    List<Pr0grammComment> pr0grammCommentList = List<Pr0grammComment>();
+  static getComments(Pr0grammInfo pr0grammInfo) {
+    List<Pr0Comment> pr0grammCommentList = List<Pr0Comment>();
     pr0grammCommentList =
-        pr0grammInfo.comments.map((i) => Pr0grammComment.fromJson(i)).toList();
+        pr0grammInfo.comments.map((i) => Pr0Comment.fromJson(i)).toList();
     return pr0grammCommentList;
   }
 

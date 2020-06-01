@@ -1,16 +1,16 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pr0gramm/content/file_loader.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
 import 'package:pr0gramm/pages/video_screen.dart';
-import 'package:pr0gramm/widgets/Pr0Text.dart';
-import 'package:pr0gramm/widgets/loadingIndicator.dart';
+import 'package:pr0gramm/widgets/Design/Pr0Text.dart';
+import 'package:pr0gramm/widgets/Design/loadingIndicator.dart';
 
 class Pr0grammContent extends StatelessWidget {
   final int id;
   final int promoted;
+  final int userId;
   final int up;
   final int down;
   final int created;
@@ -20,11 +20,18 @@ class Pr0grammContent extends StatelessWidget {
   final double width;
   final double height;
   final bool audio;
+  final String source;
+  final int flags;
+  final int deleted;
+  final String user;
+  final int mark;
+  final int gift;
   final MediaType mediaType;
 
   Pr0grammContent({
     this.id,
     this.promoted,
+    this.userId,
     this.up,
     this.down,
     this.created,
@@ -34,14 +41,65 @@ class Pr0grammContent extends StatelessWidget {
     this.width,
     this.height,
     this.audio,
+    this.source,
+    this.flags,
+    this.deleted,
+    this.user,
+    this.mark,
+    this.gift,
     this.mediaType,
   });
+
+  copy({
+    id,
+    promoted,
+    userId,
+    up,
+    down,
+    created,
+    mediaLink,
+    thumb,
+    fullSize,
+    width,
+    height,
+    audio,
+    source,
+    flags,
+    deleted,
+    user,
+    mark,
+    gift,
+    mediaType,
+  }) {
+    return Pr0grammContent(
+      id: this.id,
+      promoted: this.promoted,
+      userId: this.userId,
+      up: this.up,
+      down: this.down,
+      created: this.created,
+      mediaLink: this.mediaLink,
+      thumb: this.thumb,
+      fullSize: this.fullSize,
+      width: this.width,
+      height: this.height,
+      audio: this.audio,
+      source: this.source,
+      flags: this.flags,
+      deleted: this.deleted,
+      user: this.user,
+      mark: this.mark,
+      gift: this.gift,
+      mediaType: this.mediaType,
+    );
+  }
 
   factory Pr0grammContent.dummy() {
     return new Pr0grammContent(
       id: 0,
       promoted: 0,
       up: 2,
+      userId: 63701,
       down: 3,
       created: 0,
       mediaLink: "",
@@ -58,6 +116,7 @@ class Pr0grammContent extends StatelessWidget {
     return new Pr0grammContent(
       id: json["id"],
       promoted: json["promoted"],
+      userId: json["userId"],
       up: json["up"],
       down: json["down"],
       created: json["created"],
@@ -66,30 +125,34 @@ class Pr0grammContent extends StatelessWidget {
       fullSize: json["fullsize"],
       width: json["width"].toDouble(),
       height: json["height"].toDouble(),
-      audio: json['audio'],
+      audio: json["audio"],
+      source: json["source"],
+      flags: json["flags"],
+      deleted: json["deleted"],
+      user: json["user"],
+      mark: json["mark"],
+      gift: json["gift"],
       mediaType: getMediaTypeFromImage(json["image"]),
     );
   }
 
+  // TODO: ToString prints not all the variables
   String asString() {
     String heading = "Pr0grammContent:\n";
-    String body = " id: $id\n promoted: $promoted\n up: $up\n down: $down\n"
-        " created: $created\n image: $mediaLink\n thumb: $thumb\n"
+    String body = " id: $id\n promoted: $promoted\n userId: $userId\n up: $up\n"
+        " down: $down\n created: $created\n image: $mediaLink\n thumb: $thumb\n"
         " fullsize: $fullSize\n width: $width\n height: $height\n"
         " audio: $audio\n";
     return heading + body;
   }
 
   Widget thumbnail() {
-    return Hero(
-      tag: id,
-      child: Container(
-        width: 200,
-        height: 200,
-        child: FittedBox(
-          fit: BoxFit.cover,
-          child: _getContent(fullScreen: false),
-        ),
+    return Container(
+      width: 200,
+      height: 200,
+      child: FittedBox(
+        fit: BoxFit.cover,
+        child: _getContent(fullScreen: false),
       ),
     );
   }
@@ -99,6 +162,24 @@ class Pr0grammContent extends StatelessWidget {
       aspectRatio: width / height,
       child: _getContent(fullScreen: true),
     );
+  }
+
+  Future<File> getThumbnail() async {
+    try {
+       return FileLoader.getThumbnail(thumb);
+    } catch (error) {
+      print("FileLoaderError:${error.toString()}");
+    }
+    return null;
+  }
+
+  Future<File> getMedia() async {
+    try {
+      return FileLoader.getMedia(mediaLink);
+    } catch (error) {
+      print("FileLoaderError:${error.toString()}");
+    }
+    return null;
   }
 
   Future<Widget> fileToWidgetLoader(bool fullScreen) async {
@@ -113,7 +194,7 @@ class Pr0grammContent extends StatelessWidget {
       }
       return Image.file(mediaFile);
     } catch (error) {
-      print("FileLaoderError:${error.toString()}");
+      print("FileLoaderError:${error.toString()}");
     }
 
     return Container(
@@ -137,9 +218,11 @@ class Pr0grammContent extends StatelessWidget {
           children: <Widget>[
             AnimatedOpacity(
               opacity: snapshot.hasData ? 1 : 0,
-              duration: Duration(milliseconds: 300),
+              duration: Duration(milliseconds: 100),
               curve: Curves.easeOutCubic,
-              child: snapshot.hasData ? snapshot.data : Container(),
+              child: snapshot.hasData
+                  ? snapshot.data
+                  : Container(),
             ),
             snapshot.hasData ? Container() : LoadingIndicator(),
           ],
@@ -196,7 +279,7 @@ class Pr0grammContent extends StatelessWidget {
 
   Widget buildVotes() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -225,7 +308,7 @@ class Pr0grammContent extends StatelessWidget {
           ),
           Container(
             child: Pr0Text(
-              "OCname",
+              user,
               fontSize: 22,
             ),
           )
