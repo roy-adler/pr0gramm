@@ -1,14 +1,15 @@
 import 'dart:async';
-
+import 'dart:io';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoWidget extends StatefulWidget {
+  final File videoFile;
   final Pr0grammContent pr0grammContent;
 
-  VideoWidget({@required this.pr0grammContent});
+  VideoWidget({@required this.videoFile, this.pr0grammContent});
 
   @override
   _VideoWidgetState createState() => _VideoWidgetState();
@@ -25,14 +26,8 @@ class _VideoWidgetState extends State<VideoWidget> {
   @override
   void initState() {
     super.initState();
-    var url = widget.pr0grammContent.mediaURL;
-    if (url == null) {
-      // TODO: Andere URL oder anders Video verwenden
-      url =
-          'http://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4';
-    }
 
-    _controller = VideoPlayerController.network(url)
+    _controller = VideoPlayerController.file(widget.videoFile)
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {});
