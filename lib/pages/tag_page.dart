@@ -3,14 +3,15 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pr0gramm/api/response_parser.dart';
+import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:pr0gramm/content/pr0gramm_tag.dart';
 import 'package:pr0gramm/design/animated_wrap.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
 
 class TagPage extends StatefulWidget {
-  final int pr0grammContentID;
+  final Pr0grammContent pr0grammContent;
 
-  TagPage({@required this.pr0grammContentID});
+  TagPage({@required this.pr0grammContent});
 
   @override
   _TagPageState createState() => _TagPageState();
@@ -56,7 +57,7 @@ class _TagPageState extends State<TagPage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: ResponseParser.getTagsOverID(widget.pr0grammContentID),
+      future: ResponseParser.getTagsOverID(widget.pr0grammContent.id),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<Pr0grammTag> tagList = snapshot.data;
