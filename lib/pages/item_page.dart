@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pr0gramm/api/response_parser.dart';
+import 'package:pr0gramm/content/media_widget.dart';
 import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
 import 'package:pr0gramm/pages/comment_page.dart';
@@ -58,8 +59,9 @@ class ItemPageState extends State<ItemPage> {
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
                       Hero(
-                          tag: pr0grammContent.id,
-                          child: pr0grammContent.bigPicture()),
+                        tag: pr0grammContent.id,
+                        child: MediaWidget(pr0grammContent: pr0grammContent),
+                      ),
                       VotesPage(pr0grammContent: pr0grammContent),
                       TagPage(pr0grammContent: pr0grammContent),
                       CommentPage(pr0grammContentID: pr0grammContent.id),
