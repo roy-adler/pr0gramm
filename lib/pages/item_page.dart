@@ -73,11 +73,11 @@ class ItemPageState extends State<ItemPage> {
             IconButton(
               onPressed: () => Navigator.maybePop(context),
               icon: Container(
-            decoration: BoxDecoration(
-              color: richtigesGrau.withOpacity(0.4),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Icon(Icons.arrow_back, color: Colors.white),
+                decoration: BoxDecoration(
+                  color: richtigesGrau.withOpacity(0.4),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Icon(Icons.arrow_back, color: Colors.white),
               ),
             ),
           ],
