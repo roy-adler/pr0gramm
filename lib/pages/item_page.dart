@@ -5,6 +5,7 @@ import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
 import 'package:pr0gramm/pages/comment_page.dart';
 import 'package:pr0gramm/pages/tag_page.dart';
+import 'package:pr0gramm/pages/votes_page.dart';
 import 'package:pr0gramm/widgets/Design/loadingIndicator.dart';
 
 class ItemPage extends StatefulWidget {
@@ -42,40 +43,43 @@ class ItemPageState extends State<ItemPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: richtigesGrau,
-      body: Stack(
-        children: [
-          FutureBuilder(
-            future: ResponseParser.getPr0grammInfo(pr0grammContent.id),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return LoadingIndicator();
-              }
+      body: SafeArea(
+        child: Stack(
+          children: [
+            FutureBuilder(
+              future: ResponseParser.getPr0grammInfo(pr0grammContent.id),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return LoadingIndicator();
+                }
 
-              return SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    pr0grammContent.bigPicture(),
-                    pr0grammContent.buildVotes(),
-                    TagPage(pr0grammContentID: pr0grammContent.id),
-                    CommentPage(pr0grammContentID: pr0grammContent.id),
-                  ],
-                ),
-              );
-            },
-          ),
-          SafeArea(
-              child: IconButton(
-            onPressed: () => Navigator.maybePop(context),
-            icon: Container(
-              decoration: BoxDecoration(
-                color: richtigesGrau.withOpacity(0.4),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Icon(Icons.arrow_back, color: Colors.white),
+                return SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      Hero(
+                          tag: pr0grammContent.id,
+                          child: pr0grammContent.bigPicture()),
+                      VotesPage(pr0grammContent: pr0grammContent),
+                      TagPage(pr0grammContent: pr0grammContent),
+                      CommentPage(pr0grammContentID: pr0grammContent.id),
+                    ],
+                  ),
+                );
+              },
             ),
-          )),
-        ],
+            IconButton(
+              onPressed: () => Navigator.maybePop(context),
+              icon: Container(
+            decoration: BoxDecoration(
+              color: richtigesGrau.withOpacity(0.4),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Icon(Icons.arrow_back, color: Colors.white),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
