@@ -13,9 +13,15 @@ import 'pages/login_page.dart';
 
 void main() => runApp(MainApp());
 
+void initApp() {
+  Preferences.saveMuted(true);
+}
+
 class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    initApp();
+
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
