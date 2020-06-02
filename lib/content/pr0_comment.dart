@@ -79,6 +79,7 @@ class Pr0Comment extends StatelessWidget {
                     Navigator.push(
                       context,
                       CupertinoPageRoute(
+                        // TODO: Do the linking right! (maybe use .com)
                         builder: (context) => ItemPage(
                           pr0grammContent: Pr0grammContent.dummy(),
                         ),
