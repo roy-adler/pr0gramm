@@ -13,12 +13,16 @@ class ContentPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      controller: controller,
-      slivers: <Widget>[
-        appBar,
-        ContentGrid(contentList: contentList),
-      ],
+    const double thumbPadding = 8.0;
+    return Padding(
+      padding: const EdgeInsets.all(thumbPadding),
+      child: CustomScrollView(
+        controller: controller,
+        slivers: <Widget>[
+          appBar,
+          ContentGrid(contentList: contentList, thumbPadding: thumbPadding),
+        ],
+      ),
     );
   }
 }

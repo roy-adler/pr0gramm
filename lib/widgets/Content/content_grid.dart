@@ -6,8 +6,9 @@ import 'package:pr0gramm/pages/item_page.dart';
 
 class ContentGrid extends StatelessWidget {
   final List<Pr0grammContent> contentList;
+  final double thumbPadding;
 
-  ContentGrid({this.contentList});
+  ContentGrid({this.contentList, this.thumbPadding = 8.0});
 
   void _route(BuildContext context, int initIndex) {
     PageController pageController = PageController(initialPage: initIndex);
@@ -27,8 +28,8 @@ class ContentGrid extends StatelessWidget {
     return SliverGrid(
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
         maxCrossAxisExtent: 150.0,
-        mainAxisSpacing: 10.0,
-        crossAxisSpacing: 10.0,
+        mainAxisSpacing: thumbPadding,
+        crossAxisSpacing: thumbPadding,
         childAspectRatio: 1.0,
       ),
       delegate: SliverChildBuilderDelegate(
