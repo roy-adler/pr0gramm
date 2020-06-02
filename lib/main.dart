@@ -9,8 +9,6 @@ import 'package:pr0gramm/widgets/Design/loadingIndicator.dart';
 
 import 'pages/login_page.dart';
 
-// mainSave2
-
 void main() => runApp(MainApp());
 
 void initApp() {
