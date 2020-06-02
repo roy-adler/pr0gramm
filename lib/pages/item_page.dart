@@ -45,6 +45,7 @@ class ItemPageState extends State<ItemPage> {
       backgroundColor: richtigesGrau,
       body: SafeArea(
         child: Stack(
+          fit: StackFit.expand,
           children: [
             FutureBuilder(
               future: ResponseParser.getPr0grammInfo(pr0grammContent.id),
