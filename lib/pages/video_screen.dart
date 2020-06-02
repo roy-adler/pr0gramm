@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:pr0gramm/api/preferences.dart';
 import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:video_player/video_player.dart';
 
@@ -38,6 +39,11 @@ class _VideoWidgetState extends State<VideoWidget> {
       autoPlay: false,
       looping: true,
     );
+    () async {
+      if (await Preferences.muted()) {
+        _controller.setVolume(0);
+      }
+    }();
     loaded.complete();
     _controller.play();
   }
