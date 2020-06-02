@@ -12,7 +12,10 @@ class ContentGrid extends StatelessWidget {
       : super(key: key);
 
   void _route(BuildContext context, int initIndex) {
-    PageController pageController = PageController(initialPage: initIndex);
+    PageController pageController = PageController(
+      initialPage: initIndex,
+      keepPage: true,
+    );
     Widget pageViewBuilder = PageView.builder(
       controller: pageController,
       itemCount: contentList.length,
