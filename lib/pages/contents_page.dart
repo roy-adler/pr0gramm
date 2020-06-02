@@ -8,10 +8,11 @@ import 'package:pr0gramm/widgets/Design/loadingIndicator.dart';
 class ContentsPage extends StatefulWidget {
   // TODO: "Good" ScrollController Implementation
   final String tagSearch;
-  final Widget shellWidget;
 
-  const ContentsPage({Key key, this.tagSearch, this.shellWidget})
-      : super(key: key);
+  const ContentsPage({
+    Key key,
+    this.tagSearch,
+  }) : super(key: key);
 
   @override
   _ContentsPageState createState() => _ContentsPageState();
