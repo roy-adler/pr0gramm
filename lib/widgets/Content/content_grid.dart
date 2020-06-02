@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pr0gramm/animations/enter_exit_route.dart';
 import 'package:pr0gramm/content/pr0gramm_content.dart';
@@ -20,7 +21,12 @@ class ContentGrid extends StatelessWidget {
       },
     );
 
-    Navigator.of(context).push(ScaleRoute(page: pageViewBuilder));
+    Navigator.of(context).push(
+      CupertinoPageRoute(
+        fullscreenDialog: true,
+        builder: (context) => pageViewBuilder,
+      ),
+    );
   }
 
   @override
