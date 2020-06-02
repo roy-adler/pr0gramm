@@ -1,7 +1,6 @@
-//TODO: Pr0User fully implement right
 import 'package:flutter/material.dart';
 
-class Pr0User extends StatelessWidget {
+class Pr0User {
   final List<dynamic> tags;
   final List<dynamic> comments;
   final int ts;
@@ -27,10 +26,5 @@ class Pr0User extends StatelessWidget {
       rt: parsedJson['ts'],
       qc: parsedJson['qc'],
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pr0gramm/animations/enter_exit_route.dart';
 import 'package:pr0gramm/content/pr0gramm_content.dart';
-import 'package:pr0gramm/content/thumb_widget.dart';
+import 'package:pr0gramm/widgets/thumb_widget.dart';
 import 'package:pr0gramm/pages/item_page.dart';
 
 class ContentGrid extends StatelessWidget {

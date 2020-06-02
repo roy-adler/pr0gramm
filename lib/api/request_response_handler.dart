@@ -30,9 +30,9 @@ class RequestResponseHandler {
     paramList.add(flags);
     paramList.add(promoted);
 
-
     if (tag != null) {
-      print("Tag: " + tag);
+      // TODO: Is that necessary?
+      // print("Tag: " + tag);
       String tags = "tags=" + tag;
       paramList.add(tags);
     }

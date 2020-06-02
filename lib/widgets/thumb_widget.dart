@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:pr0gramm/content/pr0gramm_content.dart';
-import 'package:pr0gramm/pages/video_screen.dart';
 import 'package:pr0gramm/widgets/Design/loadingIndicator.dart';
 
 class ThumbWidget extends StatelessWidget {
@@ -12,13 +9,16 @@ class ThumbWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: pr0grammContent.getThumbnail(),
-      builder: (context, snapshot) {
-        return snapshot.hasData
-            ? Image.file(snapshot.data)
-            : LoadingIndicator();
-      },
+    return Hero(
+      tag: pr0grammContent.id,
+      child: FutureBuilder(
+        future: pr0grammContent.getThumbnail(),
+        builder: (context, snapshot) {
+          return snapshot.hasData
+              ? Image.file(snapshot.data)
+              : LoadingIndicator();
+        },
+      ),
     );
   }
 }

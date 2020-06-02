@@ -22,15 +22,18 @@ class MediaWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: pr0grammContent.width / pr0grammContent.height,
-      child: FutureBuilder(
-        future: pr0grammContent.getMedia(),
-        builder: (context, snapshot) {
-          return snapshot.hasData
-              ? fileToWidget(snapshot.data)
-              : LoadingIndicator();
-        },
+    return Hero(
+      tag: pr0grammContent.id,
+      child: AspectRatio(
+        aspectRatio: pr0grammContent.width / pr0grammContent.height,
+        child: FutureBuilder(
+          future: pr0grammContent.getMedia(),
+          builder: (context, snapshot) {
+            return snapshot.hasData
+                ? fileToWidget(snapshot.data)
+                : LoadingIndicator();
+          },
+        ),
       ),
     );
   }

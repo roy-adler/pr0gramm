@@ -7,6 +7,7 @@ import 'package:pr0gramm/api/preferences.dart';
 import 'package:pr0gramm/api/response_parser.dart';
 import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:pr0gramm/content/pr0gramm_login.dart';
+import 'package:pr0gramm/widgets/thumb_widget.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
 import 'package:pr0gramm/pages/main_page.dart';
 import 'package:pr0gramm/widgets/Design/Pr0Text.dart';
@@ -199,7 +200,8 @@ class LoginPageState extends State<LoginPage> {
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: const EdgeInsets.all(4.0),
-                              child: contentList[index],
+                              child: ThumbWidget(
+                                  pr0grammContent: contentList[index]),
                             );
                           },
                         ),

@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pr0gramm/animations/cube_page_route.dart';
-import 'package:pr0gramm/widgets/Content/content_page_view.dart';
 import 'package:pr0gramm/api/preferences.dart';
 import 'package:pr0gramm/api/response_parser.dart';
 import 'package:pr0gramm/content/is_loggedIn.dart';
@@ -15,9 +13,15 @@ import 'pages/login_page.dart';
 
 void main() => runApp(MainApp());
 
+void initApp() {
+  Preferences.saveMuted(true);
+}
+
 class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    initApp();
+
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
