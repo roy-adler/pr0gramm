@@ -57,7 +57,10 @@ class ItemPageState extends State<ItemPage> {
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
-                      MediaWidget(pr0grammContent: pr0grammContent),
+                      Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: MediaWidget(pr0grammContent: pr0grammContent),
+                      ),
                       VotesPage(pr0grammContent: pr0grammContent),
                       TagPage(pr0grammContent: pr0grammContent),
                       CommentPage(pr0grammContentID: pr0grammContent.id),
