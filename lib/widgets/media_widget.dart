@@ -8,7 +8,7 @@ import 'package:pr0gramm/widgets/Design/loadingIndicator.dart';
 class MediaWidget extends StatelessWidget {
   final Pr0grammContent pr0grammContent;
 
-  MediaWidget({this.pr0grammContent});
+  MediaWidget({this.pr0grammContent, Key key}) : super(key: key);
 
   Widget fileToWidget(File mediaFile) {
     if (pr0grammContent.mediaType == MediaType.vid) {

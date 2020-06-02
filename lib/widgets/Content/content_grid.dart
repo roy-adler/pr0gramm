@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pr0gramm/animations/enter_exit_route.dart';
 import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:pr0gramm/widgets/thumb_widget.dart';
 import 'package:pr0gramm/pages/item_page.dart';
@@ -9,7 +8,8 @@ class ContentGrid extends StatelessWidget {
   final List<Pr0grammContent> contentList;
   final double thumbPadding;
 
-  ContentGrid({this.contentList, this.thumbPadding = 8.0});
+  ContentGrid({this.contentList, this.thumbPadding = 8.0, Key key})
+      : super(key: key);
 
   void _route(BuildContext context, int initIndex) {
     PageController pageController = PageController(initialPage: initIndex);

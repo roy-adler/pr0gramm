@@ -12,7 +12,7 @@ import 'package:pr0gramm/widgets/Design/loadingIndicator.dart';
 class ItemPage extends StatefulWidget {
   final Pr0grammContent pr0grammContent;
 
-  ItemPage({@required this.pr0grammContent});
+  ItemPage({@required this.pr0grammContent, Key key}) : super(key: key);
 
   @override
   ItemPageState createState() {
