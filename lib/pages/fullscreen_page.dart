@@ -19,10 +19,7 @@ class FullscreenPage extends StatelessWidget {
       (Pr0grammContent element) => itemPageList.add(
         Hero(
           tag: element.id,
-          child: ItemPage(
-            pr0grammContent: element,
-            toggleFullscreen: toggleFullscreen,
-          ),
+          child: ItemPage(pr0grammContent: element),
         ),
       ),
     );

@@ -11,9 +11,8 @@ import 'package:pr0gramm/widgets/Design/loadingIndicator.dart';
 
 class ItemPage extends StatefulWidget {
   final Pr0grammContent pr0grammContent;
-  final Function toggleFullscreen;
 
-  ItemPage({@required this.pr0grammContent, this.toggleFullscreen});
+  ItemPage({@required this.pr0grammContent});
 
   @override
   ItemPageState createState() {
