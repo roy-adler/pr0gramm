@@ -6,6 +6,7 @@ abstract class Preferences {
   static String _passwordKey = "password";
   static String _cooKey = "cookey";
   static String _tag = "tag";
+  static String _muted = "muted";
 
   //tag
   static Future<String> tag() async {
@@ -15,6 +16,16 @@ abstract class Preferences {
   static Future<void> saveTag(String tag) async {
     await _save(_tag, tag);
   }
+
+  //muted
+  static Future<bool> muted() async {
+    return (await _read(_muted)) == 'true';
+  }
+
+  static Future<void> saveMuted(bool muted) async {
+    await _save(_muted, muted.toString());
+  }
+
 
   //Username
   static Future<String> username() async {
