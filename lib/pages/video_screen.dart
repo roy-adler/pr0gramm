@@ -4,6 +4,7 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:pr0gramm/api/preferences.dart';
 import 'package:pr0gramm/content/pr0gramm_content.dart';
+import 'package:pr0gramm/package_addons/video_controls.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoWidget extends StatefulWidget {
@@ -38,6 +39,7 @@ class _VideoWidgetState extends State<VideoWidget> {
       aspectRatio: widget.pr0grammContent.width / widget.pr0grammContent.height,
       autoPlay: false,
       looping: true,
+      customControls: VideoControls(),
     );
     () async {
       if (await Preferences.muted()) {
