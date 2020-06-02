@@ -6,6 +6,12 @@ import 'package:pr0gramm/global_variables.dart';
 class ContentList {
   static int promoted = 1;
 
+  static Future<List<Pr0grammContent>> getFilteredContentList(
+      {int filter, String search}) {
+    print("Filter: $filter");
+    return ResponseParser.getPr0grammContentList(promoted, filter, tag: search);
+  }
+
   static Future<List<Pr0grammContent>> getSFWContentList({String search}) {
     return ResponseParser.getPr0grammContentList(promoted, sfw, tag: search);
   }
