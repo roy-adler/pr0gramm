@@ -65,6 +65,7 @@ class _VideoWidgetState extends State<VideoWidget> {
   Widget build(BuildContext context) {
     return Chewie(
       controller: chewieController,
+      key: Key(widget.pr0grammContent.id.toString() + "-chewie-key"),
     );
   }
 }
