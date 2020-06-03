@@ -20,6 +20,7 @@ class _CommentPageState extends State<CommentPage> {
     );
   }
 
+  // TODO: sort comments for date
   List<ParCom> sortComments(List<Pr0Comment> commentList, id) {
     List<ParCom> parComList = [];
     List<Pr0Comment> children =
@@ -33,6 +34,7 @@ class _CommentPageState extends State<CommentPage> {
     }
     return parComList;
   }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -43,9 +45,8 @@ class _CommentPageState extends State<CommentPage> {
           if (commentList.isEmpty) {
             return _emptyList();
           }
-          return Column(
-            children: snapshot.data,
-          );
+          List<ParCom> l = sortComments(commentList, 0);
+          return Column(children: l);
         }
         return Container();
       },
