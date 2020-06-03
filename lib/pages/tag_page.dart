@@ -7,11 +7,13 @@ import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:pr0gramm/content/pr0gramm_tag.dart';
 import 'package:pr0gramm/design/animated_wrap.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
+import 'package:pr0gramm/pages/contents_page.dart';
 
 class TagPage extends StatefulWidget {
   final Pr0grammContent pr0grammContent;
+  final int filter;
 
-  TagPage({@required this.pr0grammContent});
+  TagPage({@required this.pr0grammContent, this.filter});
 
   @override
   _TagPageState createState() => _TagPageState();

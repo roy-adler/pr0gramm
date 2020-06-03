@@ -7,11 +7,13 @@ import 'package:pr0gramm/pages/item_page.dart';
 class ContentGrid extends StatelessWidget {
   final List<Pr0grammContent> contentList;
   final double thumbPadding;
+  final int filter;
 
   ContentGrid({
     this.contentList,
     this.thumbPadding = 8.0,
     Key key,
+    this.filter,
   }) : super(key: key);
 
   void _route(BuildContext context, int initIndex) {
@@ -25,6 +27,7 @@ class ContentGrid extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         return ItemPage(
           pr0grammContent: contentList[index],
+          filter: filter,
         );
       },
     );
