@@ -8,6 +8,8 @@ import 'package:pr0gramm/pages/main_page.dart';
 import 'package:pr0gramm/widgets/Design/loadingIndicator.dart';
 import 'pages/login_page.dart';
 
+// Version 1.3
+
 void main() => runApp(MainApp());
 
 void initApp() {
