@@ -54,17 +54,43 @@ class _CommentPageState extends State<CommentPage> {
 }
 
 class ParCom extends StatelessWidget {
-  final Pr0Comment pr0grammComment;
-  final List<Pr0Comment> pr0grammCommentList;
+  final Pr0Comment comment;
+  final List<ParCom> commentList;
 
-  ParCom({this.pr0grammComment, this.pr0grammCommentList});
+  ParCom({this.comment, this.commentList});
 
-  addComment(Pr0Comment pr0grammCommentChild) {
-    pr0grammCommentList.add(pr0grammCommentChild);
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    String com = comment.toString();
+    String li = commentList.isEmpty ? "" : commentList.toString();
+    return com + "\n-" + li;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+      child: Column(
+        children: [
+          Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(color: standardSchriftfarbeAusgegraut),
+                ),
+              ),
+              child: comment),
+          Container(height: commentList.isEmpty ? 0 : 20),
+          Container(
+            decoration: BoxDecoration(
+              border: Border(
+                left: BorderSide(color: standardSchriftfarbeAusgegraut),
+              ),
+            ),
+            padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+            child: Column(children: commentList),
+          ),
+        ],
+      ),
+    );
   }
 }
