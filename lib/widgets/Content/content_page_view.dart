@@ -7,9 +7,12 @@ class ContentPageView extends StatelessWidget {
   final ScrollController controller;
   final SliverAppBar appBar;
 
-  const ContentPageView(
-      {Key key, this.contentList, this.controller, this.appBar})
-      : super(key: key);
+  const ContentPageView({
+    Key key,
+    this.contentList,
+    this.controller,
+    this.appBar,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +23,10 @@ class ContentPageView extends StatelessWidget {
         controller: controller,
         slivers: <Widget>[
           appBar,
-          ContentGrid(contentList: contentList, thumbPadding: thumbPadding),
+          ContentGrid(
+            contentList: contentList,
+            thumbPadding: thumbPadding,
+          ),
         ],
       ),
     );

@@ -8,8 +8,11 @@ class ContentGrid extends StatelessWidget {
   final List<Pr0grammContent> contentList;
   final double thumbPadding;
 
-  ContentGrid({this.contentList, this.thumbPadding = 8.0, Key key})
-      : super(key: key);
+  ContentGrid({
+    this.contentList,
+    this.thumbPadding = 8.0,
+    Key key,
+  }) : super(key: key);
 
   void _route(BuildContext context, int initIndex) {
     PageController pageController = PageController(
@@ -20,7 +23,9 @@ class ContentGrid extends StatelessWidget {
       controller: pageController,
       itemCount: contentList.length,
       itemBuilder: (BuildContext context, int index) {
-        return ItemPage(pr0grammContent: contentList[index]);
+        return ItemPage(
+          pr0grammContent: contentList[index],
+        );
       },
     );
 
