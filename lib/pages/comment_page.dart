@@ -25,6 +25,8 @@ class _CommentPageState extends State<CommentPage> {
     List<ParCom> parComList = [];
     List<Pr0Comment> children =
         commentList.where((element) => element.parent == id).toList();
+    children
+        .sort((Pr0Comment a, Pr0Comment b) => b.created.compareTo(a.created));
 
     for (var i = 0; i < children.length; i++) {
       parComList.add(ParCom(
