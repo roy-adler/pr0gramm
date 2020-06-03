@@ -128,8 +128,43 @@ class Pr0Comment extends StatelessWidget {
   }
 
   String _showTime(DateTime dateTime) {
-    String time = dateTime.hour.toString();
-    String formattedDate = DateFormat('kk:mm').format(dateTime);
-    return formattedDate + ", " + time;
+    Duration differ = DateTime.now().difference(created);
+    int years = (differ.inDays / 365).floor();
+    if (years > 0) {
+      if (years == 1) {
+        return "Vor 1 Jahr";
+      }
+      return "Vor $years Jahren";
+    }
+
+    int days = differ.inDays.floor();
+    if (days > 0) {
+      if (days == 1) {
+        return "Vor 1 Tag";
+      }
+      return "Vor $days Tagen";
+    }
+
+    int hours = differ.inHours.floor();
+    if (hours > 0) {
+      if (hours == 1) {
+        return "Vor 1 Stunde";
+      }
+      return "Vor $hours Stunden";
+    }
+
+    int minutes = differ.inMinutes.floor();
+    if (minutes > 0) {
+      if (minutes == 1) {
+        return "Vor 1 Minute";
+      }
+      return "Vor $minutes Minuten";
+    }
+
+    int seconds = differ.inSeconds.floor();
+    if (seconds == 1) {
+      return "Vor 1 Sekunde";
+    }
+    return "Vor $seconds Sekunden";
   }
 }
