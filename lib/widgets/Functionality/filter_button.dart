@@ -13,12 +13,8 @@ class FilterButton extends StatefulWidget {
 }
 
 class _FilterButtonState extends State<FilterButton> {
-  int _currentFilter;
-
   @override
   void initState() {
-    // TODO: implement initState
-    print("ButtonCurrentFilter: $_currentFilter");
     super.initState();
   }
 
