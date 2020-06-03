@@ -20,6 +20,19 @@ class _CommentPageState extends State<CommentPage> {
     );
   }
 
+  List<ParCom> sortComments(List<Pr0Comment> commentList, id) {
+    List<ParCom> parComList = [];
+    List<Pr0Comment> children =
+        commentList.where((element) => element.parent == id).toList();
+
+    for (var i = 0; i < children.length; i++) {
+      parComList.add(ParCom(
+        comment: children[i],
+        commentList: sortComments(commentList, children[i].id),
+      ));
+    }
+    return parComList;
+  }
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
