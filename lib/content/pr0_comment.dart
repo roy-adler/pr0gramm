@@ -62,6 +62,11 @@ class Pr0Comment extends StatelessWidget {
   }
 
   @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return "id: $id, parent: $parent";
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(8),
