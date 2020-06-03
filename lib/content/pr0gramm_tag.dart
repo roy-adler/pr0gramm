@@ -1,9 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:pr0gramm/design/pr0gramm_colors.dart';
-import 'package:pr0gramm/pages/contents_page.dart';
-
-class Pr0grammTag extends StatelessWidget {
+class Pr0grammTag {
   final int id;
   final double confidence;
   final String tag;
@@ -18,32 +13,6 @@ class Pr0grammTag extends StatelessWidget {
       id: parsedJson['id'],
       confidence: parsedJson['confidence'],
       tag: parsedJson['tag'],
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => Navigator.push(
-          context,
-          CupertinoPageRoute(
-              fullscreenDialog: true,
-              builder: (context) => ContentsPage(
-                    tagSearch: tag,
-                  ))),
-      child: Container(
-        margin: EdgeInsets.all(marg),
-        decoration: BoxDecoration(
-          color: tagHintergrund,
-          borderRadius: BorderRadius.circular(roundness),
-        ),
-        padding: EdgeInsets.all(padd),
-        child: Text(
-          tag,
-          style: TextStyle(color: standardSchriftfarbe),
-          maxLines: 1,
-        ),
-      ),
     );
   }
 }

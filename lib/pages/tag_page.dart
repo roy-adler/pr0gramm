@@ -51,9 +51,33 @@ class _TagPageState extends State<TagPage> {
   }
 
   List<Widget> getFilteredTagList(List<Widget> tagList, int moreItems) {
-    List<Widget> widgetList = tagList.map((title) => title).toList();
+    List<Widget> widgetList = tagList;
     widgetList.add(moreTagsButton(moreItems));
     return widgetList;
+  }
+
+  Widget buildTag(Pr0grammTag tag) {
+    return GestureDetector(
+      onTap: () => Navigator.push(
+          context,
+          CupertinoPageRoute(
+              fullscreenDialog: true,
+              builder: (context) =>
+                  ContentsPage(tagSearch: tag.tag, filter: widget.filter))),
+      child: Container(
+        margin: EdgeInsets.all(tag.marg),
+        decoration: BoxDecoration(
+          color: tagHintergrund,
+          borderRadius: BorderRadius.circular(tag.roundness),
+        ),
+        padding: EdgeInsets.all(tag.padd),
+        child: Text(
+          tag.tag,
+          style: TextStyle(color: standardSchriftfarbe),
+          maxLines: 1,
+        ),
+      ),
+    );
   }
 
   @override
@@ -62,7 +86,9 @@ class _TagPageState extends State<TagPage> {
       future: ResponseParser.getTagsOverID(widget.pr0grammContent.id),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<Pr0grammTag> tagList = snapshot.data;
+          List<Pr0grammTag> pr0TagList = snapshot.data;
+          List<Widget> tagList = pr0TagList.map((e) => buildTag(e)).toList();
+
           int foldedItems = min(maxFoldedItems, tagList.length);
           return LayoutBuilder(
             builder: (context, constraints) => Column(
