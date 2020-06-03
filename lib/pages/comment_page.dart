@@ -39,8 +39,8 @@ class _CommentPageState extends State<CommentPage> {
       future: ResponseParser.getCommentsOverID(widget.pr0grammContentID),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<Pr0Comment> tagList = snapshot.data;
-          if(tagList.isEmpty){
+          List<Pr0Comment> commentList = snapshot.data;
+          if (commentList.isEmpty) {
             return _emptyList();
           }
           return Column(
