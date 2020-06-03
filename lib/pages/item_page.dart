@@ -39,6 +39,19 @@ class ItemPageState extends State<ItemPage> {
     );
   }
 
+  Widget backButton() {
+    return IconButton(
+      onPressed: () => Navigator.maybePop(context),
+      icon: Container(
+        decoration: BoxDecoration(
+          color: richtigesGrau.withOpacity(0.4),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Icon(Icons.arrow_downward, color: Colors.white),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,16 +86,7 @@ class ItemPageState extends State<ItemPage> {
             Positioned(
               right: 0,
               bottom: 0,
-              child: IconButton(
-                onPressed: () => Navigator.maybePop(context),
-                icon: Container(
-                  decoration: BoxDecoration(
-                    color: richtigesGrau.withOpacity(0.4),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Icon(Icons.arrow_downward, color: Colors.white),
-                ),
-              ),
+              child: backButton(),
             ),
           ],
         ),
