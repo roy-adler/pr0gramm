@@ -8,7 +8,6 @@ class ContentList {
 
   static Future<List<Pr0grammContent>> getFilteredContentList(
       {int filter, String search}) {
-    print("Filter: $filter");
     return ResponseParser.getPr0grammContentList(promoted, filter, tag: search);
   }
 
