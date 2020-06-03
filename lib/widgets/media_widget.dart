@@ -8,7 +8,7 @@ import 'package:pr0gramm/widgets/Design/loadingIndicator.dart';
 class MediaWidget extends StatelessWidget {
   final Pr0grammContent pr0grammContent;
 
-  MediaWidget({this.pr0grammContent});
+  MediaWidget({this.pr0grammContent, Key key}) : super(key: key);
 
   Widget fileToWidget(File mediaFile) {
     if (pr0grammContent.mediaType == MediaType.vid) {
@@ -22,18 +22,18 @@ class MediaWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      tag: pr0grammContent.id,
-      child: AspectRatio(
-        aspectRatio: pr0grammContent.width / pr0grammContent.height,
-        child: FutureBuilder(
-          future: pr0grammContent.getMedia(),
-          builder: (context, snapshot) {
-            return snapshot.hasData
-                ? fileToWidget(snapshot.data)
-                : LoadingIndicator();
-          },
-        ),
+    return AspectRatio(
+      aspectRatio: pr0grammContent.width / pr0grammContent.height,
+      child: FutureBuilder(
+        future: pr0grammContent.getMedia(),
+        builder: (context, snapshot) {
+          return snapshot.hasData
+              ? Hero(
+                  tag: pr0grammContent.id,
+                  child: fileToWidget(snapshot.data),
+                )
+              : LoadingIndicator();
+        },
       ),
     );
   }

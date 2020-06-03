@@ -62,6 +62,11 @@ class Pr0Comment extends StatelessWidget {
   }
 
   @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return "id: $id, parent: $parent";
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(8),
@@ -79,6 +84,7 @@ class Pr0Comment extends StatelessWidget {
                     Navigator.push(
                       context,
                       CupertinoPageRoute(
+                        // TODO: Do the linking right! (maybe use .com)
                         builder: (context) => ItemPage(
                           pr0grammContent: Pr0grammContent.dummy(),
                         ),

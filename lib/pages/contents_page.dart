@@ -1,17 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
+import 'package:pr0gramm/global_variables.dart';
 import 'package:pr0gramm/widgets/Content/content_list.dart';
 import 'package:pr0gramm/widgets/Content/content_page_view.dart';
 import 'package:pr0gramm/widgets/Design/loadingIndicator.dart';
+import 'package:pr0gramm/widgets/Functionality/filter_button.dart';
 
 class ContentsPage extends StatefulWidget {
   // TODO: "Good" ScrollController Implementation
   final String tagSearch;
-  final Widget shellWidget;
+  final int filter;
 
-  const ContentsPage({Key key, this.tagSearch, this.shellWidget})
-      : super(key: key);
+  const ContentsPage({
+    Key key,
+    this.tagSearch,
+    this.filter,
+  }) : super(key: key);
 
   @override
   _ContentsPageState createState() => _ContentsPageState();
@@ -19,6 +25,7 @@ class ContentsPage extends StatefulWidget {
 
 class _ContentsPageState extends State<ContentsPage> {
   TextEditingController textEditingController;
+  int _currentFilter;
 
   @override
   void initState() {
@@ -26,11 +33,23 @@ class _ContentsPageState extends State<ContentsPage> {
     if (widget.tagSearch != null) {
       textEditingController.text = widget.tagSearch;
     }
+    _currentFilter = widget.filter ?? sfw;
     super.initState();
   }
 
   void _changeTag(String s) {
     setState(() => null);
+  }
+
+  FilterButton getFilterButton() {
+    return FilterButton(
+      currentFilter: _currentFilter,
+      filterChanger: (int filter) {
+        setState(() {
+          _currentFilter = filter;
+        });
+      },
+    );
   }
 
   SliverAppBar _getAppBar() {
@@ -43,6 +62,8 @@ class _ContentsPageState extends State<ContentsPage> {
       // expandedHeight: 200,
       title: Row(
         children: <Widget>[
+          getFilterButton(),
+          Container(width: 10),
           Flexible(
             child: CupertinoTextField(
               controller: textEditingController,
@@ -74,6 +95,27 @@ class _ContentsPageState extends State<ContentsPage> {
           }
           return LoadingIndicator();
         });
+  }
+
+  Widget getContent() {
+    return FutureBuilder(
+      future: ContentList.getFilteredContentList(
+          filter: _currentFilter, search: textEditingController.text),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          List<Pr0grammContent> contentList = snapshot.data
+              //.where((element) => element.mediaType == MediaType.vid)
+              .toList();
+          return ContentPageView(
+            contentList: contentList,
+            controller: ScrollController(),
+            appBar: _getAppBar(),
+            key: Key(textEditingController.text),
+          );
+        }
+        return LoadingIndicator();
+      },
+    );
   }
 
   Widget getNsfw() {
@@ -113,7 +155,7 @@ class _ContentsPageState extends State<ContentsPage> {
 
     return Scaffold(
       backgroundColor: richtigesGrau,
-      body: getSfw(),
+      body: getContent(),
     );
   }
 }

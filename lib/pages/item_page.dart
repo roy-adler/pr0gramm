@@ -11,9 +11,8 @@ import 'package:pr0gramm/widgets/Design/loadingIndicator.dart';
 
 class ItemPage extends StatefulWidget {
   final Pr0grammContent pr0grammContent;
-  final Function toggleFullscreen;
 
-  ItemPage({@required this.pr0grammContent, this.toggleFullscreen});
+  ItemPage({@required this.pr0grammContent, Key key}) : super(key: key);
 
   @override
   ItemPageState createState() {
@@ -40,12 +39,26 @@ class ItemPageState extends State<ItemPage> {
     );
   }
 
+  Widget backButton() {
+    return IconButton(
+      onPressed: () => Navigator.maybePop(context),
+      icon: Container(
+        decoration: BoxDecoration(
+          color: richtigesGrau.withOpacity(0.4),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Icon(Icons.arrow_downward, color: Colors.white),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: richtigesGrau,
       body: SafeArea(
         child: Stack(
+          fit: StackFit.expand,
           children: [
             FutureBuilder(
               future: ResponseParser.getPr0grammInfo(pr0grammContent.id),
@@ -58,7 +71,10 @@ class ItemPageState extends State<ItemPage> {
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
-                      MediaWidget(pr0grammContent: pr0grammContent),
+                      Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: MediaWidget(pr0grammContent: pr0grammContent),
+                      ),
                       VotesPage(pr0grammContent: pr0grammContent),
                       TagPage(pr0grammContent: pr0grammContent),
                       CommentPage(pr0grammContentID: pr0grammContent.id),
@@ -67,15 +83,10 @@ class ItemPageState extends State<ItemPage> {
                 );
               },
             ),
-            IconButton(
-              onPressed: () => Navigator.maybePop(context),
-              icon: Container(
-                decoration: BoxDecoration(
-                  color: richtigesGrau.withOpacity(0.4),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Icon(Icons.arrow_back, color: Colors.white),
-              ),
+            Positioned(
+              right: 0,
+              bottom: 0,
+              child: backButton(),
             ),
           ],
         ),

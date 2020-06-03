@@ -1,16 +1,21 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pr0gramm/animations/enter_exit_route.dart';
 import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:pr0gramm/widgets/thumb_widget.dart';
 import 'package:pr0gramm/pages/item_page.dart';
 
 class ContentGrid extends StatelessWidget {
   final List<Pr0grammContent> contentList;
+  final double thumbPadding;
 
-  ContentGrid({this.contentList});
+  ContentGrid({this.contentList, this.thumbPadding = 8.0, Key key})
+      : super(key: key);
 
   void _route(BuildContext context, int initIndex) {
-    PageController pageController = PageController(initialPage: initIndex);
+    PageController pageController = PageController(
+      initialPage: initIndex,
+      keepPage: true,
+    );
     Widget pageViewBuilder = PageView.builder(
       controller: pageController,
       itemCount: contentList.length,
@@ -19,7 +24,12 @@ class ContentGrid extends StatelessWidget {
       },
     );
 
-    Navigator.of(context).push(ScaleRoute(page: pageViewBuilder));
+    Navigator.of(context).push(
+      CupertinoPageRoute(
+        fullscreenDialog: true,
+        builder: (context) => pageViewBuilder,
+      ),
+    );
   }
 
   @override
@@ -27,8 +37,8 @@ class ContentGrid extends StatelessWidget {
     return SliverGrid(
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
         maxCrossAxisExtent: 150.0,
-        mainAxisSpacing: 10.0,
-        crossAxisSpacing: 10.0,
+        mainAxisSpacing: thumbPadding,
+        crossAxisSpacing: thumbPadding,
         childAspectRatio: 1.0,
       ),
       delegate: SliverChildBuilderDelegate(

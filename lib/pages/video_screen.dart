@@ -4,6 +4,7 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:pr0gramm/api/preferences.dart';
 import 'package:pr0gramm/content/pr0gramm_content.dart';
+import 'package:pr0gramm/design/pr0gramm_colors.dart';
 import 'package:pr0gramm/package_addons/video_controls.dart';
 import 'package:video_player/video_player.dart';
 
@@ -39,7 +40,10 @@ class _VideoWidgetState extends State<VideoWidget> {
       aspectRatio: widget.pr0grammContent.width / widget.pr0grammContent.height,
       autoPlay: false,
       looping: true,
-      customControls: VideoControls(),
+      customControls: VideoControls(
+        iconColor: pr0grammOrange,
+        backgroundColor: richtigesGrau.withOpacity(0.3),
+      ),
     );
     () async {
       if (await Preferences.muted()) {
@@ -52,17 +56,16 @@ class _VideoWidgetState extends State<VideoWidget> {
 
   @override
   void dispose() {
-    // TODO: Repair this janky disposing!
     _controller.dispose();
     chewieController.dispose();
     super.dispose();
-    _controller.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Chewie(
       controller: chewieController,
+      key: Key(widget.pr0grammContent.id.toString() + "-chewie-key"),
     );
   }
 }

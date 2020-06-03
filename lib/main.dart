@@ -6,7 +6,6 @@ import 'package:pr0gramm/content/is_loggedIn.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
 import 'package:pr0gramm/pages/main_page.dart';
 import 'package:pr0gramm/widgets/Design/loadingIndicator.dart';
-
 import 'pages/login_page.dart';
 
 void main() => runApp(MainApp());
