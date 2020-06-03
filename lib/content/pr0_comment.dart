@@ -5,7 +5,6 @@ import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:pr0gramm/pages/item_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
-import 'package:intl/intl.dart';
 
 class Pr0Comment extends StatelessWidget {
   final int id;
@@ -47,13 +46,13 @@ class Pr0Comment extends StatelessWidget {
     );
   }
 
-  _rowText(String s) {
+  _rowText(String s, {Color color = standardSchriftfarbeAusgegraut}) {
     return Flexible(
       child: Text(
         s,
         textAlign: TextAlign.start,
         style: TextStyle(
-          color: standardSchriftfarbeAusgegraut,
+          color: color,
           fontSize: 12,
         ),
         overflow: TextOverflow.ellipsis,
@@ -110,7 +109,7 @@ class Pr0Comment extends StatelessWidget {
           Flexible(
             child: Row(
               children: <Widget>[
-                _rowText(name),
+                _rowText(name, color: standardSchriftfarbe),
                 Container(
                   width: commentPadding,
                 ),
@@ -118,7 +117,8 @@ class Pr0Comment extends StatelessWidget {
                 Container(
                   width: commentPadding,
                 ),
-                _rowText(_showTime(created)),
+                _rowText(_showTime(created),
+                    color: standardSchriftfarbe.withOpacity(0.7)),
               ],
             ),
           ),
