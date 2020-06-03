@@ -1,3 +1,3 @@
-final int sfw = 9;
-final int nsfw = 2;
-final int nsfl = 4;
+const int sfw = 9;
+const int nsfw = 2;
+const int nsfl = 4;

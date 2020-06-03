@@ -90,6 +90,7 @@ class _ContentsPageState extends State<ContentsPage> {
               contentList: snapshot.data,
               controller: ScrollController(),
               appBar: _getAppBar(),
+              filter: _currentFilter,
               key: Key(textEditingController.text),
             );
           }
@@ -110,6 +111,7 @@ class _ContentsPageState extends State<ContentsPage> {
             contentList: contentList,
             controller: ScrollController(),
             appBar: _getAppBar(),
+            filter: _currentFilter,
             key: Key(textEditingController.text),
           );
         }

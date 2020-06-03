@@ -11,8 +11,13 @@ import 'package:pr0gramm/widgets/Design/loadingIndicator.dart';
 
 class ItemPage extends StatefulWidget {
   final Pr0grammContent pr0grammContent;
+  final int filter;
 
-  ItemPage({@required this.pr0grammContent, Key key}) : super(key: key);
+  ItemPage({
+    @required this.pr0grammContent,
+    Key key,
+    this.filter,
+  }) : super(key: key);
 
   @override
   ItemPageState createState() {
@@ -76,7 +81,7 @@ class ItemPageState extends State<ItemPage> {
                         child: MediaWidget(pr0grammContent: pr0grammContent),
                       ),
                       VotesPage(pr0grammContent: pr0grammContent),
-                      TagPage(pr0grammContent: pr0grammContent),
+                      TagPage(pr0grammContent: pr0grammContent, filter: widget.filter),
                       CommentPage(pr0grammContentID: pr0grammContent.id),
                     ],
                   ),
