@@ -120,7 +120,11 @@ class Pr0Comment extends StatelessWidget {
           Flexible(
             child: Row(
               children: <Widget>[
-                _rowText(name, color: standardSchriftfarbe),
+                // TODO: Use Badge
+                _rowText(name,
+                    color: names.contains(name)
+                        ? pr0grammOrange
+                        : standardSchriftfarbe),
                 Container(
                   width: commentPadding,
                 ),
