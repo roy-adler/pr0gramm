@@ -82,7 +82,7 @@ class ItemPageState extends State<ItemPage> {
                       ),
                       VotesPage(pr0grammContent: pr0grammContent),
                       TagPage(pr0grammContent: pr0grammContent, filter: widget.filter),
-                      CommentPage(pr0grammContentID: pr0grammContent.id),
+                      CommentPage(pr0grammContent: pr0grammContent),
                     ],
                   ),
                 );

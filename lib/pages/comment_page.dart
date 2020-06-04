@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:pr0gramm/api/response_parser.dart';
 import 'package:pr0gramm/content/pr0_comment.dart';
+import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
 
 class CommentPage extends StatefulWidget {
-  final int pr0grammContentID;
+  final Pr0grammContent pr0grammContent;
 
-  CommentPage({@required this.pr0grammContentID});
+  CommentPage({@required this.pr0grammContent});
 
   @override
   _CommentPageState createState() => _CommentPageState();
@@ -40,7 +41,7 @@ class _CommentPageState extends State<CommentPage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: ResponseParser.getCommentsOverID(widget.pr0grammContentID),
+      future: ResponseParser.getCommentsOverContent(widget.pr0grammContent),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<Pr0Comment> commentList = snapshot.data;
