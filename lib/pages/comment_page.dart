@@ -3,6 +3,7 @@ import 'package:pr0gramm/api/response_parser.dart';
 import 'package:pr0gramm/content/pr0_comment.dart';
 import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
+import 'package:pr0gramm/widgets/Design/loadingIndicator.dart';
 
 class CommentPage extends StatefulWidget {
   final Pr0grammContent pr0grammContent;
@@ -51,7 +52,7 @@ class _CommentPageState extends State<CommentPage> {
           List<ParCom> l = sortComments(commentList, 0);
           return Column(children: l);
         }
-        return Container();
+        return LoadingIndicator();
       },
     );
   }
