@@ -67,6 +67,10 @@ class Pr0Comment extends StatelessWidget {
     );
   }
 
+  int points() {
+    return up - down;
+  }
+
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return "id: $id, parent: $parent";
@@ -120,7 +124,7 @@ class Pr0Comment extends StatelessWidget {
                 Container(
                   width: commentPadding,
                 ),
-                _rowText((up - down).toString() + ' Punkte'),
+                _rowText(points().toString() + ' Punkte'),
                 Container(
                   width: commentPadding,
                 ),
