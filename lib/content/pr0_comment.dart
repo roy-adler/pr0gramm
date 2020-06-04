@@ -16,6 +16,7 @@ class Pr0Comment extends StatelessWidget {
   final double confidence;
   final String name;
   final int mark;
+  final List<String> names;
   static const double commentPadding = 20;
   static const double heightPadding = 6;
 
@@ -29,9 +30,13 @@ class Pr0Comment extends StatelessWidget {
     this.confidence,
     this.name,
     this.mark,
+    this.names,
   });
 
-  factory Pr0Comment.fromJson(Map<String, dynamic> parsedJson) {
+  factory Pr0Comment.fromJson(
+    Map<String, dynamic> parsedJson, {
+    List<String> names,
+  }) {
     return Pr0Comment(
       id: parsedJson['id'],
       parent: parsedJson['parent'],
@@ -43,8 +48,10 @@ class Pr0Comment extends StatelessWidget {
       confidence: parsedJson['confidence'].toDouble(),
       name: parsedJson['name'],
       mark: parsedJson['mark'],
+      names: names ?? [],
     );
   }
+
 
   _rowText(String s, {Color color = standardSchriftfarbeAusgegraut}) {
     return Flexible(
