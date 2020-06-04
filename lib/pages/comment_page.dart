@@ -22,19 +22,26 @@ class _CommentPageState extends State<CommentPage> {
     );
   }
 
-  // TODO: sort comments for date
   List<ParCom> sortComments(List<Pr0Comment> commentList, id) {
     List<ParCom> parComList = [];
     List<Pr0Comment> children =
         commentList.where((element) => element.parent == id).toList();
-    children
-        .sort((Pr0Comment a, Pr0Comment b) => b.created.compareTo(a.created));
+    // TODO: Find out how Pr0gramm sorts comments
+    children.sort((Pr0Comment a, Pr0Comment b) {
+      int comp = b.points().compareTo(a.points());
+      if (comp == 0) {
+        comp = a.created.compareTo(b.created);
+      }
+      return comp;
+    });
 
     for (var i = 0; i < children.length; i++) {
-      parComList.add(ParCom(
-        comment: children[i],
-        commentList: sortComments(commentList, children[i].id),
-      ));
+      parComList.add(
+        ParCom(
+          comment: children[i],
+          commentList: sortComments(commentList, children[i].id),
+        ),
+      );
     }
     return parComList;
   }
