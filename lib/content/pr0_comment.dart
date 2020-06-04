@@ -154,6 +154,13 @@ class Pr0Comment extends StatelessWidget {
 
     int days = differ.inDays.floor();
     if (days > 0) {
+      int month = (days / 30).floor();
+      if (month > 0) {
+        if (month == 1) {
+          return "Vor 1 Monat";
+        }
+        return "Vor $month Monaten";
+      }
       if (days == 1) {
         return "Vor 1 Tag";
       }
