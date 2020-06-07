@@ -11,15 +11,19 @@ import 'package:video_player/video_player.dart';
 class VideoWidget extends StatefulWidget {
   final File videoFile;
   final Pr0grammContent pr0grammContent;
+  final VideoPlayerController videoPlayerController;
 
-  VideoWidget({@required this.videoFile, this.pr0grammContent});
+  VideoWidget({
+    @required this.videoFile,
+    this.pr0grammContent,
+    this.videoPlayerController,
+  });
 
   @override
   _VideoWidgetState createState() => _VideoWidgetState();
 }
 
 class _VideoWidgetState extends State<VideoWidget> {
-  VideoPlayerController _controller;
 
   var chewieController;
 
@@ -30,13 +34,12 @@ class _VideoWidgetState extends State<VideoWidget> {
   void initState() {
     super.initState();
 
-    _controller = VideoPlayerController.file(widget.videoFile)
-      ..initialize().then((_) {
+    widget.videoPlayerController..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {});
       });
     chewieController = ChewieController(
-      videoPlayerController: _controller,
+      videoPlayerController: widget.videoPlayerController,
       aspectRatio: widget.pr0grammContent.width / widget.pr0grammContent.height,
       autoPlay: false,
       looping: true,
@@ -47,16 +50,16 @@ class _VideoWidgetState extends State<VideoWidget> {
     );
     () async {
       if (await Preferences.muted()) {
-        _controller.setVolume(0);
+        widget.videoPlayerController.setVolume(0);
       }
     }();
     loaded.complete();
-    _controller.play();
+    // TODO: Undo: _controller.play();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    //widget.videoPlayerController.dispose();
     chewieController.dispose();
     super.dispose();
   }
