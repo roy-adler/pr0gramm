@@ -78,27 +78,31 @@ class ParCom extends StatelessWidget {
     return com + "\n-" + li;
   }
 
+  //TODO: Fixing RenderOverflex
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+      padding: EdgeInsets.fromLTRB(8, 0, 0, 0),
       child: Column(
         children: [
           Container(
               decoration: BoxDecoration(
                 border: Border(
-                  bottom: BorderSide(color: standardSchriftfarbeAusgegraut),
+                  bottom: BorderSide(
+                    color: standardSchriftfarbeAusgegraut.withOpacity(0.3),
+                  ),
                 ),
               ),
               child: comment),
           Container(height: commentList.isEmpty ? 0 : 20),
           Container(
             decoration: BoxDecoration(
-              border: Border(
-                left: BorderSide(color: standardSchriftfarbeAusgegraut),
+                border: Border(
+              left: BorderSide(
+                color: standardSchriftfarbeAusgegraut.withOpacity(0.3),
               ),
-            ),
-            padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+            )),
+            padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
             child: Column(children: commentList),
           ),
         ],
