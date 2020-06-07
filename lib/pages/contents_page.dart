@@ -80,24 +80,6 @@ class _ContentsPageState extends State<ContentsPage> {
     );
   }
 
-  Widget getSfw() {
-    return FutureBuilder(
-        future:
-            ContentList.getSFWContentList(search: textEditingController.text),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return ContentPageView(
-              contentList: snapshot.data,
-              controller: ScrollController(),
-              appBar: _getAppBar(),
-              filter: _currentFilter,
-              key: Key(textEditingController.text),
-            );
-          }
-          return LoadingIndicator();
-        });
-  }
-
   Widget getContent() {
     return FutureBuilder(
       future: ContentList.getFilteredContentList(
@@ -118,23 +100,6 @@ class _ContentsPageState extends State<ContentsPage> {
         return LoadingIndicator();
       },
     );
-  }
-
-  Widget getNsfw() {
-    return FutureBuilder(
-        future:
-            ContentList.getNSFWContentList(search: textEditingController.text),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return ContentPageView(
-              contentList: snapshot.data,
-              controller: ScrollController(),
-              appBar: _getAppBar(),
-              key: Key(textEditingController.text),
-            );
-          }
-          return LoadingIndicator();
-        });
   }
 
   // TODO: Check what usage could be
