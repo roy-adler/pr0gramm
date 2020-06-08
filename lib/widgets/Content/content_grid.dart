@@ -22,11 +22,6 @@ class ContentGrid extends StatelessWidget {
       initialPage: initIndex,
       keepPage: true,
     );
-    preloadPageController.addListener(() {
-      contentList[preloadPageController.page.floor()];
-    });
-
-    //var a = pageController.page ?? -2.0;
 
     Widget pageViewBuilder = PreloadPageView.builder(
       controller: preloadPageController,
