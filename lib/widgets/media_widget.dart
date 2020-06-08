@@ -27,7 +27,6 @@ class MediaWidget extends StatelessWidget {
         double currentIndex = preloadPageController.page;
         double lambda = 0.5;
         double dif = (itemPageIndex - currentIndex).abs();
-        print("Dif: $dif, lambda: $lambda");
         if (dif < lambda) {
           _controller.play();
         } else {
@@ -42,6 +41,7 @@ class MediaWidget extends StatelessWidget {
     }
     return Image.file(mediaFile);
   }
+
 
   @override
   Widget build(BuildContext context) {
