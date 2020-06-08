@@ -54,7 +54,6 @@ abstract class ResponseParser {
     // itemID = 680;
     Response response = await rrh.itemsInfo(itemID);
     Map<String, dynamic> parsedJson = jsonDecode(response.body);
-
     Pr0grammInfo pr0grammInfo = Pr0grammInfo.fromJson(parsedJson);
     return pr0grammInfo;
   }
@@ -63,7 +62,19 @@ abstract class ResponseParser {
     return getTags((await getPr0grammInfo(pr0grammContentID)));
   }
 
-  static getCommentsOverID(int pr0grammContentID) async {
+  static getCommentsOverContent(
+    Pr0grammContent content, {
+    List<String> names,
+  }) async {
+    List<String> nameList =
+        names == null ? [content.user] : [content.user] + names;
+    return getComments((await getPr0grammInfo(content.id)), names: nameList);
+  }
+
+  static getCommentsOverID(
+    int pr0grammContentID, {
+    List<String> names,
+  }) async {
     return getComments((await getPr0grammInfo(pr0grammContentID)));
   }
 
@@ -74,10 +85,14 @@ abstract class ResponseParser {
     return pr0grammTagList;
   }
 
-  static getComments(Pr0grammInfo pr0grammInfo) {
+  static getComments(Pr0grammInfo pr0grammInfo, {List<String> names}) {
     List<Pr0Comment> pr0grammCommentList = List<Pr0Comment>();
-    pr0grammCommentList =
-        pr0grammInfo.comments.map((i) => Pr0Comment.fromJson(i)).toList();
+    pr0grammCommentList = pr0grammInfo.comments.map((elem) {
+      return Pr0Comment.fromJson(
+        elem,
+        names: names,
+      );
+    }).toList();
     return pr0grammCommentList;
   }
 

@@ -5,7 +5,6 @@ import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:pr0gramm/pages/item_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
-import 'package:intl/intl.dart';
 
 class Pr0Comment extends StatelessWidget {
   final int id;
@@ -17,6 +16,7 @@ class Pr0Comment extends StatelessWidget {
   final double confidence;
   final String name;
   final int mark;
+  final List<String> names;
   static const double commentPadding = 20;
   static const double heightPadding = 6;
 
@@ -30,9 +30,13 @@ class Pr0Comment extends StatelessWidget {
     this.confidence,
     this.name,
     this.mark,
+    this.names,
   });
 
-  factory Pr0Comment.fromJson(Map<String, dynamic> parsedJson) {
+  factory Pr0Comment.fromJson(
+    Map<String, dynamic> parsedJson, {
+    List<String> names,
+  }) {
     return Pr0Comment(
       id: parsedJson['id'],
       parent: parsedJson['parent'],
@@ -44,21 +48,27 @@ class Pr0Comment extends StatelessWidget {
       confidence: parsedJson['confidence'].toDouble(),
       name: parsedJson['name'],
       mark: parsedJson['mark'],
+      names: names ?? [],
     );
   }
 
-  _rowText(String s) {
+
+  _rowText(String s, {Color color = standardSchriftfarbeAusgegraut}) {
     return Flexible(
       child: Text(
         s,
         textAlign: TextAlign.start,
         style: TextStyle(
-          color: standardSchriftfarbeAusgegraut,
+          color: color,
           fontSize: 12,
         ),
         overflow: TextOverflow.ellipsis,
       ),
     );
+  }
+
+  int points() {
+    return up - down;
   }
 
   @override
@@ -110,15 +120,20 @@ class Pr0Comment extends StatelessWidget {
           Flexible(
             child: Row(
               children: <Widget>[
-                _rowText(name),
+                // TODO: Use Badge
+                _rowText(name,
+                    color: names.contains(name)
+                        ? pr0grammOrange
+                        : standardSchriftfarbe),
                 Container(
                   width: commentPadding,
                 ),
-                _rowText((up - down).toString() + ' Punkte'),
+                _rowText(points().toString() + ' Punkte'),
                 Container(
                   width: commentPadding,
                 ),
-                _rowText(_showTime(created)),
+                _rowText(_showTime(created),
+                    color: standardSchriftfarbe.withOpacity(0.7)),
               ],
             ),
           ),
@@ -128,8 +143,50 @@ class Pr0Comment extends StatelessWidget {
   }
 
   String _showTime(DateTime dateTime) {
-    String time = dateTime.hour.toString();
-    String formattedDate = DateFormat('kk:mm').format(dateTime);
-    return formattedDate + ", " + time;
+    Duration differ = DateTime.now().difference(created);
+    int years = (differ.inDays / 365).floor();
+    if (years > 0) {
+      if (years == 1) {
+        return "Vor 1 Jahr";
+      }
+      return "Vor $years Jahren";
+    }
+
+    int days = differ.inDays.floor();
+    if (days > 0) {
+      int month = (days / 30).floor();
+      if (month > 0) {
+        if (month == 1) {
+          return "Vor 1 Monat";
+        }
+        return "Vor $month Monaten";
+      }
+      if (days == 1) {
+        return "Vor 1 Tag";
+      }
+      return "Vor $days Tagen";
+    }
+
+    int hours = differ.inHours.floor();
+    if (hours > 0) {
+      if (hours == 1) {
+        return "Vor 1 Stunde";
+      }
+      return "Vor $hours Stunden";
+    }
+
+    int minutes = differ.inMinutes.floor();
+    if (minutes > 0) {
+      if (minutes == 1) {
+        return "Vor 1 Minute";
+      }
+      return "Vor $minutes Minuten";
+    }
+
+    int seconds = differ.inSeconds.floor();
+    if (seconds == 1) {
+      return "Vor 1 Sekunde";
+    }
+    return "Vor $seconds Sekunden";
   }
 }

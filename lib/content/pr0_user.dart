@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class Pr0User {
   final List<dynamic> tags;
   final List<dynamic> comments;

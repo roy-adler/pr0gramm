@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:pr0gramm/widgets/thumb_widget.dart';
 import 'package:pr0gramm/pages/item_page.dart';
+import 'package:preload_page_view/preload_page_view.dart';
 
 class ContentGrid extends StatelessWidget {
   final List<Pr0grammContent> contentList;
@@ -17,17 +18,21 @@ class ContentGrid extends StatelessWidget {
   }) : super(key: key);
 
   void _route(BuildContext context, int initIndex) {
-    PageController pageController = PageController(
+    PreloadPageController preloadPageController = PreloadPageController(
       initialPage: initIndex,
       keepPage: true,
     );
-    Widget pageViewBuilder = PageView.builder(
-      controller: pageController,
+
+    Widget pageViewBuilder = PreloadPageView.builder(
+      controller: preloadPageController,
       itemCount: contentList.length,
+      preloadPagesCount: 3,
       itemBuilder: (BuildContext context, int index) {
         return ItemPage(
           pr0grammContent: contentList[index],
+          index: index,
           filter: filter,
+          preloadPageController: preloadPageController,
         );
       },
     );

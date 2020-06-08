@@ -8,15 +8,20 @@ import 'package:pr0gramm/pages/comment_page.dart';
 import 'package:pr0gramm/pages/tag_page.dart';
 import 'package:pr0gramm/pages/votes_page.dart';
 import 'package:pr0gramm/widgets/Design/loadingIndicator.dart';
+import 'package:preload_page_view/preload_page_view.dart';
 
 class ItemPage extends StatefulWidget {
   final Pr0grammContent pr0grammContent;
+  final int index;
   final int filter;
+  final PreloadPageController preloadPageController;
 
   ItemPage({
     @required this.pr0grammContent,
-    Key key,
+    this.index,
     this.filter,
+    this.preloadPageController,
+    Key key,
   }) : super(key: key);
 
   @override
@@ -78,11 +83,18 @@ class ItemPageState extends State<ItemPage> {
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.all(12.0),
-                        child: MediaWidget(pr0grammContent: pr0grammContent),
+                        child: MediaWidget(
+                          pr0grammContent: pr0grammContent,
+                          itemPageIndex: widget.index,
+                          preloadPageController: widget.preloadPageController,
+                        ),
                       ),
                       VotesPage(pr0grammContent: pr0grammContent),
-                      TagPage(pr0grammContent: pr0grammContent, filter: widget.filter),
-                      CommentPage(pr0grammContentID: pr0grammContent.id),
+                      TagPage(
+                        pr0grammContent: pr0grammContent,
+                        filter: widget.filter,
+                      ),
+                      CommentPage(pr0grammContent: pr0grammContent),
                     ],
                   ),
                 );
