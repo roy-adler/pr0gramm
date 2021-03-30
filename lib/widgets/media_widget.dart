@@ -1,43 +1,23 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:pr0gramm/content/pr0gramm_content.dart';
-import 'package:pr0gramm/pages/video_screen.dart';
 import 'package:pr0gramm/widgets/Design/loadingIndicator.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 
-import 'package:video_player/video_player.dart';
 
 class MediaWidget extends StatelessWidget {
   final Pr0grammContent pr0grammContent;
-  final PreloadPageController preloadPageController;
   final int itemPageIndex;
 
   MediaWidget({
     this.pr0grammContent,
-    this.preloadPageController,
     this.itemPageIndex,
-    Key key,
+    Key key, PreloadPageController preloadPageController,
   }) : super(key: key);
 
   Widget fileToWidget(File mediaFile) {
     if (pr0grammContent.mediaType == MediaType.vid) {
-      VideoPlayerController _controller = VideoPlayerController.file(mediaFile);
-      preloadPageController.addListener(() {
-        double currentIndex = preloadPageController.page;
-        double lambda = 0.5;
-        double dif = (itemPageIndex - currentIndex).abs();
-        if (dif < lambda) {
-          _controller.play();
-        } else {
-          _controller.pause();
-        }
-      });
-      return VideoWidget(
-        videoFile: mediaFile,
-        pr0grammContent: pr0grammContent,
-        videoPlayerController: _controller,
-      );
+
     }
     return Image.file(mediaFile);
   }
