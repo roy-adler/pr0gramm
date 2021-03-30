@@ -1,5 +1,9 @@
 name: pr0gramm
-description: A new Pr0gramm application.
+description: # pr0gramm_app  Eine neue Pr0gramm App für das iPhone.  ## Wieso?  In unserer liebsten Umgebung, dem Pr0, gibt es nicht nur einige Schwuchteln die dem Fliesentisch-Cliché erschreckend gerecht werden, sondern die auch als ihren täglichen Begleiter ein Telefon der Marke mit dem angebissenem Apfel vertreten. Geleitet durch die Idee eines CEO's der seinem Namen durch seinen Job gerecht wurde, liegt es nun an dem Koch der den Brei zwar verdorben, aber immer noch die Benutzerfreundlichesten Telefone herstellt.   Nützliche Links:  - [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab) - [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook) 
+
+# The following line prevents the package from being accidentally published to
+# pub.dev using `pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -14,7 +18,7 @@ description: A new Pr0gramm application.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
   shared_preferences: ^0.5.3+4
@@ -35,9 +39,10 @@ dependencies:
   flutter:
     sdk: flutter
 
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.2
+  cupertino_icons: ^1.0.2
 
 dev_dependencies:
   flutter_test:
