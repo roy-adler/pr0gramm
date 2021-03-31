@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pr0gramm/content/pr0gramm_login.dart';
+import 'package:pr0gramm/pages/contents_page.dart';
 
 class MainPage extends StatefulWidget {
   final Pr0grammLogin pr0grammLogin;
@@ -34,7 +35,6 @@ class MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
-    // return ContentsPage();
+    return ContentsPage();
   }
 }
