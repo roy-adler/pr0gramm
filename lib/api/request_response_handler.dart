@@ -95,7 +95,7 @@ class RequestResponseHandler {
     // var url = Uri.https('www.pr0gramm.com', '/api/items/get');
 
     // Await the http get response, then decode the json-formatted response.
-    var response = await http.get(uri, headers: {});
+    var response = await http.get(uri, headers: headers);
     if (response.statusCode == 200) {
       return response;
     } else {
