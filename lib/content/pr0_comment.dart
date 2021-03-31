@@ -84,8 +84,8 @@ class Pr0Comment extends StatelessWidget {
         children: <Widget>[
           Flexible(
             child: Container(
-              color: Colors.amber,
-            ),
+                child: Text(content,
+                    style: TextStyle(color: standardSchriftfarbe))),
           ),
           Container(
             height: heightPadding,
