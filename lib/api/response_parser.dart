@@ -86,7 +86,7 @@ abstract class ResponseParser {
   }
 
   static getComments(Pr0grammInfo pr0grammInfo, {List<String> names}) {
-    List<Pr0Comment> pr0grammCommentList = List<Pr0Comment>();
+    List<Pr0Comment> pr0grammCommentList = [];
     pr0grammCommentList = pr0grammInfo.comments.map((elem) {
       return Pr0Comment.fromJson(
         elem,

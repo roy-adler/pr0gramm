@@ -42,7 +42,8 @@ class RequestResponseHandler {
   }
 
   Future<http.Response> itemsInfo(int num) async {
-    return get(url: "/items/info?itemId=" + num.toString());
+    Map<String, dynamic> queryParameters = {'itemId': num.toString()};
+    return get(url: "/items/info", queryParameters: queryParameters);
   }
 
   Future<http.Response> login(
@@ -89,9 +90,13 @@ class RequestResponseHandler {
     return get(url: "/user/captcha");
   }
 
-  Future<http.Response> get({String url}) async {
-    Uri uri = Uri.https(pr0Api, 'api' + url);
+  Future<http.Response> get(
+      {String url, Map<String, dynamic> queryParameters}) async {
+    Uri uri = Uri.https(pr0Api, 'api' + url, queryParameters);
 
+    // var responsecomments = await http
+    //     .get(Uri.https('pr0gramm.com', 'api/items/info', queryParameters));
+    // debugPrint('Response JSON is: ${responsecomments.body}');
     // var url = Uri.https('www.pr0gramm.com', '/api/items/get');
 
     // Await the http get response, then decode the json-formatted response.
@@ -103,7 +108,6 @@ class RequestResponseHandler {
       return null;
     }
   }
-
 
   setCookie(String cookies) async {
     if (internetDEBUG) {
