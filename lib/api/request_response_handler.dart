@@ -15,6 +15,11 @@ class RequestResponseHandler {
     return retString.substring(0, retString.length - 1);
   }
 
+  Future<http.Response> userInfo({String user}) async {
+    Map<String, dynamic> queryParameters = {'name': user};
+    return get(url: "/items/info", queryParameters: queryParameters);
+  }
+
   Future<http.Response> itemsGetWithoutPermission() async {
     return get(url: "/items/get");
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:pr0gramm/api/response_parser.dart';
 import 'package:pr0gramm/content/pr0_comment.dart';
+import 'package:pr0gramm/content/pr0_user.dart';
 import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
 import 'package:pr0gramm/widgets/Design/loadingIndicator.dart';
@@ -77,6 +78,30 @@ class ParCom extends StatelessWidget {
     String li = commentList.isEmpty ? "" : commentList.toString();
     return com + "\n-" + li;
   }
+
+  // Widget buildUser(Pr0User user) {
+  //   return GestureDetector(
+  //     onTap: () => Navigator.push(
+  //         context,
+  //         CupertinoPageRoute(
+  //             fullscreenDialog: true,
+  //             builder: (context) =>
+  //                 ContentsPage(tagSearch: tag.tag, filter: widget.filter))),
+  //     child: Container(
+  //       margin: EdgeInsets.all(tag.marg),
+  //       decoration: BoxDecoration(
+  //         color: tagHintergrund,
+  //         borderRadius: BorderRadius.circular(tag.roundness),
+  //       ),
+  //       padding: EdgeInsets.all(tag.padd),
+  //       child: Text(
+  //         tag.tag,
+  //         style: TextStyle(color: standardSchriftfarbe),
+  //         maxLines: 1,
+  //       ),
+  //     ),
+  //   );
+  // }
 
   //TODO: Fixing RenderOverflex
   @override

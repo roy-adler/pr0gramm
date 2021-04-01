@@ -2,6 +2,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pr0gramm/design/pr0gramm_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:pr0gramm/pages/contents_page.dart';
+
+class SecondRoute extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Second Route"),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text('Go back!'),
+        ),
+      ),
+    );
+  }
+}
 
 class Pr0Comment extends StatelessWidget {
   final int id;
@@ -46,6 +66,27 @@ class Pr0Comment extends StatelessWidget {
       name: parsedJson['name'],
       mark: parsedJson['mark'],
       names: names ?? [],
+    );
+  }
+
+  _rowTextUser(BuildContext context, String s,
+      {Color color = standardSchriftfarbeAusgegraut}) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SecondRoute()),
+        );
+      },
+      child: Text(
+        s,
+        textAlign: TextAlign.start,
+        style: TextStyle(
+          color: color,
+          fontSize: 12,
+        ),
+        overflow: TextOverflow.ellipsis,
+      ),
     );
   }
 
@@ -94,7 +135,7 @@ class Pr0Comment extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 // TODO: Use Badge
-                _rowText(name,
+                _rowTextUser(context, name,
                     color: names.contains(name)
                         ? pr0grammOrange
                         : standardSchriftfarbe),

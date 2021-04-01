@@ -3,6 +3,7 @@ import 'package:http/http.dart';
 import 'package:pr0gramm/content/captchaContainer.dart';
 import 'package:pr0gramm/content/is_loggedIn.dart';
 import 'package:pr0gramm/content/pr0_comment.dart';
+import 'package:pr0gramm/content/pr0_user.dart';
 import 'package:pr0gramm/content/pr0gramm_content.dart';
 import 'package:pr0gramm/content/pr0gramm_content_container.dart';
 import 'package:pr0gramm/content/pr0gramm_info.dart';
@@ -47,6 +48,14 @@ abstract class ResponseParser {
         .map((i) => Pr0grammContent.fromJson(i))
         .toList();
     return pr0grammContentList;
+  }
+
+  //User
+  static Future<Pr0User> getPr0User(String name) async {
+    Response response = await rrh.userInfo(name);
+    Map<String, dynamic> parsedJson = jsonDecode(response.body);
+    Pr0User pr0User = Pr0User.fromJson(parsedJson);
+    return pr0User;
   }
 
   //Info
